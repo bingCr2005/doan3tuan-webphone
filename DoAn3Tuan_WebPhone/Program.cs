@@ -1,4 +1,10 @@
+using DoAn3Tuan_WebPhone.Models;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
+// ??ng ký DbContext và chu?i k?t n?i
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DBBanDienThoai")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -31,7 +37,6 @@ app.MapControllerRoute(
     name: "gio-hang",
     pattern: "gio-hang",
     defaults: new { controller = "Cart", action = "Index" });
-
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}")
