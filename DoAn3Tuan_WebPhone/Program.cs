@@ -20,6 +20,18 @@ app.UseAuthorization();
 
 app.MapStaticAssets();
 
+// Route cho Trang cá nhân (ví d?: domain.com/ca-nhan)
+app.MapControllerRoute(
+    name: "trang-ca-nhan",
+    pattern: "ca-nhan",
+    defaults: new { controller = "Profile", action = "Index" });
+
+// Route cho Gi? hàng (ví d?: domain.com/gio-hang)
+app.MapControllerRoute(
+    name: "gio-hang",
+    pattern: "gio-hang",
+    defaults: new { controller = "Cart", action = "Index" });
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}")
