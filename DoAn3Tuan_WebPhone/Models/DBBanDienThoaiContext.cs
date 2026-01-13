@@ -41,13 +41,13 @@ public partial class DBBanDienThoaiContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=DBBanDienThoai;Trusted_Connection=True;TrustServerCertificate=True");
+        => optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=DBBanDienThoai;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<BinhLuan>(entity =>
         {
-            entity.HasKey(e => e.MaBinhLuan).HasName("PK__BinhLuan__87CB66A0254DCA4E");
+            entity.HasKey(e => e.MaBinhLuan).HasName("PK__BinhLuan__87CB66A0660ACD23");
 
             entity.Property(e => e.MaBinhLuan).IsFixedLength();
             entity.Property(e => e.MaDienThoai).IsFixedLength();
@@ -61,7 +61,7 @@ public partial class DBBanDienThoaiContext : DbContext
 
         modelBuilder.Entity<ChiTietHoaDon>(entity =>
         {
-            entity.HasKey(e => new { e.MaHoaDon, e.MaDienThoai }).HasName("PK__ChiTietH__EF288DDD5D3E0432");
+            entity.HasKey(e => new { e.MaHoaDon, e.MaDienThoai }).HasName("PK__ChiTietH__EF288DDD5802E29D");
 
             entity.Property(e => e.MaHoaDon).IsFixedLength();
             entity.Property(e => e.MaDienThoai).IsFixedLength();
@@ -80,7 +80,7 @@ public partial class DBBanDienThoaiContext : DbContext
 
         modelBuilder.Entity<DienThoai>(entity =>
         {
-            entity.HasKey(e => e.MaDienThoai).HasName("PK__DienThoa__C765CE67C2B12092");
+            entity.HasKey(e => e.MaDienThoai).HasName("PK__DienThoa__C765CE67B4DC5F0E");
 
             entity.Property(e => e.MaDienThoai).IsFixedLength();
             entity.Property(e => e.HangDienThoai).IsFixedLength();
@@ -95,7 +95,7 @@ public partial class DBBanDienThoaiContext : DbContext
 
         modelBuilder.Entity<GioHang>(entity =>
         {
-            entity.HasKey(e => e.MaGioHang).HasName("PK__GioHang__F5001DA36210A206");
+            entity.HasKey(e => e.MaGioHang).HasName("PK__GioHang__F5001DA3D082824A");
 
             entity.Property(e => e.MaGioHang).IsFixedLength();
             entity.Property(e => e.MaDienThoai).IsFixedLength();
@@ -109,7 +109,7 @@ public partial class DBBanDienThoaiContext : DbContext
 
         modelBuilder.Entity<HangDienThoai>(entity =>
         {
-            entity.HasKey(e => e.MaHangDienThoai).HasName("PK__HangDien__F037FDBE1162200C");
+            entity.HasKey(e => e.MaHangDienThoai).HasName("PK__HangDien__F037FDBEAFC8A007");
 
             entity.Property(e => e.MaHangDienThoai).IsFixedLength();
             entity.Property(e => e.TrangThai).HasDefaultValue(1);
@@ -117,7 +117,7 @@ public partial class DBBanDienThoaiContext : DbContext
 
         modelBuilder.Entity<HinhAnh>(entity =>
         {
-            entity.HasKey(e => e.MaHinhAnh).HasName("PK__HinhAnh__A9C37A9BC1C72443");
+            entity.HasKey(e => e.MaHinhAnh).HasName("PK__HinhAnh__A9C37A9B551962CB");
 
             entity.Property(e => e.MaHinhAnh).IsFixedLength();
             entity.Property(e => e.MaDienThoai).IsFixedLength();
@@ -127,7 +127,7 @@ public partial class DBBanDienThoaiContext : DbContext
 
         modelBuilder.Entity<HoaDon>(entity =>
         {
-            entity.HasKey(e => e.MaHoaDon).HasName("PK__HoaDon__835ED13BEDECC547");
+            entity.HasKey(e => e.MaHoaDon).HasName("PK__HoaDon__835ED13B67CFC66C");
 
             entity.Property(e => e.MaHoaDon).IsFixedLength();
             entity.Property(e => e.MaAdmin).IsFixedLength();
@@ -144,7 +144,7 @@ public partial class DBBanDienThoaiContext : DbContext
 
         modelBuilder.Entity<KhuyenMai>(entity =>
         {
-            entity.HasKey(e => e.MaKhuyenMai).HasName("PK__KhuyenMa__6F56B3BD6B66C07B");
+            entity.HasKey(e => e.MaKhuyenMai).HasName("PK__KhuyenMa__6F56B3BD467ED5C3");
 
             entity.Property(e => e.MaKhuyenMai).IsFixedLength();
             entity.Property(e => e.SoLuongMaKhuyenMaiDaDung).HasDefaultValue(0);
@@ -153,7 +153,7 @@ public partial class DBBanDienThoaiContext : DbContext
 
         modelBuilder.Entity<NhaCungCap>(entity =>
         {
-            entity.HasKey(e => e.MaNhaCungCap).HasName("PK__NhaCungC__53DA9205D4A966E0");
+            entity.HasKey(e => e.MaNhaCungCap).HasName("PK__NhaCungC__53DA9205836F9C0A");
 
             entity.Property(e => e.MaNhaCungCap).IsFixedLength();
             entity.Property(e => e.TrangThai).HasDefaultValue(1);
@@ -161,14 +161,14 @@ public partial class DBBanDienThoaiContext : DbContext
 
         modelBuilder.Entity<TaiKhoan>(entity =>
         {
-            entity.HasKey(e => e.MaTaiKhoan).HasName("PK__TaiKhoan__AD7C65298D8CBD29");
+            entity.HasKey(e => e.MaTaiKhoan).HasName("PK__TaiKhoan__AD7C65292369444F");
 
             entity.Property(e => e.MaTaiKhoan).IsFixedLength();
         });
 
         modelBuilder.Entity<TaiKhoanAdmin>(entity =>
         {
-            entity.HasKey(e => e.MaAdmin).HasName("PK__TaiKhoan__49341E381487D699");
+            entity.HasKey(e => e.MaAdmin).HasName("PK__TaiKhoan__49341E3873C3CB87");
 
             entity.Property(e => e.MaAdmin).IsFixedLength();
 
@@ -179,7 +179,7 @@ public partial class DBBanDienThoaiContext : DbContext
 
         modelBuilder.Entity<TaiKhoanKhachHang>(entity =>
         {
-            entity.HasKey(e => e.MaKhachHang).HasName("PK__TaiKhoan__88D2F0E5039763E4");
+            entity.HasKey(e => e.MaKhachHang).HasName("PK__TaiKhoan__88D2F0E5CAF5528B");
 
             entity.Property(e => e.MaKhachHang).IsFixedLength();
 

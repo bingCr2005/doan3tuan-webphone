@@ -27,8 +27,9 @@ public partial class DienThoai
     [StringLength(50)]
     public string? MauSac { get; set; }
 
+    [Column("RAM")]
     [StringLength(20)]
-    public string? RAM { get; set; }
+    public string? Ram { get; set; }
 
     [StringLength(20)]
     public string? DungLuong { get; set; }
@@ -60,6 +61,10 @@ public partial class DienThoai
     public string? Thumbnail { get; set; }
 
     public int? TrangThai { get; set; }
+
+    public int SoLuongYeuThich { get; set; }
+
+    public int LuotXem { get; set; }
 
     [InverseProperty("MaDienThoaiNavigation")]
     public virtual ICollection<BinhLuan> BinhLuans { get; set; } = new List<BinhLuan>();

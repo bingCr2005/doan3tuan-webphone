@@ -7,8 +7,8 @@ using Microsoft.EntityFrameworkCore;
 namespace DoAn3Tuan_WebPhone.Models;
 
 [Table("TaiKhoan")]
-[Index("TenDangNhap", Name = "UQ__TaiKhoan__55F68FC0A367B21D", IsUnique = true)]
-[Index("Email", Name = "UQ__TaiKhoan__A9D10534EF5883AC", IsUnique = true)]
+[Index("TenDangNhap", Name = "UQ__TaiKhoan__55F68FC09EB133A3", IsUnique = true)]
+[Index("Email", Name = "UQ__TaiKhoan__A9D10534576156FD", IsUnique = true)]
 public partial class TaiKhoan
 {
     [Key]
