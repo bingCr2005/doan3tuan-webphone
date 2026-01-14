@@ -1,8 +1,756 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    Layout = null;
 }
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cửa Hàng Điện Thoại Toàn Cầu</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
+</head>
+<body>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="container">
+            <div class="top-bar-left">
+                Chào mừng đến với Cửa Hàng Điện Thoại Toàn Cầu
+            </div>
+            <div class="top-bar-right">
+                <a href="#"><i class="fas fa-map-marker-alt"></i> Tìm Cửa Hàng</a>
+                <a href="#"><i class="fas fa-truck"></i> Theo Dõi Đơn Hàng</a>
+                <a href="#"><i class="fas fa-shopping-bag"></i> Cửa Hàng</a>
+                <a href="#"><i class="fas fa-user"></i> Tài Khoản Của Tôi</a>
+            </div>
+        </div>
+    </div>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="#" class="logo">electro<span>.</span></a>
+                <div class="burger-menu">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <div class="search-container">
+                    <input type="text" placeholder="Tìm kiếm sản phẩm...">
+                    <select>
+                        <option>Tất Cả Danh Mục</option>
+                        <option>iPhone</option>
+                        <option>Samsung</option>
+                        <option>Xiaomi</option>
+                    </select>
+                    <button><i class="fas fa-search"></i></button>
+                </div>
+                <div class="header-icons">
+                    <a href="#" class="icon-btn">
+                        <i class="fas fa-sync-alt"></i>
+                        <span class="icon-badge">0</span>
+                    </a>
+                    <a href="#" class="icon-btn">
+                        <i class="far fa-heart"></i>
+                    </a>
+                    <a href="#" class="icon-btn">
+                        <div class="user-dropdown-container">
+                            <a href="#" class="icon-btn">
+                                <i class="far fa-user"></i>
+                            </a>
+
+                            <div class="user-dropdown-content">
+                                <div class="dropdown-header">Returning Customer?</div>
+                                <a href="login.html" class="btn-signin">Sign in</a>
+
+                                <div class="dropdown-divider"></div>
+
+                                <div class="dropdown-footer">
+                                    <span>Don't have an account?</span>
+                                    <a href="register.html" class="link-register">Register</a>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <div class="cart-info">
+                        <a href="#" class="icon-btn">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="icon-badge">0</span>
+                        </a>
+                        <span class="cart-price">$0.00</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <div class="container">
+            <div class="nav-content">
+                <ul class="nav-menu">
+                    <li><a href="index.html">Trang Chủ</a></li>
+                    <li><a href="shop.html">Sản Phẩm</a></li>
+                    <li><a href="about.html">Giới Thiệu</a></li>
+                    <li><a href="contact.html">Liên Hệ</a></li>
+                </ul>
+                <div class="shipping-banner">
+                    Miễn Phí Vận Chuyển Đơn Hàng Từ $50+
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Slider -->
+    <section class="hero-slider">
+        <div class="container">
+            <div class="hero-content-wrapper">
+                <div class="hero-left">
+                    <div class="hero-badge">MUA SẮM ĐỂ NHẬN NHỮNG GÌ BẠN YÊU THÍCH</div>
+                    <h1 class="hero-title">
+                        ĐIỆN THOẠI TẠO NÊN<br>
+                        PHONG CÁCH<br>
+                        GIẢM ĐẾN <span class="hero-discount">40% OFF</span>
+                    </h1>
+                    <button class="hero-btn">Bắt Đầu Mua Sắm</button>
+                </div>
+                <div class="hero-right">
+                    <div class="hero-images">
+                        <div class="hero-phone">
+                            <img src="images/iphone15.jpg" alt="iPhone 15 Pink">
+                        </div>
+                    </div>
+                </div>
+                <div class="slider-dots">
+                    <div class="dot active"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+            </div>
+    </section>
+
+    <!-- Sidebar Promos -->
+    <div class="sidebar-promos" id="adsWidget">
+        <div class="close-ads" onclick="document.getElementById('adsWidget').style.display='none'">
+            &times;
+        </div>
+
+        <div class="promo-box">
+            <h3>BẮT ƯU ĐÃI LỚN <span class="deals">DEALS</span> TRÊN<br>PHỤ KIỆN ĐIỆN THOẠI</h3>
+            <div class="promo-img">
+                <i class="fas fa-gamepad" style="font-size: 60px; color: #fff;"></i>
+            </div>
+            <button class="btn">Mua Ngay <i class="fas fa-arrow-right"></i></button>
+        </div>
+
+        <div class="promo-box">
+            <h3>BẮT ƯU ĐÃI LỚN <span class="deals">DEALS</span> TRÊN<br>TAI NGHE KHÔNG DÂY</h3>
+            <div class="promo-img">
+                <i class="fas fa-headphones" style="font-size: 60px; color: #fff;"></i>
+            </div>
+            <button class="btn">Mua Ngay <i class="fas fa-arrow-right"></i></button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container">
+            <div class="content-layout">
+                <!-- Sidebar -->
+                <aside class="sidebar">
+                    <h3 class="sidebar-title">Danh Mục Sản Phẩm</h3>
+                    <ul class="sidebar-menu">
+                        <li><a href="#">Giá Trong Ngày <i class="fas fa-chevron-right"></i></a></li>
+                        <li><a href="#">Top 100 Ưu Đãi <i class="fas fa-chevron-right"></i></a></li>
+                        <li><a href="#">Hàng Mới Về <i class="fas fa-chevron-right"></i></a></li>
+                        <li><a href="#">iPhone <i class="fas fa-chevron-right"></i></a></li>
+                        <li><a href="#">Samsung <i class="fas fa-chevron-right"></i></a></li>
+                        <li><a href="#">Xiaomi <i class="fas fa-chevron-right"></i></a></li>
+                        <li><a href="#">OPPO <i class="fas fa-chevron-right"></i></a></li>
+                        <li><a href="#">Realme <i class="fas fa-chevron-right"></i></a></li>
+                        <li><a href="#">Vivo <i class="fas fa-chevron-right"></i></a></li>
+                        <li><a href="#">Phụ Kiện <i class="fas fa-chevron-right"></i></a></li>
+                    </ul>
+                    <div class="sidebar-banner">
+                        <h3>TẤT CẢ-MỚI-4K</h3>
+                        <p>CAMERA ĐIỆN THOẠI</p>
+                        <div class="price">$79<sup>99</sup></div>
+                        <button class="hero-btn">Bắt Đầu Mua</button>
+                    </div>
+                </aside>
+
+                <!-- Products Grid -->
+                <div class="products-section">
+                    <div class="section-header">
+                        <h2>Sản Phẩm Nổi Bật</h2>
+                    </div>
+
+                    <div class="products-grid">
+                        <div class="product-card">
+                            <div class="product-category">iPhone, Điện Thoại</div>
+                            <h3 class="product-name"><a href="single-product.html">iPhone 15 Pro Max 256GB</a></h3>
+                            <div class="product-image">
+                                <a href="single-product.html">
+                                    <img src="images/iphone15.jpg" alt="iPhone 15">
+                                </a>
+                            </div>
+                            <div class="price-action-row">
+                                <div class="price-box">
+                                    <span class="product-price sale-text">$1,100.00</span>
+                                    <span class="old-price">$1,215.00</span>
+                                </div>
+                                <button class="btn-cart-round"><i class="fas fa-shopping-cart"></i></button>
+                            </div>
+                            <div class="hover-footer">
+                                <div class="footer-action"><i class="far fa-heart"></i> Wishlist</div>
+                                <div class="footer-action"><i class="fas fa-sync-alt"></i> Compare</div>
+                            </div>
+                        </div>
+
+                        <div class="product-card">
+                            <div class="product-category">Samsung, Tablet</div>
+                            <h3 class="product-name"><a href="single-product.html">Samsung Galaxy Tab S9</a></h3>
+                            <div class="product-image">
+                                <a href="single-product.html">
+                                    <img src="images/iphone15.jpg" alt="Samsung Tab">
+                                </a>
+                            </div>
+                            <div class="price-action-row">
+                                <div class="price-box">
+                                    <span class="product-price">$629.00</span>
+                                </div>
+                                <button class="btn-cart-round"><i class="fas fa-shopping-cart"></i></button>
+                            </div>
+                            <div class="hover-footer">
+                                <div class="footer-action"><i class="far fa-heart"></i> Wishlist</div>
+                                <div class="footer-action"><i class="fas fa-sync-alt"></i> Compare</div>
+                            </div>
+                        </div>
+
+                        <div class="product-card">
+                            <div class="product-category">Phụ Kiện, VR</div>
+                            <h3 class="product-name"><a href="single-product.html">Meta Quest 3</a></h3>
+                            <div class="product-image">
+                                <a href="single-product.html">
+                                    <img src="images/iphone15.jpg" alt="Meta Quest">
+                                </a>
+                            </div>
+                            <div class="price-action-row">
+                                <div class="price-box">
+                                    <span class="product-price">$799.00</span>
+                                </div>
+                                <button class="btn-cart-round"><i class="fas fa-shopping-cart"></i></button>
+                            </div>
+                            <div class="hover-footer">
+                                <div class="footer-action"><i class="far fa-heart"></i> Wishlist</div>
+                                <div class="footer-action"><i class="fas fa-sync-alt"></i> Compare</div>
+                            </div>
+                        </div>
+
+                        <div class="product-card">
+                            <div class="product-category">Phụ Kiện, USB</div>
+                            <h3 class="product-name"><a href="single-product.html">USB Flash 64GB</a></h3>
+                            <div class="product-image">
+                                <a href="single-product.html">
+                                    <img src="images/iphone15.jpg" alt="USB">
+                                </a>
+                            </div>
+                            <div class="price-action-row">
+                                <div class="price-box">
+                                    <span class="product-price">$110.00</span>
+                                </div>
+                                <button class="btn-cart-round"><i class="fas fa-shopping-cart"></i></button>
+                            </div>
+                            <div class="hover-footer">
+                                <div class="footer-action"><i class="far fa-heart"></i> Wishlist</div>
+                                <div class="footer-action"><i class="fas fa-sync-alt"></i> Compare</div>
+                            </div>
+                        </div>
+
+                        <div class="product-card">
+                            <div class="product-category">Phụ Kiện, SSD</div>
+                            <h3 class="product-name"><a href="single-product.html">SSD Portable 1TB</a></h3>
+                            <div class="product-image">
+                                <a href="single-product.html">
+                                    <img src="images/iphone15.jpg" alt="SSD">
+                                </a>
+                            </div>
+                            <div class="price-action-row">
+                                <div class="price-box">
+                                    <span class="product-price">$385.00</span>
+                                </div>
+                                <button class="btn-cart-round"><i class="fas fa-shopping-cart"></i></button>
+                            </div>
+                            <div class="hover-footer">
+                                <div class="footer-action"><i class="far fa-heart"></i> Wishlist</div>
+                                <div class="footer-action"><i class="fas fa-sync-alt"></i> Compare</div>
+                            </div>
+                        </div>
+
+                        <div class="product-card">
+                            <div class="product-category">Camera</div>
+                            <h3 class="product-name"><a href="single-product.html">GoPro Hero 12</a></h3>
+                            <div class="product-image">
+                                <a href="single-product.html">
+                                    <img src="images/iphone15.jpg" alt="GoPro">
+                                </a>
+                            </div>
+                            <div class="price-action-row">
+                                <div class="price-box">
+                                    <span class="product-price">$590.00</span>
+                                </div>
+                                <button class="btn-cart-round"><i class="fas fa-shopping-cart"></i></button>
+                            </div>
+                            <div class="hover-footer">
+                                <div class="footer-action"><i class="far fa-heart"></i> Wishlist</div>
+                                <div class="footer-action"><i class="fas fa-sync-alt"></i> Compare</div>
+                            </div>
+                        </div>
+
+                        <div class="product-card">
+                            <div class="product-category">Gaming</div>
+                            <h3 class="product-name"><a href="single-product.html">PlayStation 5 Slim</a></h3>
+                            <div class="product-image">
+                                <a href="single-product.html">
+                                    <img src="images/iphone15.jpg" alt="PS5">
+                                </a>
+                            </div>
+                            <div class="price-action-row">
+                                <div class="price-box">
+                                    <span class="product-price sale-text">$700.00</span>
+                                    <span class="old-price">$789.00</span>
+                                </div>
+                                <button class="btn-cart-round"><i class="fas fa-shopping-cart"></i></button>
+                            </div>
+                            <div class="hover-footer">
+                                <div class="footer-action"><i class="far fa-heart"></i> Wishlist</div>
+                                <div class="footer-action"><i class="fas fa-sync-alt"></i> Compare</div>
+                            </div>
+                        </div>
+
+                        <div class="product-card">
+                            <div class="product-category">Laptop</div>
+                            <h3 class="product-name"><a href="single-product.html">MacBook Pro M3 Max</a></h3>
+                            <div class="product-image">
+                                <a href="single-product.html">
+                                    <img src="images/iphone15.jpg" alt="MacBook">
+                                </a>
+                            </div>
+                            <div class="price-action-row">
+                                <div class="price-box">
+                                    <span class="product-price sale-text">$2,100.00</span>
+                                    <span class="old-price">$2,299.00</span>
+                                </div>
+                                <button class="btn-cart-round"><i class="fas fa-shopping-cart"></i></button>
+                            </div>
+                            <div class="hover-footer">
+                                <div class="footer-action"><i class="far fa-heart"></i> Wishlist</div>
+                                <div class="footer-action"><i class="fas fa-sync-alt"></i> Compare</div>
+                            </div>
+                        </div>
+
+                        <div class="product-card">
+                            <div class="product-category">Tai Nghe</div>
+                            <h3 class="product-name"><a href="single-product.html">AirPods Max</a></h3>
+                            <div class="product-image">
+                                <a href="single-product.html">
+                                    <img src="images/iphone15.jpg" alt="AirPods">
+                                </a>
+                            </div>
+                            <div class="price-action-row">
+                                <div class="price-box">
+                                    <span class="product-price">$248.99</span>
+                                </div>
+                                <button class="btn-cart-round"><i class="fas fa-shopping-cart"></i></button>
+                            </div>
+                            <div class="hover-footer">
+                                <div class="footer-action"><i class="far fa-heart"></i> Wishlist</div>
+                                <div class="footer-action"><i class="fas fa-sync-alt"></i> Compare</div>
+                            </div>
+                        </div>
+
+                        <div class="product-card">
+                            <div class="product-category">Camera</div>
+                            <h3 class="product-name"><a href="single-product.html">Sony Alpha A7 IV</a></h3>
+                            <div class="product-image">
+                                <a href="single-product.html">
+                                    <img src="images/iphone15.jpg" alt="Sony Alpha">
+                                </a>
+                            </div>
+                            <div class="price-action-row">
+                                <div class="price-box">
+                                    <span class="product-price">$559.00</span>
+                                </div>
+                                <button class="btn-cart-round"><i class="fas fa-shopping-cart"></i></button>
+                            </div>
+                            <div class="hover-footer">
+                                <div class="footer-action"><i class="far fa-heart"></i> Wishlist</div>
+                                <div class="footer-action"><i class="fas fa-sync-alt"></i> Compare</div>
+                            </div>
+                        </div>
+
+                        <div class="product-card">
+                            <div class="product-category">Gaming</div>
+                            <h3 class="product-name"><a href="single-product.html">Xbox Series X</a></h3>
+                            <div class="product-image">
+                                <a href="single-product.html">
+                                    <img src="images/iphone15.jpg" alt="Xbox">
+                                </a>
+                            </div>
+                            <div class="price-action-row">
+                                <div class="price-box">
+                                    <span class="product-price">$150.00</span>
+                                </div>
+                                <button class="btn-cart-round"><i class="fas fa-shopping-cart"></i></button>
+                            </div>
+                            <div class="hover-footer">
+                                <div class="footer-action"><i class="far fa-heart"></i> Wishlist</div>
+                                <div class="footer-action"><i class="fas fa-sync-alt"></i> Compare</div>
+                            </div>
+                        </div>
+
+                        <div class="product-card">
+                            <div class="product-category">SSD</div>
+                            <h3 class="product-name"><a href="single-product.html">Samsung SSD 2TB</a></h3>
+                            <div class="product-image">
+                                <a href="single-product.html">
+                                    <img src="images/iphone15.jpg" alt="SSD">
+                                </a>
+                            </div>
+                            <div class="price-action-row">
+                                <div class="price-box">
+                                    <span class="product-price">$385.00</span>
+                                </div>
+                                <button class="btn-cart-round"><i class="fas fa-shopping-cart"></i></button>
+                            </div>
+                            <div class="hover-footer">
+                                <div class="footer-action"><i class="far fa-heart"></i> Wishlist</div>
+                                <div class="footer-action"><i class="fas fa-sync-alt"></i> Compare</div>
+                            </div>
+                        </div>
+
+                        <div class="product-card">
+                            <div class="product-category">Smartwatch</div>
+                            <h3 class="product-name"><a href="single-product.html">Apple Watch Series 9</a></h3>
+                            <div class="product-image">
+                                <a href="single-product.html">
+                                    <img src="images/iphone15.jpg" alt="Apple Watch">
+                                </a>
+                            </div>
+                            <div class="price-action-row">
+                                <div class="price-box">
+                                    <span class="product-price">$725.00</span>
+                                </div>
+                                <button class="btn-cart-round"><i class="fas fa-shopping-cart"></i></button>
+                            </div>
+                            <div class="hover-footer">
+                                <div class="footer-action"><i class="far fa-heart"></i> Wishlist</div>
+                                <div class="footer-action"><i class="fas fa-sync-alt"></i> Compare</div>
+                            </div>
+                        </div>
+
+                        <div class="product-card">
+                            <div class="product-category">Phụ Kiện</div>
+                            <h3 class="product-name"><a href="single-product.html">Gói Bảo Vệ MacBook</a></h3>
+                            <div class="product-image">
+                                <a href="single-product.html">
+                                    <img src="images/iphone15.jpg" alt="Case">
+                                </a>
+                            </div>
+                            <div class="price-action-row">
+                                <div class="price-box">
+                                    <span class="product-price">$250.00</span>
+                                </div>
+                                <button class="btn-cart-round"><i class="fas fa-shopping-cart"></i></button>
+                            </div>
+                            <div class="hover-footer">
+                                <div class="footer-action"><i class="far fa-heart"></i> Wishlist</div>
+                                <div class="footer-action"><i class="fas fa-sync-alt"></i> Compare</div>
+                            </div>
+                        </div>
+
+                        <div class="product-card">
+                            <div class="product-category">Laptop</div>
+                            <h3 class="product-name"><a href="single-product.html">MacBook Pro M3 Pro</a></h3>
+                            <div class="product-image">
+                                <a href="single-product.html">
+                                    <img src="images/iphone15.jpg" alt="MacBook">
+                                </a>
+                            </div>
+                            <div class="price-action-row">
+                                <div class="price-box">
+                                    <span class="product-price sale-text">$1,500.00</span>
+                                    <span class="old-price">$1,800.00</span>
+                                </div>
+                                <button class="btn-cart-round"><i class="fas fa-shopping-cart"></i></button>
+                            </div>
+                            <div class="hover-footer">
+                                <div class="footer-action"><i class="far fa-heart"></i> Wishlist</div>
+                                <div class="footer-action"><i class="fas fa-sync-alt"></i> Compare</div>
+                            </div>
+                        </div>
+                    </div> <div class="pagination">
+                        <button class="page-btn">1</button>
+                        <button class="page-btn">2</button>
+                        <button class="page-btn active">3</button>
+                        <button class="page-btn">4</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Brands Section -->
+    <section class="brands-section">
+        <div class="container">
+            <div class="brands-slider">
+                <div class="brand-logo">△ apple</div>
+                <div class="brand-logo">samsung</div>
+                <div class="brand-logo">xiaomi</div>
+                <div class="brand-logo">oppo</div>
+                <div class="brand-logo">REALME</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Triple Product Sections -->
+    <div class="triple-section">
+
+        <div class="section-box">
+            <h3>Sản Phẩm Mới Về</h3> <div class="mini-product">
+                <div class="mini-img">
+                    <span class="badge-new">NEW</span> <img src="images/iphone15.jpg" alt="Tablet">
+                </div>
+                <div class="mini-info">
+                    <div class="mini-name"><a href="#">Tablet Thin EliteBook Revolve 810 G6</a></div>
+                    <div class="rating">★★★★☆</div>
+                    <div class="mini-price">$1,300.00</div>
+                </div>
+            </div>
+
+            <div class="mini-product">
+                <div class="mini-img">
+                    <span class="badge-new">NEW</span> <img src="images/iphone15.jpg" alt="Notebook">
+                </div>
+                <div class="mini-info">
+                    <div class="mini-name"><a href="#">Notebook Widescreen Z51-70 40K6013UPB</a></div>
+                    <div class="rating">★★★★★</div>
+                    <div class="mini-price">$1,100.00</div>
+                </div>
+            </div>
+
+            <div class="mini-product">
+                <div class="mini-img">
+                    <span class="badge-new">NEW</span> <img src="images/iphone15.jpg" alt="Smartphone">
+                </div>
+                <div class="mini-info">
+                    <div class="mini-name"><a href="#">Smartphone 6S 128GB LTE</a></div>
+                    <div class="rating">★★★★½</div>
+                    <div class="mini-price sale-price">$750.00 <span class="old-price">$780.00</span></div>
+                </div>
+            </div>
+        </div>
+        <div class="section-box">
+            <h3>Sản phẩm bán chạy nhất</h3>
+
+            <div class="mini-product">
+                <div class="mini-img"><img src="images/iphone15.jpg" alt="Controller"></div>
+                <div class="mini-info">
+                    <div class="mini-name"><a href="#">Game Console Controller + USB 3.0 Cable</a></div>
+                    <div class="rating">★★★★★</div>
+                    <div class="mini-price">$99.00</div>
+                </div>
+            </div>
+
+            <div class="mini-product">
+                <div class="mini-img"><img src="images/iphone15.jpg" alt="Headphones"></div>
+                <div class="mini-info">
+                    <div class="mini-name"><a href="#">Universal Headphones Case in Black</a></div>
+                    <div class="rating">★★★★☆</div>
+                    <div class="mini-price">$159.00</div>
+                </div>
+            </div>
+
+            <div class="mini-product">
+                <div class="mini-img"><img src="images/iphone15.jpg" alt="Tablet"></div>
+                <div class="mini-info">
+                    <div class="mini-name"><a href="#">Tablet Thin EliteBook Revolve 810 G6</a></div>
+                    <div class="rating">★★★★½</div>
+                    <div class="mini-price">$1,300.00</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-box">
+            <h3>Sản phẩm đang giảm giá</h3>
+
+            <div class="mini-product">
+                <div class="mini-img"><img src="images/iphone15.jpg" alt="Watch"></div>
+                <div class="mini-info">
+                    <div class="mini-name"><a href="#">Smartwatch 2.0 LTE Wifi Waterproof</a></div>
+                    <div class="rating">★★★★★</div>
+                    <div class="mini-price sale-price">$700.00 <span class="old-price">$725.00</span></div>
+                </div>
+            </div>
+
+            <div class="mini-product">
+                <div class="mini-img"><img src="images/iphone15.jpg" alt="Case"></div>
+                <div class="mini-info">
+                    <div class="mini-name"><a href="#">Aerocool EN52377 Dead Silence Gaming Cube Case</a></div>
+                    <div class="rating">★★★★☆</div>
+                    <div class="mini-price sale-price">$150.00 <span class="old-price">$180.00</span></div>
+                </div>
+            </div>
+
+            <div class="mini-product">
+                <div class="mini-img"><img src="images/iphone15.jpg" alt="Notebook"></div>
+                <div class="mini-info">
+                    <div class="mini-name"><a href="#">Notebook Black Spire V Nitro VN7-591G</a></div>
+                    <div class="rating">★★★★★</div>
+                    <div class="mini-price sale-price">$1,999.00 <span class="old-price">$2,299.00</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="smart-banner">
+            <div class="sb-header">
+                <div class="sb-title">
+                    smart<strong>G3</strong>
+                    <div class="sb-subtitle">Now with 4G</div>
+                </div>
+                <div class="sb-price-group">
+                    <div class="sb-label">Starting at</div>
+                    <div class="sb-price">$129<sup>99</sup></div>
+                </div>
+            </div>
+            <div class="sb-image">
+                <img src="images/iphone15.jpg" alt="Smart G3 Camera">
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Newsletter -->
+    <section class="newsletter">
+        <div class="container">
+            <div class="newsletter-content">
+                <div class="newsletter-left">
+                    <div class="newsletter-icon"><i class="far fa-envelope"></i></div>
+                    <div class="newsletter-text">
+                        <h3>Đăng Ký Nhận Bản Tin</h3>
+                        <p>...và nhận phiếu giảm giá <strong>$20</strong> cho lần mua hàng đầu tiên</p>
+                    </div>
+                </div>
+                <div class="newsletter-form">
+                    <input type="email" class="newsletter-input" placeholder="Nhập địa chỉ email của bạn">
+                    <button class="newsletter-btn">Đăng Ký</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <!-- Brand Column -->
+                <div class="footer-brand">
+                    <div class="footer-logo"><i class="fas fa-phone-volume"></i></div>
+                    <div class="footer-info">
+                        <h3>Có Câu Hỏi? Gọi Cho Chúng Tôi 24/7!</h3>
+                        <div class="footer-phone">(800) 8001-8588, (0600) 874 548</div>
+                        <div class="footer-address">
+                            <strong>Thông Tin Liên Hệ</strong><br>
+                            17 Princess Road, London, Greater London NW1 8JR, UK
+                        </div>
+                        <div class="social-icons">
+                            <div class="social-icon"><i class="fab fa-facebook-f"></i></div>
+                            <div class="social-icon"><i class="fab fa-whatsapp"></i></div>
+                            <div class="social-icon"><i class="fab fa-pinterest"></i></div>
+                            <div class="social-icon"><i class="fab fa-linkedin-in"></i></div>
+                            <div class="social-icon"><i class="fab fa-instagram"></i></div>
+                            <div class="social-icon"><i class="fab fa-youtube"></i></div>
+                            <div class="social-icon"><i class="fas fa-rss"></i></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Find It Fast -->
+                <div class="footer-column">
+                    <h4>Tìm Nhanh</h4>
+                    <ul>
+                        <li><a href="#">Laptop & Máy Tính</a></li>
+                        <li><a href="#">Camera & Nhiếp Ảnh</a></li>
+                        <li><a href="#">Điện Thoại & Máy Tính Bảng</a></li>
+                        <li><a href="#">Trò Chơi Video & Console</a></li>
+                        <li><a href="#">TV & Âm Thanh</a></li>
+                        <li><a href="#">Thiết Bị Đeo</a></li>
+                        <li><a href="#">Tai Nghe Không Dây</a></li>
+                    </ul>
+                </div>
+
+                <!-- Customer Care -->
+                <div class="footer-column">
+                    <h4>Chăm Sóc Khách Hàng</h4>
+                    <ul>
+                        <li><a href="#">Tài Khoản Của Tôi</a></li>
+                        <li><a href="#">Theo Dõi Đơn Hàng</a></li>
+                        <li><a href="#">Dịch Vụ Khách Hàng</a></li>
+                        <li><a href="#">Hoàn Trả / Đổi Hàng</a></li>
+                        <li><a href="#">Câu Hỏi Thường Gặp</a></li>
+                        <li><a href="#">Hỗ Trợ Sản Phẩm</a></li>
+                    </ul>
+                </div>
+
+                <!-- About -->
+                <div class="footer-column">
+                    <h4>Về Chúng Tôi</h4>
+                    <ul>
+                        <li><a href="#">Giới Thiệu</a></li>
+                        <li><a href="#">Liên Hệ</a></li>
+                        <li><a href="#">Danh Sách Yêu Thích</a></li>
+                        <li><a href="#">So Sánh</a></li>
+                        <li><a href="#">Câu Hỏi Thường Gặp</a></li>
+                        <li><a href="#">Danh Mục Cửa Hàng</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Bottom -->
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="footer-bottom-content">
+                    <div class="copyright">
+                        © Electro - Bản Quyền Đã Được Bảo Lưu
+                    </div>
+                    <div class="payment-methods">
+                        <div class="payment-icon">DISCOVER</div>
+                        <div class="payment-icon">●●</div>
+                        <div class="payment-icon">PayPal</div>
+                        <div class="payment-icon">Skrill</div>
+                        <div class="payment-icon">VISA</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Theme Toggle -->
+    <div class="theme-toggle">
+        <div class="toggle-btn"><i class="fas fa-moon"></i></div>
+        <div class="toggle-btn"><i class="fas fa-sun"></i></div>
+    </div>
+
+    <!-- Scroll to Top -->
+    <div class="scroll-top">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <div class="chat-widget" style="position: fixed; bottom: 80px; right: 20px; z-index: 999;">
+        <div class="chat-icon" style="background: #0084ff; color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
+            <i class="fas fa-comment-dots" style="font-size: 24px;"></i>
+        </div>
+    </div>
+
+
+</body>
+</html>
