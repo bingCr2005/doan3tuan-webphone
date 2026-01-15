@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý bình luận</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- CSS dùng chung -->
+    <link rel="stylesheet" href="Css/style.css">
+</head>
+
+<body>
+<div class="container-fluid">
+    <div class="row">
+
+
+        <!-- Sidebar -->
+        <div class="col-2 sidebar">
+            <h4>ADMIN</h4>
+            <a href="#">Dashboard</a>
+            <a href="QuanLyDienThoai.html">📱 Điện thoại</a>
+            <a href="QuanLyHangDienThoai.html">🏷️ Hãng điện thoại</a>
+            <a href="QuanLyKhachHang.html">👥 Khách hàng</a>
+            <a href="QuanLyNCC.html">🏭 Nhà cung cấp</a>
+            <a href="QuanLyKhuyenMai.html">🎁 Khuyến mãi</a>
+            <a href="QuanLyDonHang.html">🛒 Đơn hàng</a>
+            <a href="QuanLyThongKe.html">📈 Thống kê</a>
+            <a href="QuanLyBinhLuan.html" class="active">💬 Bình luận</a>
+            <a href="QuanLyLienHe.html">📞 Liên hệ</a>
+            <a href="#">🚪 Đăng xuất</a>
+        </div>
+
+        <!-- Content -->
+        <div class="col-10 content">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h3>Quản lý bình luận</h3>
+                <div class="d-flex align-items-center gap-2">
+                    <button class="btn btn-success">🔍 Tra cứu</button>
+                </div>
+            </div>
+
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Mã bình luận</th>
+                        <th>Mã điện thoại</th>
+                        <th>Mã khách hàng</th>
+                        <th>Số sao</th>
+                        <th>Nội dung</th>
+                        <th>Ngày bình luận</th>
+                        <th>Trạng thái</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Apple</td>
+                        <td>Hãng điện thoại cao cấp đến từ Mỹ</td>
+                        <td class="status-active">Kích hoạt</td>
+                        <td>
+                            <button class="btn btn-warning btn-sm">Cập nhật</button>
+                            <button class="btn btn-danger btn-sm">Xóa</button>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+
+
+        </div>
+
+    </div>
+</div>
+
+<!-- Load sidebar -->
+<script>
+    fetch("sidebar.html")
+        .then(res => res.text())
+        .then(html => {
+            document.getElementById("sidebar-container").innerHTML = html;
+        });
+</script>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
