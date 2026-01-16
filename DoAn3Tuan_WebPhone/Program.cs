@@ -3,20 +3,12 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ??ng ký DbContext và chu?i k?t n?i
-builder.Services.AddDbContext<DBBanDienThoaiContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DBBanDienThoai")));
+builder.Services.AddDistributedMemoryCache();
 
-// Add services to the container.
 builder.Services.AddControllersWithViews();
 
-<<<<<<< HEAD
 builder.Services.AddDbContext<DbbanDienThoaiContext>(options =>
-    options.UseSqlServer(
-        builder.Configuration.GetConnectionString("DefaultConnection")
-    ));
-=======
->>>>>>> main
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DBBanDienThoai")));
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(30);
