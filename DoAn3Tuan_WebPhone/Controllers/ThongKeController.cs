@@ -6,9 +6,9 @@ namespace DoAn3Tuan_WebPhone.Controllers
 {
     public class ThongKeController : Controller
     {
-        private readonly DBBanDienThoaiContext _context;
+        private readonly DbbanDienThoaiContext _context;
 
-        public ThongKeController(DBBanDienThoaiContext context)
+        public ThongKeController(DbbanDienThoaiContext context)
         {
             _context = context;
         }
