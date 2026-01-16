@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 public class AccountController : Controller
 {
-    private readonly DBBanDienThoaiContext _context;
+    private readonly DbbanDienThoaiContext _context;
 
-    public AccountController(DBBanDienThoaiContext context)
+    public AccountController(DbbanDienThoaiContext context)
     {
         _context = context;
     }
@@ -30,7 +30,7 @@ public class AccountController : Controller
             return View();
         }
 
-        // ✅ LƯU SESSION ĐÚNG CHUẨN
+        // Lưu Session 
         HttpContext.Session.SetString(
             "MaKH",
             tk.TaiKhoanKhachHang.MaKhachHang
