@@ -1,0 +1,220 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>📈 Thống kê doanh thu & lượt mua</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            font-family: "Segoe UI", sans-serif;
+            background: #f5f6fa;
+        }
+        .sidebar h4 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .sidebar {
+            background: #212529;
+            color: white;
+            height: 100vh;
+            padding: 20px 10px;
+        }
+
+            .sidebar a {
+                display: block;
+                color: white;
+                text-decoration: none;
+                padding: 10px;
+                border-radius: 5px;
+                margin-bottom: 5px;
+            }
+
+                .sidebar a:hover, .sidebar .active {
+                    background: #0d6efd;
+                }
+
+        .content {
+            background: #f5f6fa;
+            padding: 30px;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card h2 {
+            color: #198754;
+        }
+
+        .chart-container {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        table {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        th {
+            background: #198754;
+            color: white;
+        }
+
+        tr:hover {
+            background: #f2f2f2;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+
+            <!-- Sidebar -->
+            <div class="col-2 sidebar">
+                <h4>ADMIN</h4>
+                <a href="#">🏠 Dashboard</a>
+                <a href="QuanLyDienThoai.html">📱 Điện thoại</a>
+                <a href="QuanLyHangDienThoai.html">🏷️ Hãng điện thoại</a>
+                <a href="QuanLyKhachHang.html">👥 Khách hàng</a>
+                <a href="QuanLyNCC.html">🏭 Nhà cung cấp</a>
+                <a href="QuanLyKhuyenMai.html">🎁 Khuyến mãi</a>
+                <a href="QuanLyDonHang.html">🛒 Đơn hàng</a>
+                <a href="QuanLyThongKe.html" class="active">📈 Thống kê</a>
+                <a href="QuanLyBinhLuan.html">💬 Bình luận</a>
+                <a href="QuanLyLienHe.html">📞 Liên hệ</a>
+                <a href="#">🚪 Đăng xuất</a>
+            </div>
+
+            <!-- Content -->
+            <div class="col-10 content">
+
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h3>📊 Thống kê doanh thu & lượt mua</h3>
+                    
+                </div>
+
+                <!-- Thẻ tổng quan -->
+                <div class="stats">
+                    <div class="card text-center p-3 shadow-sm">
+                        <h4>💰 Tổng doanh thu</h4>
+                        <h2 id="revenue">@String.Format("{0:N0}₫", ViewBag.TongDoanhThu)</h2>
+                        <p>Tổng doanh thu trong kỳ</p>
+                    </div>
+                    <div class="card text-center p-3 shadow-sm">
+                        <h4>🛒 Tổng lượt mua</h4>
+                        <h2 id="orders">@ViewBag.TongLuotMua</h2>
+                        <p>Tổng lượt mua trong kỳ</p>
+                    </div>
+                </div>
+                <select id="timeFilter" class="form-select w-auto" onchange="updateChart()">
+                    <option value="day">Theo ngày</option>
+                    <option value="week">Theo tuần</option>
+                    <option value="month" selected>Theo tháng</option>
+                </select>
+                <!-- Biểu đồ -->
+                <div class="chart-container">
+                    <canvas id="revenueChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <canvas id="orderChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script Chart -->
+    <script>
+        let revenueChart;
+        let orderChart;
+
+        function updateChart() {
+            const type = document.getElementById("timeFilter").value;
+
+            fetch(`/ThongKe/GetThongKe?type=${type}`)
+                .then(res => res.json())
+                .then(res => {
+
+                    // ==== Tổng ====
+                    document.getElementById("revenue").innerText =
+                        new Intl.NumberFormat('vi-VN').format(res.tongDoanhThu) + "₫";
+                    document.getElementById("orders").innerText = res.tongLuotMua;
+
+                    // ==== Data ====
+                    const labels = res.data.map(x => x.label);
+                    const doanhThu = res.data.map(x => x.tongTien / 1_000_000);
+                    const luotMua = res.data.map(x => x.luotMua);
+
+                    // ==== Chart doanh thu ====
+                    if (revenueChart) revenueChart.destroy();
+                    const ctxRevenue = document.getElementById("revenueChart");
+                    revenueChart = new Chart(ctxRevenue, {
+                        type: "bar",
+                        data: {
+                            labels,
+                            datasets: [{
+                                label: "Doanh thu (triệu VND)",
+                                data: doanhThu,
+                                backgroundColor: "#198754",
+                                borderRadius: 6
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            scales: {
+                                y: { beginAtZero: true }
+                            }
+                        }
+                    });
+
+                    // ==== Chart lượt mua ====
+                    if (orderChart) orderChart.destroy();
+                    const ctxOrder = document.getElementById("orderChart");
+                    orderChart = new Chart(ctxOrder, {
+                        type: "line",
+                        data: {
+                            labels,
+                            datasets: [{
+                                label: "Lượt mua (số hóa đơn)",
+                                data: luotMua,
+                                borderWidth: 3,
+                                tension: 0.4,
+                                fill: false
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    ticks: {
+                                        stepSize: 1
+                                    }
+                                }
+                            }
+                        }
+                    });
+                });
+        }
+
+        updateChart();
+    </script>
+
+
+</body>
+</html>
