@@ -2,7 +2,6 @@ using DoAn3Tuan_WebPhone.Models;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
-
 // ??ng ký DbContext và chu?i k?t n?i
 builder.Services.AddDbContext<DBBanDienThoaiContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DBBanDienThoai")));
@@ -10,33 +9,22 @@ builder.Services.AddDbContext<DBBanDienThoaiContext>(options =>
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddSession(options =>
-{
-    options.IdleTimeout = TimeSpan.FromMinutes(30);
-    options.Cookie.HttpOnly = true;
-    options.Cookie.IsEssential = true;
-});
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
+    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
 app.UseHttpsRedirection();
-app.UseStaticFiles();
 app.UseRouting();
 
-app.UseSession();
 app.UseAuthorization();
-// Route cho th?ng kê 
-app.MapControllerRoute(
-    name: "thong-ke",
-    pattern: "thong-ke",
-    defaults: new { controller = "ThongKe", action = "Index" });
+
+app.MapStaticAssets();
 
 // Route cho Trang cá nhân (ví d?: domain.com/ca-nhan)
 app.MapControllerRoute(
@@ -50,9 +38,10 @@ app.MapControllerRoute(
     pattern: "gio-hang",
     defaults: new { controller = "Cart", action = "Index" });
 
-// Route m?c ??nh
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/{id?}")
+    .WithStaticAssets();
+
 
 app.Run();
