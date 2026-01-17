@@ -49,7 +49,7 @@ public partial class DienThoai
 
     public virtual ICollection<ChiTietHoaDon> ChiTietHoaDons { get; set; } = new List<ChiTietHoaDon>();
 
-    public virtual ICollection<GioHangBackup20260116> GioHangBackup20260116s { get; set; } = new List<GioHangBackup20260116>();
+    public virtual ICollection<GioHangOld> GioHangOlds { get; set; } = new List<GioHangOld>();
 
     public virtual HangDienThoai? HangDienThoaiNavigation { get; set; }
 

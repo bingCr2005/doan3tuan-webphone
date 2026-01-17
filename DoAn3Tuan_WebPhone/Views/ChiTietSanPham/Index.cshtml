@@ -1,14 +1,11 @@
-﻿@{
-    ViewData["Title"] = "Chi tiết sản phẩm";
-}
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chi tiết sản phẩm</title>
+    <title>iPhone 15 Pro Max 256GB - Cửa Hàng Điện Thoại Toàn Cầu</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="~/css/chitietsanpham.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/single-product1.css" asp-append-version="true" />
 
 </head>
 <body>
@@ -53,30 +50,15 @@
                     <a href="#" class="icon-btn">
                         <i class="far fa-heart"></i>
                     </a>
-                    <div class="user-dropdown-container">
-
-                        <a href="#" class="icon-btn">
-                            <i class="far fa-user"></i>
-                        </a>
-
-                        <div class="user-dropdown-content">
-                            <div class="dropdown-header">Returning Customer?</div>
-                            <a href="login.html" class="btn-signin">Sign in</a>
-
-                            <div class="dropdown-divider"></div>
-
-                            <div class="dropdown-footer">
-                                <span>Don't have an account?</span>
-                                <a href="register.html" class="link-register">Register</a>
-                            </div>
-                        </div>
-                    </div>
+                    <a href="#" class="icon-btn">
+                        <i class="far fa-user"></i>
+                    </a>
                     <div class="cart-info">
                         <a href="#" class="icon-btn">
                             <i class="fas fa-shopping-cart"></i>
-                            <span class="icon-badge">0</span>
+                            <span class="icon-badge" id="cartCount">0</span>
                         </a>
-                        <span class="cart-price">$0.00</span>
+                        <span class="cart-price" id="cartTotal">$0.00</span>
                     </div>
                 </div>
             </div>
@@ -100,533 +82,377 @@
         </div>
     </nav>
 
-    <!-- Hero Slider -->
-    <section class="hero-slider">
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
         <div class="container">
-            <div class="hero-content-wrapper">
-                <div class="hero-left">
-                    <div class="hero-badge">MUA SẮM ĐỂ NHẬN NHỮNG GÌ BẠN YÊU THÍCH</div>
-                    <h1 class="hero-title">
-                        ĐIỆN THOẠI TẠO NÊN<br>
-                        PHONG CÁCH<br>
-                        GIẢM ĐẾN <span class="hero-discount">40% OFF</span>
-                    </h1>
-                    <button class="hero-btn">Bắt Đầu Mua Sắm</button>
-                </div>
-                <div class="hero-right">
-                    <div class="hero-images">
-                        <div class="hero-phone">
-                            <img src="images/iphone15.jpg" alt="iPhone 15 Pink">
-                        </div>
-                    </div>
-                </div>
-                <div class="slider-dots">
-                    <div class="dot active"></div>
-                    <div class="dot"></div>
-                    <div class="dot"></div>
-                </div>
-            </div>
-    </section>
-
-    <!-- Sidebar Promos -->
-    <div class="sidebar-promos" id="adsWidget">
-        <div class="close-ads" onclick="document.getElementById('adsWidget').style.display='none'">
-            &times;
-        </div>
-
-        <div class="promo-box">
-            <h3>BẮT ƯU ĐÃI LỚN <span class="deals">DEALS</span> TRÊN<br>PHỤ KIỆN ĐIỆN THOẠI</h3>
-            <div class="promo-img">
-                <i class="fas fa-gamepad" style="font-size: 60px; color: #fff;"></i>
-            </div>
-            <button class="btn">Mua Ngay <i class="fas fa-arrow-right"></i></button>
-        </div>
-
-        <div class="promo-box">
-            <h3>BẮT ƯU ĐÃI LỚN <span class="deals">DEALS</span> TRÊN<br>TAI NGHE KHÔNG DÂY</h3>
-            <div class="promo-img">
-                <i class="fas fa-headphones" style="font-size: 60px; color: #fff;"></i>
-            </div>
-            <button class="btn">Mua Ngay <i class="fas fa-arrow-right"></i></button>
+            <ul class="breadcrumb-list">
+                <li><a href="#">Trang Chủ</a> <i class="fas fa-chevron-right"></i></li>
+                <li><a href="#">Điện Thoại & Máy Tính Bảng</a> <i class="fas fa-chevron-right"></i></li>
+                <li><a href="#">iPhone</a> <i class="fas fa-chevron-right"></i></li>
+                <li>iPhone 15 Pro Max 256GB</li>
+            </ul>
         </div>
     </div>
 
-    <!-- Main Content -->
-    <div class="main-content">
+    <!-- Product Detail -->
+    <section class="product-detail">
         <div class="container">
-            <div class="content-layout">
-                <!-- Sidebar -->
-                <aside class="sidebar">
-                    <h3 class="sidebar-title">Danh Mục Sản Phẩm</h3>
-                    <ul class="sidebar-menu">
-                        <li><a href="#">Giá Trong Ngày <i class="fas fa-chevron-right"></i></a></li>
-                        <li><a href="#">Top 100 Ưu Đãi <i class="fas fa-chevron-right"></i></a></li>
-                        <li><a href="#">Hàng Mới Về <i class="fas fa-chevron-right"></i></a></li>
-                        <li><a href="#">iPhone <i class="fas fa-chevron-right"></i></a></li>
-                        <li><a href="#">Samsung <i class="fas fa-chevron-right"></i></a></li>
-                        <li><a href="#">Xiaomi <i class="fas fa-chevron-right"></i></a></li>
-                        <li><a href="#">OPPO <i class="fas fa-chevron-right"></i></a></li>
-                        <li><a href="#">Realme <i class="fas fa-chevron-right"></i></a></li>
-                        <li><a href="#">Vivo <i class="fas fa-chevron-right"></i></a></li>
-                        <li><a href="#">Phụ Kiện <i class="fas fa-chevron-right"></i></a></li>
-                    </ul>
-                    <div class="sidebar-banner">
-                        <h3>TẤT CẢ-MỚI-4K</h3>
-                        <p>CAMERA ĐIỆN THOẠI</p>
-                        <div class="price">$79<sup>99</sup></div>
-                        <button class="hero-btn">Bắt Đầu Mua</button>
+            <div class="product-main">
+                <!-- Product Gallery -->
+                <div class="product-gallery">
+                    <div class="main-image">
+                        <span class="sale-badge">-9%</span>
+                        <img src="images/iphone15.jpg" alt="iPhone 15 Pro Max" id="mainImg">
                     </div>
-                </aside>
+                    <div class="thumbnail-list">
+                        <div class="thumbnail active" onclick="changeImage('images/iphone15.jpg.jpg')">
+                            <img src="images/iphone15.jpg" alt="View 1">
+                        </div>
+                        <div class="thumbnail" onclick="changeImage('images/iphone15.jpg-blue.jpg')">
+                            <img src="images/iphone15.jpg" alt="View 2">
+                        </div>
+                        <div class="thumbnail" onclick="changeImage('images/iphone15.jpg-side.jpg')">
+                            <img src="images/iphone15.jpg" alt="View 3">
+                        </div>
+                        <div class="thumbnail" onclick="changeImage('images/iphone15.jpg-back.jpg')">
+                            <img src="images/iphone15.jpg" alt="View 4">
+                        </div>
+                    </div>
+                </div>
 
-                <!-- Products Grid -->
-                <div class="products-section">
-                    <div class="section-header">
-                        <h2>Sản Phẩm Nổi Bật</h2>
+                <script>
+                    function changeImage(src, evt) {
+                        document.getElementById('mainImg').src = src;
+                        // Xử lý active class cho thumbnail (tuỳ chọn)
+                        document.querySelectorAll('.thumbnail').forEach(el => el.classList.remove('active'));
+                        if (evt && evt.currentTarget) {
+                            evt.currentTarget.classList.add('active');
+                        }
+                    }
+                </script>
+
+                <!-- Product Info -->
+                <div class="product-info">
+                    <div class="product-category">Điện Thoại & Máy Tính Bảng, iPhone</div>
+                    <h1 class="product-title">iPhone 15 Pro Max 256GB</h1>
+
+                    <div class="product-meta">
+                        <div class="rating-summary">
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                            <span class="rating-count" id="ratingAvg">4.5</span>
+                            <span class="rating-count" onclick="scrollToReviews()" style="text-decoration: underline;">(<span id="reviewCount">1</span> đánh giá)</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-heart"></i>
+                            <span id="wishlistCount">245</span> Yêu thích
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-eye"></i>
+                            <span id="viewCount">1,523</span> Lượt xem
+                        </div>
                     </div>
 
-                    <div class="products-grid">
-                        <div class="product-card">
-                            <div class="product-category">iPhone, Điện Thoại</div>
-                            <h3 class="product-name"><a href="/chitietsanpham/index">iPhone 15 Pro Max 256GB</a></h3>
-                            <div class="product-image">
-                                <a href="/chitietsanpham/index">
-                                    <img src="images/iphone15.jpg" alt="iPhone 15">
-                                </a>
-                            </div>
-                            <div class="price-action-row">
-                                <div class="price-box">
-                                    <span class="product-price sale-text">$1,100.00</span>
-                                    <span class="old-price">$1,215.00</span>
-                                </div>
-                                <button class="btn-cart-round"><i class="fas fa-shopping-cart"></i></button>
-                            </div>
-                            <div class="hover-footer">
-                                <div class="footer-action"><i class="far fa-heart"></i> Wishlist</div>
-                                <div class="footer-action"><i class="fas fa-sync-alt"></i> Compare</div>
-                            </div>
-                        </div>
+                    <div class="brand-logo">
+                        <span class="brand-name">coinbuild</span>
+                    </div>
 
-                        <div class="product-card">
-                            <div class="product-category">Samsung, Tablet</div>
-                            <h3 class="product-name"><a href="/chitietsanpham/index">Samsung Galaxy Tab S9</a></h3>
-                            <div class="product-image">
-                                <a href="/chitietsanpham/index">
-                                    <img src="images/iphone15.jpg" alt="Samsung Tab">
-                                </a>
-                            </div>
-                            <div class="price-action-row">
-                                <div class="price-box">
-                                    <span class="product-price">$629.00</span>
-                                </div>
-                                <button class="btn-cart-round"><i class="fas fa-shopping-cart"></i></button>
-                            </div>
-                            <div class="hover-footer">
-                                <div class="footer-action"><i class="far fa-heart"></i> Wishlist</div>
-                                <div class="footer-action"><i class="fas fa-sync-alt"></i> Compare</div>
-                            </div>
+                    <div class="product-price-section">
+                        <div class="price-wrapper">
+                            <span class="current-price" id="currentPrice">$1,100.00</span>
+                            <span class="old-price">$1,215.00</span>
+                            <span class="discount-badge">Tiết kiệm $115</span>
                         </div>
+                    </div>
 
-                        <div class="product-card">
-                            <div class="product-category">Phụ Kiện, VR</div>
-                            <h3 class="product-name"><a href="/chitietsanpham/index">Meta Quest 3</a></h3>
-                            <div class="product-image">
-                                <a href="/chitietsanpham/index">
-                                    <img src="images/iphone15.jpg" alt="Meta Quest">
-                                </a>
-                            </div>
-                            <div class="price-action-row">
-                                <div class="price-box">
-                                    <span class="product-price">$799.00</span>
-                                </div>
-                                <button class="btn-cart-round"><i class="fas fa-shopping-cart"></i></button>
-                            </div>
-                            <div class="hover-footer">
-                                <div class="footer-action"><i class="far fa-heart"></i> Wishlist</div>
-                                <div class="footer-action"><i class="fas fa-sync-alt"></i> Compare</div>
-                            </div>
-                        </div>
+                    <div class="stock-status in-stock" id="stockStatus">
+                        <i class="fas fa-check-circle"></i> Còn hàng
+                    </div>
 
-                        <div class="product-card">
-                            <div class="product-category">Phụ Kiện, USB</div>
-                            <h3 class="product-name"><a href="/chitietsanpham/index">USB Flash 64GB</a></h3>
-                            <div class="product-image">
-                                <a href="/chitietsanpham/index">
-                                    <img src="images/iphone15.jpg" alt="USB">
-                                </a>
-                            </div>
-                            <div class="price-action-row">
-                                <div class="price-box">
-                                    <span class="product-price">$110.00</span>
-                                </div>
-                                <button class="btn-cart-round"><i class="fas fa-shopping-cart"></i></button>
-                            </div>
-                            <div class="hover-footer">
-                                <div class="footer-action"><i class="far fa-heart"></i> Wishlist</div>
-                                <div class="footer-action"><i class="fas fa-sync-alt"></i> Compare</div>
-                            </div>
-                        </div>
+                    <div class="stock-quantity">
+                        Còn lại: <strong id="stockQuantity">47</strong> sản phẩm
+                    </div>
 
-                        <div class="product-card">
-                            <div class="product-category">Phụ Kiện, SSD</div>
-                            <h3 class="product-name"><a href="/chitietsanpham/index">SSD Portable 1TB</a></h3>
-                            <div class="product-image">
-                                <a href="/chitietsanpham/index">
-                                    <img src="images/iphone15.jpg" alt="SSD">
-                                </a>
-                            </div>
-                            <div class="price-action-row">
-                                <div class="price-box">
-                                    <span class="product-price">$385.00</span>
-                                </div>
-                                <button class="btn-cart-round"><i class="fas fa-shopping-cart"></i></button>
-                            </div>
-                            <div class="hover-footer">
-                                <div class="footer-action"><i class="far fa-heart"></i> Wishlist</div>
-                                <div class="footer-action"><i class="fas fa-sync-alt"></i> Compare</div>
-                            </div>
-                        </div>
+                    <div class="product-features">
+                        <h3>Đặc điểm nổi bật:</h3>
+                        <ul class="features-list">
+                            <li>Màn hình 6.7 inch Super Retina XDR OLED</li>
+                            <li>Chip A17 Pro 3nm - Hiệu năng vượt trội</li>
+                            <li>Camera chính 48MP + Telephoto 5x zoom quang học</li>
+                            <li>Khung Titanium cao cấp, nhẹ và bền</li>
+                            <li>Pin 4,422 mAh - Sạc nhanh 27W</li>
+                            <li>Hỗ trợ 5G, Wi-Fi 6E, USB-C</li>
+                        </ul>
+                    </div>
 
-                        <div class="product-card">
-                            <div class="product-category">Camera</div>
-                            <h3 class="product-name"><a href="/chitietsanpham/index">GoPro Hero 12</a></h3>
-                            <div class="product-image">
-                                <a href="/chitietsanpham/index">
-                                    <img src="images/iphone15.jpg" alt="GoPro">
-                                </a>
-                            </div>
-                            <div class="price-action-row">
-                                <div class="price-box">
-                                    <span class="product-price">$590.00</span>
-                                </div>
-                                <button class="btn-cart-round"><i class="fas fa-shopping-cart"></i></button>
-                            </div>
-                            <div class="hover-footer">
-                                <div class="footer-action"><i class="far fa-heart"></i> Wishlist</div>
-                                <div class="footer-action"><i class="fas fa-sync-alt"></i> Compare</div>
-                            </div>
+                    <div class="quantity-selector">
+                        <label>Số lượng:</label>
+                        <div class="quantity-controls">
+                            <button class="qty-btn" onclick="decreaseQty()">-</button>
+                            <input type="number" class="qty-input" id="quantity" value="1" min="1" max="47" readonly>
+                            <button class="qty-btn" onclick="increaseQty()">+</button>
                         </div>
+                    </div>
 
-                        <div class="product-card">
-                            <div class="product-category">Gaming</div>
-                            <h3 class="product-name"><a href="/chitietsanpham/index">PlayStation 5 Slim</a></h3>
-                            <div class="product-image">
-                                <a href="/chitietsanpham/index">
-                                    <img src="images/iphone15.jpg" alt="PS5">
-                                </a>
-                            </div>
-                            <div class="price-action-row">
-                                <div class="price-box">
-                                    <span class="product-price sale-text">$700.00</span>
-                                    <span class="old-price">$789.00</span>
-                                </div>
-                                <button class="btn-cart-round"><i class="fas fa-shopping-cart"></i></button>
-                            </div>
-                            <div class="hover-footer">
-                                <div class="footer-action"><i class="far fa-heart"></i> Wishlist</div>
-                                <div class="footer-action"><i class="fas fa-sync-alt"></i> Compare</div>
-                            </div>
-                        </div>
+                    <div class="login-notice" id="loginNotice">
+                        <i class="fas fa-info-circle"></i> Vui lòng <strong>đăng nhập</strong> để thêm sản phẩm vào yêu thích
+                    </div>
 
-                        <div class="product-card">
-                            <div class="product-category">Laptop</div>
-                            <h3 class="product-name"><a href="/chitietsanpham/index">MacBook Pro M3 Max</a></h3>
-                            <div class="product-image">
-                                <a href="/chitietsanpham/index">
-                                    <img src="images/iphone15.jpg" alt="MacBook">
-                                </a>
-                            </div>
-                            <div class="price-action-row">
-                                <div class="price-box">
-                                    <span class="product-price sale-text">$2,100.00</span>
-                                    <span class="old-price">$2,299.00</span>
-                                </div>
-                                <button class="btn-cart-round"><i class="fas fa-shopping-cart"></i></button>
-                            </div>
-                            <div class="hover-footer">
-                                <div class="footer-action"><i class="far fa-heart"></i> Wishlist</div>
-                                <div class="footer-action"><i class="fas fa-sync-alt"></i> Compare</div>
-                            </div>
-                        </div>
-
-                        <div class="product-card">
-                            <div class="product-category">Tai Nghe</div>
-                            <h3 class="product-name"><a href="/chitietsanpham/index">AirPods Max</a></h3>
-                            <div class="product-image">
-                                <a href="/chitietsanpham/index">
-                                    <img src="images/iphone15.jpg" alt="AirPods">
-                                </a>
-                            </div>
-                            <div class="price-action-row">
-                                <div class="price-box">
-                                    <span class="product-price">$248.99</span>
-                                </div>
-                                <button class="btn-cart-round"><i class="fas fa-shopping-cart"></i></button>
-                            </div>
-                            <div class="hover-footer">
-                                <div class="footer-action"><i class="far fa-heart"></i> Wishlist</div>
-                                <div class="footer-action"><i class="fas fa-sync-alt"></i> Compare</div>
-                            </div>
-                        </div>
-
-                        <div class="product-card">
-                            <div class="product-category">Camera</div>
-                            <h3 class="product-name"><a href="/chitietsanpham/index">Sony Alpha A7 IV</a></h3>
-                            <div class="product-image">
-                                <a href="/chitietsanpham/index">
-                                    <img src="images/iphone15.jpg" alt="Sony Alpha">
-                                </a>
-                            </div>
-                            <div class="price-action-row">
-                                <div class="price-box">
-                                    <span class="product-price">$559.00</span>
-                                </div>
-                                <button class="btn-cart-round"><i class="fas fa-shopping-cart"></i></button>
-                            </div>
-                            <div class="hover-footer">
-                                <div class="footer-action"><i class="far fa-heart"></i> Wishlist</div>
-                                <div class="footer-action"><i class="fas fa-sync-alt"></i> Compare</div>
-                            </div>
-                        </div>
-
-                        <div class="product-card">
-                            <div class="product-category">Gaming</div>
-                            <h3 class="product-name"><a href="/chitietsanpham/index">Xbox Series X</a></h3>
-                            <div class="product-image">
-                                <a href="/chitietsanpham/index">
-                                    <img src="images/iphone15.jpg" alt="Xbox">
-                                </a>
-                            </div>
-                            <div class="price-action-row">
-                                <div class="price-box">
-                                    <span class="product-price">$150.00</span>
-                                </div>
-                                <button class="btn-cart-round"><i class="fas fa-shopping-cart"></i></button>
-                            </div>
-                            <div class="hover-footer">
-                                <div class="footer-action"><i class="far fa-heart"></i> Wishlist</div>
-                                <div class="footer-action"><i class="fas fa-sync-alt"></i> Compare</div>
-                            </div>
-                        </div>
-
-                        <div class="product-card">
-                            <div class="product-category">SSD</div>
-                            <h3 class="product-name"><a href="/chitietsanpham/index">Samsung SSD 2TB</a></h3>
-                            <div class="product-image">
-                                <a href="/chitietsanpham/index">
-                                    <img src="images/iphone15.jpg" alt="SSD">
-                                </a>
-                            </div>
-                            <div class="price-action-row">
-                                <div class="price-box">
-                                    <span class="product-price">$385.00</span>
-                                </div>
-                                <button class="btn-cart-round"><i class="fas fa-shopping-cart"></i></button>
-                            </div>
-                            <div class="hover-footer">
-                                <div class="footer-action"><i class="far fa-heart"></i> Wishlist</div>
-                                <div class="footer-action"><i class="fas fa-sync-alt"></i> Compare</div>
-                            </div>
-                        </div>
-
-                        <div class="product-card">
-                            <div class="product-category">Smartwatch</div>
-                            <h3 class="product-name"><a href="/chitietsanpham/index">Apple Watch Series 9</a></h3>
-                            <div class="product-image">
-                                <a href="/chitietsanpham/index">
-                                    <img src="images/iphone15.jpg" alt="Apple Watch">
-                                </a>
-                            </div>
-                            <div class="price-action-row">
-                                <div class="price-box">
-                                    <span class="product-price">$725.00</span>
-                                </div>
-                                <button class="btn-cart-round"><i class="fas fa-shopping-cart"></i></button>
-                            </div>
-                            <div class="hover-footer">
-                                <div class="footer-action"><i class="far fa-heart"></i> Wishlist</div>
-                                <div class="footer-action"><i class="fas fa-sync-alt"></i> Compare</div>
-                            </div>
-                        </div>
-
-                        <div class="product-card">
-                            <div class="product-category">Phụ Kiện</div>
-                            <h3 class="product-name"><a href="/chitietsanpham/index">Gói Bảo Vệ MacBook</a></h3>
-                            <div class="product-image">
-                                <a href="/chitietsanpham/index">
-                                    <img src="images/iphone15.jpg" alt="Case">
-                                </a>
-                            </div>
-                            <div class="price-action-row">
-                                <div class="price-box">
-                                    <span class="product-price">$250.00</span>
-                                </div>
-                                <button class="btn-cart-round"><i class="fas fa-shopping-cart"></i></button>
-                            </div>
-                            <div class="hover-footer">
-                                <div class="footer-action"><i class="far fa-heart"></i> Wishlist</div>
-                                <div class="footer-action"><i class="fas fa-sync-alt"></i> Compare</div>
-                            </div>
-                        </div>
-
-                        <div class="product-card">
-                            <div class="product-category">Laptop</div>
-                            <h3 class="product-name"><a href="/chitietsanpham/index">MacBook Pro M3 Pro</a></h3>
-                            <div class="product-image">
-                                <a href="/chitietsanpham/index">
-                                    <img src="images/iphone15.jpg" alt="MacBook">
-                                </a>
-                            </div>
-                            <div class="price-action-row">
-                                <div class="price-box">
-                                    <span class="product-price sale-text">$1,500.00</span>
-                                    <span class="old-price">$1,800.00</span>
-                                </div>
-                                <button class="btn-cart-round"><i class="fas fa-shopping-cart"></i></button>
-                            </div>
-                            <div class="hover-footer">
-                                <div class="footer-action"><i class="far fa-heart"></i> Wishlist</div>
-                                <div class="footer-action"><i class="fas fa-sync-alt"></i> Compare</div>
-                            </div>
-                        </div>
-                    </div> <div class="pagination">
-                        <button class="page-btn">1</button>
-                        <button class="page-btn">2</button>
-                        <button class="page-btn active">3</button>
-                        <button class="page-btn">4</button>
+                    <div class="action-buttons">
+                        <button class="add-to-cart-btn" onclick="addToCart()">
+                            <i class="fas fa-shopping-cart"></i>
+                            Thêm Vào Giỏ Hàng
+                        </button>
+                        <button class="wishlist-btn" id="wishlistBtn" onclick="toggleWishlist()">
+                            <i class="far fa-heart"></i>
+                        </button>
+                        <button class="compare-btn" onclick="addToCompare()">
+                            <i class="fas fa-random"></i>
+                        </button>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <!-- Brands Section -->
-    <section class="brands-section">
-        <div class="container">
-            <div class="brands-slider">
-                <div class="brand-logo">△ apple</div>
-                <div class="brand-logo">samsung</div>
-                <div class="brand-logo">xiaomi</div>
-                <div class="brand-logo">oppo</div>
-                <div class="brand-logo">REALME</div>
+
+            <!-- Product Tabs -->
+            <div class="product-tabs">
+                <div class="tabs-nav">
+                    <button class="tab-btn active" onclick="switchTab('description')">Mô Tả</button>
+                    <button class="tab-btn" onclick="switchTab('specifications')">Thông Số Kỹ Thuật</button>
+                    <button class="tab-btn" onclick="switchTab('reviews')">Đánh Giá (<span id="reviewCountTab">1</span>)</button>
+                </div>
+
+                <!-- Description Tab -->
+                <div class="tab-content active" id="descriptionTab">
+                    <div class="description-content">
+                        <h3>Giới thiệu iPhone 15 Pro Max 256GB</h3>
+                        <p>iPhone 15 Pro Max đánh dấu bước tiến mới của Apple với thiết kế khung Titanium đẳng cấp, mạnh mẽ nhưng nhẹ hơn 19g so với thế hệ trước. Đây là chiếc iPhone Pro đầu tiên sử dụng chất liệu hàng không vũ trụ, mang đến sự sang trọng và bền bỉ vượt trội.</p>
+
+                        <h3>Hiệu năng đỉnh cao với chip A17 Pro</h3>
+                        <p>Chip A17 Pro được sản xuất trên tiến trình 3nm tiên tiến nhất hiện nay, mang lại hiệu năng CPU nhanh hơn 10%, GPU nhanh hơn 20% so với A16 Bionic. Neural Engine 16 nhân xử lý AI/ML nhanh gấp đôi, hỗ trợ tối ưu cho các tính năng nhiếp ảnh tính toán và gaming.</p>
+
+                        <h3>Hệ thống camera chuyên nghiệp</h3>
+                        <p>Camera chính 48MP với cảm biến lớn hơn, hỗ trợ chụp ảnh RAW 48MP và ProRAW. Camera telephoto cải tiến với zoom quang học 5x (tương đương 120mm), cho phép chụp cận cảnh chi tiết hơn. Video ProRes 4K 60fps có thể quay và lưu trực tiếp lên ổ cứng ngoài qua USB-C.</p>
+
+                        <h3>Màn hình Always-On Display</h3>
+                        <p>Màn hình Super Retina XDR 6.7 inch hỗ trợ ProMotion 120Hz, độ sáng tối đa 2000 nits ngoài trời. Tính năng Always-On Display hiển thị thông tin liên tục mà không tốn pin, kết hợp Dynamic Island tương tác thông minh.</p>
+                    </div>
+                </div>
+
+                <!-- Specifications Tab -->
+                <div class="tab-content" id="specificationsTab">
+                    <table class="specs-table">
+                        <tr>
+                            <td>Màn hình</td>
+                            <td>6.7 inches, Super Retina XDR OLED, 2796 x 1290 pixels, ProMotion 120Hz</td>
+                        </tr>
+                        <tr>
+                            <td>Hệ điều hành</td>
+                            <td>iOS 17</td>
+                        </tr>
+                        <tr>
+                            <td>Camera sau</td>
+                            <td>Camera chính: 48MP, f/1.78 - Camera telephoto: 12MP, f/2.8, zoom quang 5x - Camera góc siêu rộng: 12MP, f/2.2</td>
+                        </tr>
+                        <tr>
+                            <td>Camera trước</td>
+                            <td>12MP, f/1.9, TrueDepth</td>
+                        </tr>
+                        <tr>
+                            <td>Chipset</td>
+                            <td>Apple A17 Pro (3nm) - 6 nhân CPU, 6 nhân GPU, 16 nhân Neural Engine</td>
+                        </tr>
+                        <tr>
+                            <td>Bộ nhớ trong</td>
+                            <td>256GB</td>
+                        </tr>
+                        <tr>
+                            <td>RAM</td>
+                            <td>8GB</td>
+                        </tr>
+                        <tr>
+                            <td>Pin</td>
+                            <td>4,422 mAh - Sạc nhanh 27W, Sạc không dây MagSafe 15W</td>
+                        </tr>
+                        <tr>
+                            <td>Kết nối</td>
+                            <td>5G, Wi-Fi 6E, Bluetooth 5.3, NFC, USB-C 3.0</td>
+                        </tr>
+                        <tr>
+                            <td>Chất liệu</td>
+                            <td>Khung Titanium Grade 5, mặt lưng kính matted</td>
+                        </tr>
+                        <tr>
+                            <td>Kích thước</td>
+                            <td>159.9 x 76.7 x 8.25 mm</td>
+                        </tr>
+                        <tr>
+                            <td>Trọng lượng</td>
+                            <td>221g</td>
+                        </tr>
+                        <tr>
+                            <td>Kháng nước</td>
+                            <td>IP68 (Chống nước sâu 6m trong 30 phút)</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- Reviews Tab -->
+                <div class="tab-content" id="reviewsTab">
+                    <div class="reviews-wrapper">
+
+                        <div class="reviews-left">
+                            <div class="rating-summary-box">
+                                <h4>Based on <span id="reviewCountDisplay">1</span> review</h4>
+                                <div class="rating-overview-flex">
+                                    <div class="big-rating-number">4.0</div>
+                                    <div class="rating-stars-static">
+                                        <div class="stars-yellow">
+                                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+                                        </div>
+                                        <span class="overall-text">overall</span>
+                                    </div>
+                                </div>
+
+                                <div class="rating-progress-list">
+                                    <div class="progress-item">
+                                        <div class="p-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                                        <div class="p-bar-bg"><div class="p-bar-fill" style="width: 0%"></div></div>
+                                        <span class="p-count">0</span>
+                                    </div>
+                                    <div class="progress-item">
+                                        <div class="p-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></div>
+                                        <div class="p-bar-bg"><div class="p-bar-fill" style="width: 100%"></div></div>
+                                        <span class="p-count">1</span>
+                                    </div>
+                                    <div class="progress-item">
+                                        <div class="p-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i></div>
+                                        <div class="p-bar-bg"><div class="p-bar-fill" style="width: 0%"></div></div>
+                                        <span class="p-count">0</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="comments-container" id="commentsList">
+                                <div class="comment-card">
+                                    <div class="comment-stars">
+                                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+                                    </div>
+                                    <p class="comment-body">Nice</p>
+                                    <div class="comment-footer">
+                                        <strong>Demo demo</strong> – December 19, 2025
+                                        <span class="badge-bought"><i class="fas fa-check"></i> Đã mua</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="reviews-right">
+                            <h3>Add a review</h3>
+
+                            <div id="notPurchasedAlert" class="alert-warning" style="display: none;">
+                                <i class="fas fa-lock"></i> Bạn cần mua sản phẩm này để viết đánh giá.
+                            </div>
+
+                            <form id="reviewFormCustom" onsubmit="submitReviewCustom(event)">
+                                <div class="form-row">
+                                    <label>Your Rating</label>
+                                    <div class="star-input-group" id="starInputGroup">
+                                        <i class="far fa-star" onclick="rateStar(1)"></i>
+                                        <i class="far fa-star" onclick="rateStar(2)"></i>
+                                        <i class="far fa-star" onclick="rateStar(3)"></i>
+                                        <i class="far fa-star" onclick="rateStar(4)"></i>
+                                        <i class="far fa-star" onclick="rateStar(5)"></i>
+                                    </div>
+                                    <input type="hidden" id="ratingValueInput" required>
+                                </div>
+
+                                <div class="form-row">
+                                    <label>Your Review</label>
+                                    <textarea class="input-custom" id="reviewTextInput" rows="4" required></textarea>
+                                </div>
+
+                                <div class="form-row">
+                                    <label>Name *</label>
+                                    <input type="text" class="input-custom" id="reviewNameInput" required>
+                                </div>
+
+                                <div class="form-row">
+                                    <label>Email *</label>
+                                    <input type="email" class="input-custom" id="reviewEmailInput" required>
+                                </div>
+
+                                <div class="form-check-custom">
+                                    <input type="checkbox" id="saveInfoCheck">
+                                    <label for="saveInfoCheck">Save my name, email, and website in this browser for the next time I comment.</label>
+                                </div>
+
+                                <button type="submit" class="btn-yellow-submit">Add Review</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Triple Product Sections -->
-    <div class="triple-section">
+    <!-- Related Products -->
+    <section class="related-products">
+        <div class="container">
+            <h2 class="section-title">Sản Phẩm Liên Quan</h2>
+            <div class="products-grid">
 
-        <div class="section-box">
-            <h3>Sản Phẩm Mới Về</h3> <div class="mini-product">
-                <div class="mini-img">
-                    <span class="badge-new">NEW</span> <img src="images/iphone15.jpg" alt="Tablet">
+                <div class="product-card">
+                    <p class="product-category">iPhone, Điện Thoại</p>
+                    <h3 class="product-name"><a href="#">iPhone 15 Pro 128GB</a></h3>
+                    <div class="product-image">
+                        <a href="#">
+                            <img src="images/iphone15.jpg" alt="iPhone 15 Pro">
+                        </a>
+                    </div>
+                    <p class="product-price">$999.00</p>
                 </div>
-                <div class="mini-info">
-                    <div class="mini-name"><a href="#">Tablet Thin EliteBook Revolve 810 G6</a></div>
-                    <div class="rating">★★★★☆</div>
-                    <div class="mini-price">$1,300.00</div>
-                </div>
-            </div>
 
-            <div class="mini-product">
-                <div class="mini-img">
-                    <span class="badge-new">NEW</span> <img src="images/iphone15.jpg" alt="Notebook">
+                <div class="product-card">
+                    <p class="product-category">iPhone, Phụ Kiện</p>
+                    <h3 class="product-name"><a href="#">Ốp Lưng iPhone 15 Pro Max</a></h3>
+                    <div class="product-image">
+                        <a href="#">
+                            <img src="images/iphone15.jpg" alt="Ốp lưng">
+                        </a>
+                    </div>
+                    <p class="product-price">$49.00</p>
                 </div>
-                <div class="mini-info">
-                    <div class="mini-name"><a href="#">Notebook Widescreen Z51-70 40K6013UPB</a></div>
-                    <div class="rating">★★★★★</div>
-                    <div class="mini-price">$1,100.00</div>
-                </div>
-            </div>
 
-            <div class="mini-product">
-                <div class="mini-img">
-                    <span class="badge-new">NEW</span> <img src="images/iphone15.jpg" alt="Smartphone">
+                <div class="product-card">
+                    <p class="product-category">iPhone, Phụ Kiện</p>
+                    <h3 class="product-name"><a href="#">Cáp Sạc USB-C 20W</a></h3>
+                    <div class="product-image">
+                        <a href="#">
+                            <img src="images/iphone15.jpg" alt="Cáp sạc">
+                        </a>
+                    </div>
+                    <p class="product-price">$29.00</p>
                 </div>
-                <div class="mini-info">
-                    <div class="mini-name"><a href="#">Smartphone 6S 128GB LTE</a></div>
-                    <div class="rating">★★★★½</div>
-                    <div class="mini-price sale-price">$750.00 <span class="old-price">$780.00</span></div>
-                </div>
-            </div>
-        </div>
-        <div class="section-box">
-            <h3>Sản phẩm bán chạy nhất</h3>
 
-            <div class="mini-product">
-                <div class="mini-img"><img src="images/iphone15.jpg" alt="Controller"></div>
-                <div class="mini-info">
-                    <div class="mini-name"><a href="#">Game Console Controller + USB 3.0 Cable</a></div>
-                    <div class="rating">★★★★★</div>
-                    <div class="mini-price">$99.00</div>
+                <div class="product-card">
+                    <p class="product-category">Phụ Kiện, Tai Nghe</p>
+                    <h3 class="product-name"><a href="#">AirPods Pro (Gen 2)</a></h3>
+                    <div class="product-image">
+                        <a href="#">
+                            <img src="images/iphone15.jpg" alt="AirPods Pro">
+                        </a>
+                    </div>
+                    <p class="product-price">$249.00</p>
                 </div>
-            </div>
 
-            <div class="mini-product">
-                <div class="mini-img"><img src="images/iphone15.jpg" alt="Headphones"></div>
-                <div class="mini-info">
-                    <div class="mini-name"><a href="#">Universal Headphones Case in Black</a></div>
-                    <div class="rating">★★★★☆</div>
-                    <div class="mini-price">$159.00</div>
-                </div>
-            </div>
-
-            <div class="mini-product">
-                <div class="mini-img"><img src="images/iphone15.jpg" alt="Tablet"></div>
-                <div class="mini-info">
-                    <div class="mini-name"><a href="#">Tablet Thin EliteBook Revolve 810 G6</a></div>
-                    <div class="rating">★★★★½</div>
-                    <div class="mini-price">$1,300.00</div>
-                </div>
             </div>
         </div>
-
-        <div class="section-box">
-            <h3>Sản phẩm đang giảm giá</h3>
-
-            <div class="mini-product">
-                <div class="mini-img"><img src="images/iphone15.jpg" alt="Watch"></div>
-                <div class="mini-info">
-                    <div class="mini-name"><a href="#">Smartwatch 2.0 LTE Wifi Waterproof</a></div>
-                    <div class="rating">★★★★★</div>
-                    <div class="mini-price sale-price">$700.00 <span class="old-price">$725.00</span></div>
-                </div>
-            </div>
-
-            <div class="mini-product">
-                <div class="mini-img"><img src="images/iphone15.jpg" alt="Case"></div>
-                <div class="mini-info">
-                    <div class="mini-name"><a href="#">Aerocool EN52377 Dead Silence Gaming Cube Case</a></div>
-                    <div class="rating">★★★★☆</div>
-                    <div class="mini-price sale-price">$150.00 <span class="old-price">$180.00</span></div>
-                </div>
-            </div>
-
-            <div class="mini-product">
-                <div class="mini-img"><img src="images/iphone15.jpg" alt="Notebook"></div>
-                <div class="mini-info">
-                    <div class="mini-name"><a href="#">Notebook Black Spire V Nitro VN7-591G</a></div>
-                    <div class="rating">★★★★★</div>
-                    <div class="mini-price sale-price">$1,999.00 <span class="old-price">$2,299.00</span></div>
-                </div>
-            </div>
-        </div>
-
-        <div class="smart-banner">
-            <div class="sb-header">
-                <div class="sb-title">
-                    smart<strong>G3</strong>
-                    <div class="sb-subtitle">Now with 4G</div>
-                </div>
-                <div class="sb-price-group">
-                    <div class="sb-label">Starting at</div>
-                    <div class="sb-price">$129<sup>99</sup></div>
-                </div>
-            </div>
-            <div class="sb-image">
-                <img src="images/iphone15.jpg" alt="Smart G3 Camera">
-            </div>
-        </div>
-
-    </div>
+    </section>
 
     <!-- Newsletter -->
     <section class="newsletter">
@@ -734,23 +560,250 @@
         </div>
     </footer>
 
-    <!-- Theme Toggle -->
-    <div class="theme-toggle">
-        <div class="toggle-btn"><i class="fas fa-moon"></i></div>
-        <div class="toggle-btn"><i class="fas fa-sun"></i></div>
-    </div>
-
     <!-- Scroll to Top -->
-    <div class="scroll-top">
+    <div class="scroll-top" onclick="scrollToTop()">
         <i class="fas fa-arrow-up"></i>
     </div>
 
-    <div class="chat-widget" style="position: fixed; bottom: 80px; right: 20px; z-index: 999;">
-        <div class="chat-icon" style="background: #0084ff; color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
-            <i class="fas fa-comment-dots" style="font-size: 24px;"></i>
-        </div>
-    </div>
+    <script>
+        // ==========================================
+        // 1. CẤU HÌNH & BIẾN TOÀN CỤC
+        // ==========================================
+        let currentStock = 47;
+        let viewCount = 1523;
+        let wishlistCount = 245;
+        let cartCount = 0;
+        let isInWishlist = false;
+        let userHasBought = false; // Mặc định: CHƯA MUA (để demo)
 
+        // ==========================================
+        // 2. LOGIC TAB (SỬA LỖI CHUYỂN TAB TẠI ĐÂY)
+        // ==========================================
+        function switchTab(tabName) {
+            // Bước 1: Ẩn tất cả nội dung tab
+            // Tìm tất cả thẻ có class 'tab-content' và ẩn đi
+            const allContents = document.querySelectorAll('.tab-content');
+            allContents.forEach(content => {
+                content.style.display = 'none';
+                content.classList.remove('active');
+            });
 
+            // Bước 2: Bỏ trạng thái 'active' (màu đậm) của tất cả nút bấm
+            const allBtns = document.querySelectorAll('.tab-btn');
+            allBtns.forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Bước 3: Hiện tab đúng với tên được bấm (description / specifications / reviews)
+            const selectedTab = document.getElementById(tabName + 'Tab');
+            if (selectedTab) {
+                selectedTab.style.display = 'block';
+                selectedTab.classList.add('active');
+            }
+
+            // Bước 4: Active nút được bấm
+            // (Duyệt qua các nút để tìm nút nào gọi đến tab này thì active nó lên)
+            allBtns.forEach(btn => {
+                // Kiểm tra xem nút này có gọi switchTab('tabName') không
+                if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(tabName)) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+        // Hàm cuộn nhanh xuống phần đánh giá khi bấm link "(1 đánh giá)" ở trên đầu
+        function scrollToReviews() {
+            switchTab('reviews');
+            const reviewSection = document.getElementById('reviewsTab');
+            if (reviewSection) {
+                reviewSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        // ==========================================
+        // 3. LOGIC CHỨC NĂNG CƠ BẢN (Giỏ hàng, Yêu thích...)
+        // ==========================================
+
+        // Tăng/Giảm số lượng
+        function increaseQty() {
+            let qtyInput = document.getElementById('quantity');
+            let val = parseInt(qtyInput.value);
+            if (val < currentStock) qtyInput.value = val + 1;
+        }
+
+        function decreaseQty() {
+            let qtyInput = document.getElementById('quantity');
+            let val = parseInt(qtyInput.value);
+            if (val > 1) qtyInput.value = val - 1;
+        }
+
+        // Thêm vào giỏ
+        function addToCart() {
+            let qty = parseInt(document.getElementById('quantity').value);
+            if(currentStock >= qty) {
+                currentStock -= qty;
+                cartCount += qty;
+                document.getElementById('cartCount').innerText = cartCount;
+                document.getElementById('stockQuantity').innerText = currentStock;
+
+                // Xử lý khi hết hàng
+                if(currentStock === 0) {
+                   document.getElementById('stockStatus').className = 'stock-status out-stock';
+                   document.getElementById('stockStatus').innerHTML = '<i class="fas fa-times-circle"></i> Hết hàng';
+                }
+                alert("Đã thêm " + qty + " sản phẩm vào giỏ!");
+            } else {
+                alert("Hết hàng!");
+            }
+        }
+
+        // Yêu thích
+        function toggleWishlist() {
+            let btn = document.getElementById('wishlistBtn');
+            let icon = btn.querySelector('i');
+            isInWishlist = !isInWishlist;
+
+            if (isInWishlist) {
+                btn.classList.add('active');
+                icon.className = 'fas fa-heart';
+                wishlistCount++;
+            } else {
+                btn.classList.remove('active');
+                icon.className = 'far fa-heart';
+                wishlistCount--;
+            }
+            document.getElementById('wishlistCount').textContent = wishlistCount;
+        }
+
+        function addToCompare() {
+            alert("Đã thêm vào so sánh!");
+        }
+
+        // ==========================================
+        // 4. LOGIC ĐÁNH GIÁ & CHECK MUA HÀNG (TIÊU CHÍ 16)
+        // ==========================================
+
+        // Kiểm tra quyền khi load trang hoặc đổi trạng thái
+        function checkReviewPermission() {
+            const alertBox = document.getElementById('notPurchasedAlert');
+            const formInputs = document.querySelectorAll('#reviewFormCustom input, #reviewFormCustom textarea, #reviewFormCustom button');
+
+            if (userHasBought) {
+                // ĐÃ MUA -> Cho phép nhập
+                if(alertBox) alertBox.style.display = 'none';
+                formInputs.forEach(el => {
+                    el.disabled = false;
+                    el.style.opacity = '1';
+                    el.style.cursor = 'pointer';
+                });
+            } else {
+                // CHƯA MUA -> Khóa form
+                if(alertBox) alertBox.style.display = 'block';
+                formInputs.forEach(el => {
+                    el.disabled = true;
+                    el.style.opacity = '0.6';
+                    el.style.cursor = 'not-allowed';
+                });
+            }
+        }
+
+        // Chọn sao
+        function rateStar(n) {
+            if (!userHasBought) {
+                alert("Bạn phải mua sản phẩm mới được đánh giá! (Tiêu chí 16)");
+                return;
+            }
+            document.getElementById('ratingValueInput').value = n;
+            let stars = document.querySelectorAll('#starInputGroup i');
+            stars.forEach((s, index) => {
+                if (index < n) {
+                    s.className = "fas fa-star active";
+                } else {
+                    s.className = "far fa-star";
+                }
+            });
+        }
+
+        // Gửi đánh giá
+        function submitReviewCustom(e) {
+            e.preventDefault();
+            if (!userHasBought) return;
+
+            const name = document.getElementById('reviewNameInput').value;
+            const text = document.getElementById('reviewTextInput').value;
+            const rating = document.getElementById('ratingValueInput').value || 5;
+
+            // Tạo HTML sao
+            let starHtml = '';
+            for(let i=0; i<5; i++) {
+                starHtml += i < rating ? '<i class="fas fa-star"></i>' : '<i class="far fa-star"></i>';
+            }
+
+            // Tạo phần tử comment mới
+            const html = `
+                <div class="comment-card" style="border-bottom:1px solid #eee; padding:15px 0; animation: fadeIn 0.5s;">
+                    <div class="comment-stars" style="color:#fed700; margin-bottom:5px;">${starHtml}</div>
+                    <p class="comment-body" style="font-style:italic; margin-bottom:5px;">${text}</p>
+                    <div class="comment-footer" style="font-size:13px; color:#666;">
+                        <strong>${name}</strong> – Vừa xong
+                        <span class="badge-bought" style="background:#d4edda; color:#155724; padding:2px 6px; border-radius:3px; font-size:11px; margin-left:10px;"><i class="fas fa-check"></i> Đã mua</span>
+                    </div>
+                </div>
+            `;
+
+            // Thêm vào đầu danh sách
+            document.getElementById('commentsList').insertAdjacentHTML('afterbegin', html);
+
+            // Reset form
+            document.getElementById('reviewFormCustom').reset();
+            rateStar(0);
+
+            // Update số lượng review hiển thị trên tab và tiêu đề
+            const countSpan = document.getElementById('reviewCountDisplay');
+            const tabCountSpan = document.getElementById('reviewCountTab');
+            if(countSpan) countSpan.innerText = parseInt(countSpan.innerText) + 1;
+            if(tabCountSpan) tabCountSpan.innerText = parseInt(tabCountSpan.innerText) + 1;
+
+            alert("Đánh giá thành công!");
+        }
+
+        // ==========================================
+        // 5. KHỞI TẠO & DEMO
+        // ==========================================
+
+        // Hàm Demo đổi trạng thái mua hàng
+        function toggleDemo() {
+            userHasBought = !userHasBought;
+            const btn = document.getElementById('demoBtn');
+            if(userHasBought) {
+                btn.innerText = "Trạng thái: ĐÃ MUA (VIP)";
+                btn.style.background = "#28a745";
+            } else {
+                btn.innerText = "Trạng thái: CHƯA MUA (Guest)";
+                btn.style.background = "#dc3545";
+            }
+            checkReviewPermission();
+        }
+
+        // Chạy khi trang tải xong
+        window.onload = function() {
+            // 1. Mặc định hiển thị tab Mô tả (Description)
+            switchTab('description');
+
+            // 2. Tạo nút Demo góc phải dưới
+            let btn = document.createElement('div');
+            btn.id = 'demoBtn';
+            btn.className = 'demo-btn-float';
+            btn.onclick = toggleDemo;
+            btn.innerText = "Trạng thái: CHƯA MUA (Guest)";
+            document.body.appendChild(btn);
+
+            // 3. Kiểm tra quyền lần đầu
+            checkReviewPermission();
+
+            // 4. Update view ảo
+            document.getElementById('viewCount').innerText = (viewCount + 1).toLocaleString();
+        };
+    </script>
 </body>
 </html>
