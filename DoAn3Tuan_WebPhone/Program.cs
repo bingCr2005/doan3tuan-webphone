@@ -2,13 +2,29 @@ using DoAn3Tuan_WebPhone.Models;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+<<<<<<< HEAD
 // ??ng ký DbContext và chu?i k?t n?i
 builder.Services.AddDbContext<DBBanDienThoaiContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DBBanDienThoai")));
+=======
 
-// Add services to the container.
+builder.Services.AddDistributedMemoryCache();
+>>>>>>> 141ccff4dba17038ccc142635f85eb293864a883
+
 builder.Services.AddControllersWithViews();
 
+<<<<<<< HEAD
+=======
+builder.Services.AddDbContext<DbbanDienThoaiContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DBBanDienThoai")));
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
+>>>>>>> 141ccff4dba17038ccc142635f85eb293864a883
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

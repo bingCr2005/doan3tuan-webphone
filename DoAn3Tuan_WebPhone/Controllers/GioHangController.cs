@@ -2,131 +2,129 @@
 using Microsoft.EntityFrameworkCore;
 using DoAn3Tuan_WebPhone.Models;
 using System;
+using System.Linq;
 
-namespace DoAn3Tuan_WebPhone.Controllers
+public class GioHangController : Controller
 {
-    public class GioHangController : Controller
+    private readonly DbbanDienThoaiContext _context;
+
+    public GioHangController(DbbanDienThoaiContext context)
     {
-        private readonly DBBanDienThoaiContext _context;
+        _context = context;
+    }
 
-        public GioHangController(DBBanDienThoaiContext context)
+    // HIỂN THỊ GIỎ HÀNG
+    public IActionResult Index()
+    {
+        string maKH = "KH003";
+
+        var gioHang = _context.GioHangs
+            .Include(g => g.ChiTietGioHangs)
+                .ThenInclude(ct => ct.MaDienThoaiNavigation)
+            .FirstOrDefault(g => g.MaKhachHang == maKH);
+
+        if (gioHang == null)
+            return View(new List<ChiTietGioHang>());
+
+        return View(gioHang.ChiTietGioHangs.ToList());
+    }
+
+    // CẬP NHẬT SỐ LƯỢNG
+    [HttpPost]
+    public IActionResult Update(int id, int qty)
+    {
+        if (qty < 1) qty = 1;
+
+        var ct = _context.ChiTietGioHangs
+            .Include(x => x.MaDienThoaiNavigation)
+            .FirstOrDefault(x => x.MaCtgh == id);
+
+        if (ct != null)
         {
-            _context = context;
-        }
-
-        // 24 + 27: Hiển thị giỏ hàng + phân trang
-        public IActionResult Index(int page = 1)
-        {
-            //xoá được á mà tui làm biến thêm lại csdl :)))
-           
-
-            string maKH = "KH002"; /*= HttpContext.Session.GetString("MaKH");
-
-            if (maKH == null)
-            {
-                return RedirectToAction("Login", "Account");
-            }
-               */
-
-            int pageSize = 5;
-
-            var query = _context.GioHangs
-                .Include(g => g.MaDienThoaiNavigation)
-                .Where(g => g.MaKhachHang == maKH);
-
-            ViewBag.TotalPage = Math.Ceiling(query.Count() / (double)pageSize);
-            ViewBag.CurrentPage = page;
-
-            var data = query
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize)
-                .ToList();
-
-            return View(data);
-        }
-
-        // 25: Cập nhật số lượng
-        [HttpPost]
-        public IActionResult Update(string id, int qty)
-        {
-            if (qty < 1) qty = 1;
-
-            var gh = _context.GioHangs
-                .Include(x => x.MaDienThoaiNavigation)
-                .FirstOrDefault(x => x.MaGioHang == id);
-
-            if (gh != null && gh.MaDienThoaiNavigation != null)
-            {
-                gh.SoLuongHang = qty;
-                gh.ThanhTien = qty * gh.MaDienThoaiNavigation.DonGia;
-                _context.SaveChanges();
-            }
-
-            return RedirectToAction("Index");
-        }
-
-        // Xóa 1 sản phẩm trong giỏ
-        public IActionResult Delete(string id)
-        {
-            var gh = _context.GioHangs.Find(id);
-            if (gh != null)
-            {
-                _context.GioHangs.Remove(gh);
-                _context.SaveChanges();
-            }
-            return RedirectToAction("Index");
-        }
-
-        // 26: Xóa hết giỏ hàng
-        public IActionResult Clear()
-        {
-            string maKH = "KH01";
-
-            var list = _context.GioHangs
-                .Where(x => x.MaKhachHang == maKH);
-
-            _context.GioHangs.RemoveRange(list);
+            ct.SoLuong = qty;
+            ct.ThanhTien = qty * ct.MaDienThoaiNavigation!.DonGia;
             _context.SaveChanges();
-
-            return RedirectToAction("Index");
         }
 
-        // Thêm sản phẩm vào giỏ
-        public IActionResult AddToCart(string maDT)
+        return RedirectToAction("Index");
+    }
+
+    // XÓA 1 SẢN PHẨM
+    public IActionResult Delete(int id)
+    {
+        var ct = _context.ChiTietGioHangs.Find(id);
+        if (ct != null)
         {
-            string maKH = "KH01";
-
-            var gh = _context.GioHangs
-                .Include(x => x.MaDienThoaiNavigation)
-                .FirstOrDefault(x => x.MaKhachHang == maKH &&
-                                     x.MaDienThoai == maDT);
-
-            if (gh == null)
-            {
-                var dt = _context.DienThoais.Find(maDT);
-                if (dt == null)
-                    return NotFound();
-
-                gh = new GioHang
-                {
-                    MaGioHang = Guid.NewGuid().ToString("N").Substring(0, 10),
-                    MaKhachHang = maKH,
-                    MaDienThoai = maDT,
-                    SoLuongHang = 1,
-                    ThanhTien = dt.DonGia
-                };
-
-                _context.GioHangs.Add(gh);
-            }
-            else if (gh.MaDienThoaiNavigation != null)
-            {
-                gh.SoLuongHang++;
-                gh.ThanhTien =
-                    gh.SoLuongHang * gh.MaDienThoaiNavigation.DonGia;
-            }
-
+            _context.ChiTietGioHangs.Remove(ct);
             _context.SaveChanges();
-            return RedirectToAction("Index");
         }
+        return RedirectToAction("Index");
+    }
+
+    // XÓA HẾT GIỎ
+    public IActionResult Clear()
+    {
+        string maKH = "KH003";
+
+        var gioHang = _context.GioHangs
+            .Include(g => g.ChiTietGioHangs)
+            .FirstOrDefault(g => g.MaKhachHang == maKH);
+
+        if (gioHang != null)
+        {
+            _context.ChiTietGioHangs.RemoveRange(gioHang.ChiTietGioHangs);
+            _context.SaveChanges();
+        }
+
+        return RedirectToAction("Index");
+    }
+
+    // THÊM SẢN PHẨM
+    public IActionResult AddToCart(string maDT)
+    {
+        string maKH = "KH003";
+
+        var gioHang = _context.GioHangs
+            .Include(g => g.ChiTietGioHangs)
+            .FirstOrDefault(g => g.MaKhachHang == maKH);
+
+        if (gioHang == null)
+        {
+            gioHang = new GioHang
+            {
+                MaGioHang = "GH" + DateTime.Now.Ticks.ToString().Substring(10),
+                MaKhachHang = maKH
+            };
+            _context.GioHangs.Add(gioHang);
+            _context.SaveChanges();
+        }
+
+        var ct = _context.ChiTietGioHangs
+            .Include(x => x.MaDienThoaiNavigation)
+            .FirstOrDefault(x => x.MaGioHang == gioHang.MaGioHang &&
+                                 x.MaDienThoai == maDT);
+
+        if (ct == null)
+        {
+            var dt = _context.DienThoais.Find(maDT);
+            if (dt == null) return NotFound();
+
+            ct = new ChiTietGioHang
+            {
+                MaGioHang = gioHang.MaGioHang,
+                MaDienThoai = maDT,
+                SoLuong = 1,
+                ThanhTien = dt.DonGia
+            };
+            _context.ChiTietGioHangs.Add(ct);
+        }
+        else
+        {
+            ct.SoLuong++;
+            ct.ThanhTien = ct.SoLuong * ct.MaDienThoaiNavigation!.DonGia;
+        }
+
+        _context.SaveChanges();
+        return RedirectToAction("Index");
     }
 }
