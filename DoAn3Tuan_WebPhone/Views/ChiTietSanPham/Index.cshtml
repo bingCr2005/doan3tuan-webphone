@@ -1,9 +1,23 @@
-﻿<!DOCTYPE html>
+﻿@model DoAn3Tuan_WebPhone.Models.ChiTietSanPham
+@using System.Linq
+@{
+    int total = Model.TongSoBinhLuan;
+
+    int star5 = Model.BinhLuans.Count(b => b.SoSao == 5);
+    int star4 = Model.BinhLuans.Count(b => b.SoSao == 4);
+    int star3 = Model.BinhLuans.Count(b => b.SoSao == 3);
+    int star2 = Model.BinhLuans.Count(b => b.SoSao == 2);
+    int star1 = Model.BinhLuans.Count(b => b.SoSao == 1);
+
+    Func<int, int> percent = c => total == 0 ? 0 : (int)((double)c / total * 100);
+}
+
+<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>iPhone 15 Pro Max 256GB - Cửa Hàng Điện Thoại Toàn Cầu</title>
+    <title>@Model.DienThoai.TenDienThoai - Cửa Hàng Điện Thoại Toàn Cầu</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="~/css/single-product1.css" asp-append-version="true" />
 
@@ -102,39 +116,40 @@
                 <div class="product-gallery">
                     <div class="main-image">
                         <span class="sale-badge">-9%</span>
-                        <img src="images/iphone15.jpg" alt="iPhone 15 Pro Max" id="mainImg">
+                        <img src="~/@Model.DienThoai.Thumbnail"
+                             alt="@Model.DienThoai.TenDienThoai"
+                             id="mainImg">
                     </div>
+
                     <div class="thumbnail-list">
-                        <div class="thumbnail active" onclick="changeImage('images/iphone15.jpg.jpg')">
-                            <img src="images/iphone15.jpg" alt="View 1">
-                        </div>
-                        <div class="thumbnail" onclick="changeImage('images/iphone15.jpg-blue.jpg')">
-                            <img src="images/iphone15.jpg" alt="View 2">
-                        </div>
-                        <div class="thumbnail" onclick="changeImage('images/iphone15.jpg-side.jpg')">
-                            <img src="images/iphone15.jpg" alt="View 3">
-                        </div>
-                        <div class="thumbnail" onclick="changeImage('images/iphone15.jpg-back.jpg')">
-                            <img src="images/iphone15.jpg" alt="View 4">
-                        </div>
+                        @foreach (var img in Model.HinhAnhs)
+                        {
+                            <div class="thumbnail"
+                                 onclick="changeImage('@Url.Content("~/" + img.Url)', event)">
+                                <img src="~/@img.Url" alt="Ảnh sản phẩm">
+                            </div>
+                        }
                     </div>
                 </div>
 
                 <script>
                     function changeImage(src, evt) {
                         document.getElementById('mainImg').src = src;
-                        // Xử lý active class cho thumbnail (tuỳ chọn)
-                        document.querySelectorAll('.thumbnail').forEach(el => el.classList.remove('active'));
+
+                        document.querySelectorAll('.thumbnail')
+                            .forEach(el => el.classList.remove('active'));
+
                         if (evt && evt.currentTarget) {
                             evt.currentTarget.classList.add('active');
                         }
                     }
                 </script>
 
+
                 <!-- Product Info -->
                 <div class="product-info">
                     <div class="product-category">Điện Thoại & Máy Tính Bảng, iPhone</div>
-                    <h1 class="product-title">iPhone 15 Pro Max 256GB</h1>
+                    <h1 class="product-title">@Model.DienThoai.TenDienThoai</h1>
 
                     <div class="product-meta">
                         <div class="rating-summary">
@@ -145,38 +160,52 @@
                                 <i class="fas fa-star"></i>
                                 <i class="fas fa-star-half-alt"></i>
                             </div>
-                            <span class="rating-count" id="ratingAvg">4.5</span>
-                            <span class="rating-count" onclick="scrollToReviews()" style="text-decoration: underline;">(<span id="reviewCount">1</span> đánh giá)</span>
+                            <span class="rating-count" id="ratingAvg">@Model.DiemTrungBinh.ToString("0.0")</span>
+                            <span class="rating-count" onclick="scrollToReviews()" style="text-decoration: underline;">(<span id="reviewCount">@Model.TongSoBinhLuan</span> đánh giá)</span>
                         </div>
                         <div class="meta-item">
                             <i class="fas fa-heart"></i>
-                            <span id="wishlistCount">245</span> Yêu thích
+                            <span id="wishlistCount">@Model.DienThoai.SoLuongYeuThich</span> Yêu thích
                         </div>
                         <div class="meta-item">
                             <i class="fas fa-eye"></i>
-                            <span id="viewCount">1,523</span> Lượt xem
+                            <span id="viewCount">@Model.DienThoai.LuotXem</span> Lượt xem
                         </div>
                     </div>
 
                     <div class="brand-logo">
-                        <span class="brand-name">coinbuild</span>
+                        <span class="brand-name">Giá:</span>
                     </div>
 
                     <div class="product-price-section">
                         <div class="price-wrapper">
-                            <span class="current-price" id="currentPrice">$1,100.00</span>
-                            <span class="old-price">$1,215.00</span>
-                            <span class="discount-badge">Tiết kiệm $115</span>
+                            <span class="current-price" id="currentPrice">@Model.DienThoai.DonGia.ToString("N0") đ</span>
                         </div>
                     </div>
 
-                    <div class="stock-status in-stock" id="stockStatus">
-                        <i class="fas fa-check-circle"></i> Còn hàng
-                    </div>
+                    @if (Model.DienThoai.SoLuongTon > 0)
+                    {
+                        <div class="stock-status in-stock" id="stockStatus">
+                            <i class="fas fa-check-circle"></i> Còn hàng
+                        </div>
 
-                    <div class="stock-quantity">
-                        Còn lại: <strong id="stockQuantity">47</strong> sản phẩm
-                    </div>
+                        <div class="stock-quantity">
+                            Còn lại: <strong id="stockQuantity">
+                                @Model.DienThoai.SoLuongTon
+                            </strong> sản phẩm
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="stock-status out-of-stock" id="stockStatus">
+                            <i class="fas fa-times-circle"></i> Hết hàng
+                        </div>
+
+                        <div class="stock-quantity">
+                            <strong>0</strong> sản phẩm
+                        </div>
+                    }
+
 
                     <div class="product-features">
                         <h3>Đặc điểm nổi bật:</h3>
@@ -193,28 +222,62 @@
                     <div class="quantity-selector">
                         <label>Số lượng:</label>
                         <div class="quantity-controls">
-                            <button class="qty-btn" onclick="decreaseQty()">-</button>
-                            <input type="number" class="qty-input" id="quantity" value="1" min="1" max="47" readonly>
-                            <button class="qty-btn" onclick="increaseQty()">+</button>
+                            <button type="button" class="qty-btn" onclick="decreaseQty()">-</button>
+
+                            <input type="number"
+                                   class="qty-input"
+                                   id="quantity"
+                                   value="1"
+                                   min="1"
+                                   max="@Model.DienThoai.SoLuongTon">
+
+                            <button type="button" class="qty-btn" onclick="increaseQty()">+</button>
                         </div>
                     </div>
 
-                    <div class="login-notice" id="loginNotice">
-                        <i class="fas fa-info-circle"></i> Vui lòng <strong>đăng nhập</strong> để thêm sản phẩm vào yêu thích
-                    </div>
+
+                    @if (!User.Identity.IsAuthenticated)
+                    {
+                        <div class="login-notice" id="loginNotice">
+                            <i class="fas fa-info-circle"></i>
+                            Vui lòng <strong>đăng nhập</strong> để thêm sản phẩm vào yêu thích
+                        </div>
+                    }
 
                     <div class="action-buttons">
-                        <button class="add-to-cart-btn" onclick="addToCart()">
-                            <i class="fas fa-shopping-cart"></i>
-                            Thêm Vào Giỏ Hàng
-                        </button>
-                        <button class="wishlist-btn" id="wishlistBtn" onclick="toggleWishlist()">
-                            <i class="far fa-heart"></i>
-                        </button>
-                        <button class="compare-btn" onclick="addToCompare()">
-                            <i class="fas fa-random"></i>
-                        </button>
+
+                        @* Nút Thêm vào giỏ *@
+                        @if (Model.DienThoai.SoLuongTon > 0)
+                        {
+                            <button class="add-to-cart-btn" onclick="addToCart()">
+                                <i class="fas fa-shopping-cart"></i>
+                                Thêm Vào Giỏ Hàng
+                            </button>
+                        }
+                        else
+                        {
+                            <button class="add-to-cart-btn disabled" disabled>
+                                <i class="fas fa-shopping-cart"></i>
+                                Hết hàng
+                            </button>
+                        }
+
+                        @* Nút Yêu thích *@
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <button class="wishlist-btn" id="wishlistBtn" onclick="toggleWishlist()">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        }
+                        else
+                        {
+                            <button class="wishlist-btn disabled" disabled>
+                                <i class="far fa-heart"></i>
+                            </button>
+                        }
+
                     </div>
+
                 </div>
             </div>
 
@@ -229,8 +292,9 @@
                 <!-- Description Tab -->
                 <div class="tab-content active" id="descriptionTab">
                     <div class="description-content">
-                        <h3>Giới thiệu iPhone 15 Pro Max 256GB</h3>
-                        <p>iPhone 15 Pro Max đánh dấu bước tiến mới của Apple với thiết kế khung Titanium đẳng cấp, mạnh mẽ nhưng nhẹ hơn 19g so với thế hệ trước. Đây là chiếc iPhone Pro đầu tiên sử dụng chất liệu hàng không vũ trụ, mang đến sự sang trọng và bền bỉ vượt trội.</p>
+                        <h3>Giới thiệu @Model.DienThoai.TenDienThoai</h3>
+                        <p>@Model.DienThoai.MoTa</p>
+                        <p>@Model.DienThoai.TenDienThoai đánh dấu bước tiến mới của nhà sản xuất với thiết kế đẳng cấp, mạnh mẽ nhưng nhẹ hơn 19g so với thế hệ trước. Đây là chiếc điện thoại đầu tiên sử dụng chất liệu hàng không vũ trụ, mang đến sự sang trọng và bền bỉ vượt trội.</p>
 
                         <h3>Hiệu năng đỉnh cao với chip A17 Pro</h3>
                         <p>Chip A17 Pro được sản xuất trên tiến trình 3nm tiên tiến nhất hiện nay, mang lại hiệu năng CPU nhanh hơn 10%, GPU nhanh hơn 20% so với A16 Bionic. Neural Engine 16 nhân xử lý AI/ML nhanh gấp đôi, hỗ trợ tối ưu cho các tính năng nhiếp ảnh tính toán và gaming.</p>
@@ -248,55 +312,31 @@
                     <table class="specs-table">
                         <tr>
                             <td>Màn hình</td>
-                            <td>6.7 inches, Super Retina XDR OLED, 2796 x 1290 pixels, ProMotion 120Hz</td>
+                            <td>@Model.DienThoai.KichThuocManHinh</td>
+                        </tr>
+                        <tr>
+                            <td>Độ phân giải</td>
+                            <td>@Model.DienThoai.DoPhanGiaiManHinh</td>
                         </tr>
                         <tr>
                             <td>Hệ điều hành</td>
-                            <td>iOS 17</td>
+                            <td>@Model.DienThoai.HeDieuHanh</td>
                         </tr>
                         <tr>
-                            <td>Camera sau</td>
-                            <td>Camera chính: 48MP, f/1.78 - Camera telephoto: 12MP, f/2.8, zoom quang 5x - Camera góc siêu rộng: 12MP, f/2.2</td>
-                        </tr>
-                        <tr>
-                            <td>Camera trước</td>
-                            <td>12MP, f/1.9, TrueDepth</td>
-                        </tr>
-                        <tr>
-                            <td>Chipset</td>
-                            <td>Apple A17 Pro (3nm) - 6 nhân CPU, 6 nhân GPU, 16 nhân Neural Engine</td>
-                        </tr>
-                        <tr>
-                            <td>Bộ nhớ trong</td>
-                            <td>256GB</td>
+                            <td>Dung lượng</td>
+                            <td>@Model.DienThoai.DungLuong</td>
                         </tr>
                         <tr>
                             <td>RAM</td>
-                            <td>8GB</td>
+                            <td>@Model.DienThoai.Ram</td>
                         </tr>
                         <tr>
                             <td>Pin</td>
-                            <td>4,422 mAh - Sạc nhanh 27W, Sạc không dây MagSafe 15W</td>
-                        </tr>
-                        <tr>
-                            <td>Kết nối</td>
-                            <td>5G, Wi-Fi 6E, Bluetooth 5.3, NFC, USB-C 3.0</td>
+                            <td>@Model.DienThoai.DungLuongPin</td>
                         </tr>
                         <tr>
                             <td>Chất liệu</td>
-                            <td>Khung Titanium Grade 5, mặt lưng kính matted</td>
-                        </tr>
-                        <tr>
-                            <td>Kích thước</td>
-                            <td>159.9 x 76.7 x 8.25 mm</td>
-                        </tr>
-                        <tr>
-                            <td>Trọng lượng</td>
-                            <td>221g</td>
-                        </tr>
-                        <tr>
-                            <td>Kháng nước</td>
-                            <td>IP68 (Chống nước sâu 6m trong 30 phút)</td>
+                            <td>@Model.DienThoai.ChatLieu</td>
                         </tr>
                     </table>
                 </div>
@@ -305,97 +345,208 @@
                 <div class="tab-content" id="reviewsTab">
                     <div class="reviews-wrapper">
 
+                        <!-- LEFT -->
                         <div class="reviews-left">
+
                             <div class="rating-summary-box">
-                                <h4>Based on <span id="reviewCountDisplay">1</span> review</h4>
+                                <h4>
+                                    Đã có <span id="reviewCountDisplay">@Model.TongSoBinhLuan</span> đánh giá
+                                </h4>
+
                                 <div class="rating-overview-flex">
-                                    <div class="big-rating-number">4.0</div>
+                                    <div class="big-rating-number">
+                                        @Model.DiemTrungBinh.ToString("0.0")
+                                    </div>
+
                                     <div class="rating-stars-static">
                                         <div class="stars-yellow">
-                                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+                                            @{
+                                                int fullStars = (int)Math.Floor(Model.DiemTrungBinh);
+                                                for (int i = 1; i <= 5; i++)
+                                                {
+                                                    if (i <= fullStars)
+                                                    {
+                                                        <i class="fas fa-star"></i>
+                                                    }
+                                                    else
+                                                    {
+                                                        <i class="far fa-star"></i>
+                                                    }
+                                                }
+                                            }
                                         </div>
                                         <span class="overall-text">overall</span>
                                     </div>
                                 </div>
 
+                                <!-- PROGRESS -->
                                 <div class="rating-progress-list">
+
+                                    @* 5 sao *@
                                     <div class="progress-item">
-                                        <div class="p-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                                        <div class="p-bar-bg"><div class="p-bar-fill" style="width: 0%"></div></div>
-                                        <span class="p-count">0</span>
+                                        <div class="p-stars">
+                                            <i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                        </div>
+                                        <div class="p-bar-bg">
+                                            <div class="p-bar-fill" style="width:@percent(star5)%"></div>
+                                        </div>
+                                        <span class="p-count">@star5</span>
                                     </div>
+
+                                    @* 4 sao *@
                                     <div class="progress-item">
-                                        <div class="p-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></div>
-                                        <div class="p-bar-bg"><div class="p-bar-fill" style="width: 100%"></div></div>
-                                        <span class="p-count">1</span>
+                                        <div class="p-stars">
+                                            <i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                        </div>
+                                        <div class="p-bar-bg">
+                                            <div class="p-bar-fill" style="width:@percent(star4)%"></div>
+                                        </div>
+                                        <span class="p-count">@star4</span>
                                     </div>
+
+                                    @* 3 sao *@
                                     <div class="progress-item">
-                                        <div class="p-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i></div>
-                                        <div class="p-bar-bg"><div class="p-bar-fill" style="width: 0%"></div></div>
-                                        <span class="p-count">0</span>
+                                        <div class="p-stars">
+                                            <i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="far fa-star"></i><i class="far fa-star"></i>
+                                        </div>
+                                        <div class="p-bar-bg">
+                                            <div class="p-bar-fill" style="width:@percent(star3)%"></div>
+                                        </div>
+                                        <span class="p-count">@star3</span>
                                     </div>
+
+                                    @* 2 sao *@
+                                    <div class="progress-item">
+                                        <div class="p-stars">
+                                            <i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                            <i class="far fa-star"></i><i class="far fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                        </div>
+                                        <div class="p-bar-bg">
+                                            <div class="p-bar-fill" style="width:@percent(star2)%"></div>
+                                        </div>
+                                        <span class="p-count">@star2</span>
+                                    </div>
+
+                                    @* 1 sao *@
+                                    <div class="progress-item">
+                                        <div class="p-stars">
+                                            <i class="fas fa-star"></i>
+                                            <i class="far fa-star"></i><i class="far fa-star"></i>
+                                            <i class="far fa-star"></i><i class="far fa-star"></i>
+                                        </div>
+                                        <div class="p-bar-bg">
+                                            <div class="p-bar-fill" style="width:@percent(star1)%"></div>
+                                        </div>
+                                        <span class="p-count">@star1</span>
+                                    </div>
+
                                 </div>
                             </div>
 
+                            <!-- COMMENTS -->
                             <div class="comments-container" id="commentsList">
-                                <div class="comment-card">
-                                    <div class="comment-stars">
-                                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+                                @if (Model.BinhLuans != null && Model.BinhLuans.Any())
+                                {
+                                    foreach (var bl in Model.BinhLuans)
+                                    {
+                                        <div class="comment-card">
+
+                                            <div class="comment-stars">
+                                                @for (int i = 1; i <= 5; i++)
+                                                {
+                                                    if (i <= bl.SoSao)
+                                                    {
+                                                        <i class="fas fa-star"></i>
+                                                    }
+                                                    else
+                                                    {
+                                                        <i class="far fa-star"></i>
+                                                    }
+                                                }
                                     </div>
-                                    <p class="comment-body">Nice</p>
+
+                                    <p class="comment-body">@bl.NoiDung</p>
+
                                     <div class="comment-footer">
-                                        <strong>Demo demo</strong> – December 19, 2025
-                                        <span class="badge-bought"><i class="fas fa-check"></i> Đã mua</span>
-                                    </div>
-                                </div>
+                                        <strong>
+                                            @(bl.MaKhachHangNavigation?
+                                                                                        .MaKhachHangNavigation?
+                                                                                        .HoVaTen
+                                                                                        ?? "Khách hàng")
+                                                </strong>
+                                                –
+                                                @(bl.NgayBinhLuan.HasValue
+                                                                                        ? bl.NgayBinhLuan.Value.ToString("dd/MM/yyyy")
+                                                                                        : "")
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <p class="no-comment">Chưa có đánh giá nào cho sản phẩm này.</p>
+                                }
                             </div>
+
                         </div>
 
+                        <!-- RIGHT -->
                         <div class="reviews-right">
-                            <h3>Add a review</h3>
+                            <h3>Thêm đánh giá</h3>
 
-                            <div id="notPurchasedAlert" class="alert-warning" style="display: none;">
-                                <i class="fas fa-lock"></i> Bạn cần mua sản phẩm này để viết đánh giá.
-                            </div>
+                            @if (!User.Identity.IsAuthenticated)
+                            {
+                                <div class="alert-warning">
+                                    <i class="fas fa-lock"></i> Vui lòng đăng nhập để viết đánh giá.
+                                </div>
+                            }
+                            else
+                            {
+                                <form asp-action="ThemBinhLuan"
+                                      asp-controller="ChiTietSanPham"
+                                      method="post">
 
-                            <form id="reviewFormCustom" onsubmit="submitReviewCustom(event)">
-                                <div class="form-row">
-                                    <label>Your Rating</label>
-                                    <div class="star-input-group" id="starInputGroup">
-                                        <i class="far fa-star" onclick="rateStar(1)"></i>
-                                        <i class="far fa-star" onclick="rateStar(2)"></i>
-                                        <i class="far fa-star" onclick="rateStar(3)"></i>
-                                        <i class="far fa-star" onclick="rateStar(4)"></i>
-                                        <i class="far fa-star" onclick="rateStar(5)"></i>
+                                    <input type="hidden" name="MaDienThoai"
+                                           value="@Model.DienThoai.MaDienThoai" />
+
+                                    <div class="form-row">
+                                        <label>Đánh giá của bạn</label>
+                                        <div class="star-input-group" id="starInputGroup">
+                                            @for (int i = 1; i <= 5; i++)
+                                            {
+                                                <i class="far fa-star star-rate"
+                                                   data-value="@i"></i>
+                                            }
+                                        </div>
+                                        <input type="hidden" name="SoSao"
+                                               id="ratingValueInput" required />
                                     </div>
-                                    <input type="hidden" id="ratingValueInput" required>
-                                </div>
 
-                                <div class="form-row">
-                                    <label>Your Review</label>
-                                    <textarea class="input-custom" id="reviewTextInput" rows="4" required></textarea>
-                                </div>
+                                    <div class="form-row">
+                                        <label>Nội dung đánh giá</label>
+                                        <textarea class="input-custom"
+                                              name="NoiDung"
+                                              rows="4"
+                                              required></textarea>
+                                    </div>
 
-                                <div class="form-row">
-                                    <label>Name *</label>
-                                    <input type="text" class="input-custom" id="reviewNameInput" required>
-                                </div>
-
-                                <div class="form-row">
-                                    <label>Email *</label>
-                                    <input type="email" class="input-custom" id="reviewEmailInput" required>
-                                </div>
-
-                                <div class="form-check-custom">
-                                    <input type="checkbox" id="saveInfoCheck">
-                                    <label for="saveInfoCheck">Save my name, email, and website in this browser for the next time I comment.</label>
-                                </div>
-
-                                <button type="submit" class="btn-yellow-submit">Add Review</button>
-                            </form>
+                                    <button type="submit" class="btn-yellow-submit">
+                                        Gửi đánh giá
+                                    </button>
+                                </form>
+                            }
                         </div>
+
                     </div>
                 </div>
+
             </div>
         </div>
     </section>
