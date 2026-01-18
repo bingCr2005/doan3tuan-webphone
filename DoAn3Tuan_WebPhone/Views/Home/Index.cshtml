@@ -88,10 +88,13 @@
         <div class="container">
             <div class="nav-content">
                 <ul class="nav-menu">
-                    <li><a href="index.html">Trang Chủ</a></li>
-                    <li><a href="shop.html">Sản Phẩm</a></li>
-                    <li><a href="about.html">Giới Thiệu</a></li>
-                    <li><a href="contact.html">Liên Hệ</a></li>
+                    <li><a asp-controller="Home" asp-action="Index">Trang Chủ</a></li>
+
+                    <li><a asp-controller="Product" asp-action="Index">Sản Phẩm</a></li>
+
+                    <li><a asp-controller="Home" asp-action="About">Giới Thiệu</a></li>
+
+                    <li><a asp-controller="Contact" asp-action="Index">Liên Hệ</a></li>
                 </ul>
                 <div class="shipping-banner">
                     Miễn Phí Vận Chuyển Đơn Hàng Từ $50+

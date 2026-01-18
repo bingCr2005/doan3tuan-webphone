@@ -1,0 +1,88 @@
+﻿/* Breadcrumb */
+.breadcrumb {
+    padding: 15px 0;
+    background: #f9f9f9;
+    border-bottom: 1px solid #eee;
+    font-size: 13px;
+    color: #666;
+}
+
+/* Main Content Contact */
+.main-content {
+    padding: 40px 0;
+}
+
+/* Layout căn giữa form */
+.contact-layout {
+    display: flex;
+    justify-content: center; /* Căn giữa theo chiều ngang */
+    background: #fff;
+    padding: 40px;
+    border: 1px solid #e5e5e5;
+    border-radius: 5px;
+}
+
+/* Wrapper bao quanh form */
+.contact-form-wrapper {
+    width: 100%;
+    max-width: 800px; /* Giới hạn độ rộng form cho đẹp */
+}
+
+.contact-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    padding-bottom: 10px;
+    border-bottom: 3px solid #fed700;
+    display: inline-block;
+}
+
+/* Form Styles */
+.form-group {
+    margin-bottom: 20px;
+}
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        font-size: 14px;
+    }
+
+.form-control {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    outline: none;
+    transition: 0.3s;
+}
+
+    .form-control:focus {
+        border-color: #fed700;
+        box-shadow: 0 0 5px rgba(254, 215, 0, 0.3);
+    }
+
+textarea.form-control {
+    resize: vertical;
+    height: 150px;
+}
+
+.btn-submit {
+    background: #fed700;
+    color: #333;
+    border: none;
+    padding: 12px 40px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 14px;
+    display: block;
+}
+
+    .btn-submit:hover {
+        background: #333;
+        color: #fff;
+    }
