@@ -21,7 +21,7 @@ namespace DoAn3Tuan_WebPhone.Controllers
             // Lấy danh sách liên hệ
             var query = _context.LienHes.AsQueryable();
 
-            // Nếu có tìm kiếm
+            // Tìm kiếm theo tên và email
             if (!string.IsNullOrEmpty(search))
             {
                 query = query.Where(lh => lh.HoTen.Contains(search) || lh.Email.Contains(search));
@@ -43,22 +43,43 @@ namespace DoAn3Tuan_WebPhone.Controllers
             return View(dsLienHe);
         }
 
-
-        // Xem chi tiết (tùy chọn)
-        public IActionResult Details(int id)
+        // Hiển thị form sửa
+        public IActionResult Edit(int id)
         {
-            var lienHe = _context.LienHes.FirstOrDefault(x => x.MaLienHe == id);
+            var lienHe = _context.LienHes.Find(id);
             if (lienHe == null)
                 return NotFound();
-
-            lienHe.TrangThai = true;
-            _context.SaveChanges();
 
             return View(lienHe);
         }
 
+        //Cập nhật liên hệ
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(LienHe model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var lienHe = _context.LienHes.Find(model.MaLienHe);
+            if (lienHe == null)
+                return NotFound();
+
+            lienHe.HoTen = model.HoTen;
+            lienHe.Email = model.Email;
+            lienHe.SoDienThoai = model.SoDienThoai;
+            lienHe.NoiDung = model.NoiDung;
+            lienHe.TrangThai = model.TrangThai;
+
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+
         // Xóa liên hệ
-        public IActionResult Delete(int id)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteConfirmed(int id)
         {
             var lienHe = _context.LienHes.Find(id);
             if (lienHe != null)
@@ -68,5 +89,6 @@ namespace DoAn3Tuan_WebPhone.Controllers
             }
             return RedirectToAction("Index");
         }
+
     }
 }

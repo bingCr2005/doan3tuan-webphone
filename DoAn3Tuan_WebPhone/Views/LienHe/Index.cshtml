@@ -1,5 +1,7 @@
 ﻿@model IEnumerable<DoAn3Tuan_WebPhone.Models.LienHe>
-
+@{
+    ViewData["Title"] = "Quản lý liên hệ";
+}
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -73,8 +75,24 @@
                                 </td>
 
                                 <td>
-                                    <a href="/LienHe/Delete/@item.MaLienHe" class="btn btn-sm btn-danger" onclick="return confirm('Bạn có chắc muốn xóa liên hệ này không?');">Xóa</a>
+                                    <a asp-action="Edit"
+                                       asp-route-id="@item.MaLienHe"
+                                       class="btn btn-sm btn-warning">
+                                        ✏️ Sửa
+                                    </a>
+
+                                    <form asp-action="DeleteConfirmed"
+                                          asp-route-id="@item.MaLienHe"
+                                          method="post"
+                                          style="display:inline"
+                                          onsubmit="return confirm('Bạn có chắc muốn xóa liên hệ này không?');">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="btn btn-sm btn-danger">
+                                            🗑️ Xóa
+                                        </button>
+                                    </form>
                                 </td>
+
                             </tr>
                         }
                     </tbody>

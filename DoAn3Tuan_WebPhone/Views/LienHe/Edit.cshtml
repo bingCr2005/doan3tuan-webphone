@@ -1,0 +1,41 @@
+﻿@model DoAn3Tuan_WebPhone.Models.LienHe
+@{
+    ViewData["Title"] = "Cập nhật liên hệ";
+}
+<h3 class="mb-3">✏️ Cập nhật liên hệ</h3>
+
+<form asp-action="Edit" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="MaLienHe" />
+
+    <div class="mb-3">
+        <label>Họ tên</label>
+        <input asp-for="HoTen" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Email</label>
+        <input asp-for="Email" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Số điện thoại</label>
+        <input asp-for="SoDienThoai" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Nội dung</label>
+        <textarea asp-for="NoiDung" class="form-control" rows="4"></textarea>
+    </div>
+
+    <div class="mb-3">
+        <label>Trạng thái</label>
+        <select asp-for="TrangThai" class="form-select">
+            <option value="false">Chưa phản hồi</option>
+            <option value="true">Đã phản hồi</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">💾 Lưu</button>
+    <a asp-action="Index" class="btn btn-secondary">⬅ Quay lại</a>
+</form>
