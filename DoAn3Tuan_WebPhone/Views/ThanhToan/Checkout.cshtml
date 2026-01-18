@@ -1,9 +1,11 @@
 ﻿<form asp-action="Confirm" method="post" id="checkoutForm">
 
-    @* giữ lại các id giỏ hàng *@
+    @* GIỮ LẠI ID CHI TIẾT GIỎ HÀNG *@
     @foreach (var item in Model)
     {
-        <input type="hidden" name="gioHangIds" value="@item.MaGioHang" />
+        <input type="hidden"
+               name="ctghIds"
+               value="@item.MaCtgh" />
     }
 
     <div class="mb-3">
@@ -13,8 +15,7 @@
                class="form-control"
                required
                pattern="^[A-Za-zÀ-ỹ\s]+$"
-               title="Tên chỉ được chứa chữ cái, không có số" />
-
+               title="Tên chỉ được chứa chữ cái" />
     </div>
 
     <div class="mb-3">
@@ -25,7 +26,6 @@
                required
                pattern="^[0-9]{10}$"
                title="Số điện thoại phải đúng 10 chữ số" />
-
     </div>
 
     <div class="mb-3">
@@ -35,8 +35,7 @@
                class="form-control"
                required
                pattern="^(?=.*\d)(?=.*[A-Za-zÀ-ỹ]).{10,}$"
-               title="Địa chỉ phải có số nhà, tên đường, quận và tỉnh" />
-
+               title="Địa chỉ phải có số nhà và tên đường" />
     </div>
 
     <div class="mb-3">
@@ -47,40 +46,16 @@
             <option value="Chuyển khoản">Chuyển khoản ngân hàng</option>
         </select>
     </div>
-
-    <!-- THÔNG BÁO LỖI -->
-    <div class="text-danger mb-3" id="errorMsg" style="display:none">
-         Vui lòng nhập đầy đủ thông tin trước khi thanh toán
+    <div class="mb-3">
+        <label class="form-label">Mã giảm giá</label>
+        <input type="text"
+               name="maGiamGia"
+               class="form-control"
+               placeholder="Nhập mã giảm giá (nếu có)" />
     </div>
 
     <button type="submit"
-            class="btn btn-success btn-lg"
-            id="btnSubmit"
-            disabled>
-         Xác nhận thanh toán
+            class="btn btn-success btn-lg">
+        ✔ Xác nhận thanh toán
     </button>
 </form>
-<script>
-    const form = document.getElementById("checkoutForm");
-    const btn = document.getElementById("btnSubmit");
-    const errorMsg = document.getElementById("errorMsg");
-
-    form.addEventListener("input", function () {
-        if (form.checkValidity()) {
-            btn.disabled = false;
-            errorMsg.style.display = "none";
-        } else {
-            btn.disabled = true;
-        }
-    });
-
-    form.addEventListener("submit", function (e) {
-        if (!form.checkValidity()) {
-            e.preventDefault();
-            errorMsg.style.display = "block";
-            errorMsg.innerText = " Vui lòng nhập đúng Tên (chỉ chữ) và SĐT (10 số)";
-        }
-    });
-</script>
-
-

@@ -1,6 +1,17 @@
-﻿<h2>🎉 Đặt hàng thành công!</h2>
-<p>Cảm ơn bạn đã mua hàng.</p>
+﻿@{
+    ViewData["Title"] = "Thanh toán thành công";
+}
 
-<a href="/Home" class="btn btn-primary">
-    Về trang chủ
-</a>
+<div class="container mt-5 text-center">
+    <h2 class="text-success">🎉 Thanh toán thành công!</h2>
+
+    <p class="mt-3">
+        Cảm ơn bạn đã mua hàng tại cửa hàng của chúng tôi.
+    </p>
+
+    <a asp-controller="Home"
+       asp-action="Index"
+       class="btn btn-primary mt-4">
+        ⬅ Quay về trang chủ
+    </a>
+</div>
