@@ -6,9 +6,9 @@ using System.Linq;
 
 public class GioHangController : Controller
 {
-    private readonly DbbanDienThoaiContext _context;
+    private readonly DBBanDienThoaiContext _context;
 
-    public GioHangController(DbbanDienThoaiContext context)
+    public GioHangController(DBBanDienThoaiContext context)
     {
         _context = context;
     }
