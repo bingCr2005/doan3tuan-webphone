@@ -1,6 +1,9 @@
 ﻿@model DoAn3Tuan_WebPhone.Models.ChiTietSanPham
 @using System.Linq
 @{
+    ViewData["Title"] = "Chi tiết sản phẩm";
+}
+@{
     int total = Model.TongSoBinhLuan;
 
     int star5 = Model.BinhLuans.Count(b => b.SoSao == 5);
@@ -116,7 +119,7 @@
                 <div class="product-gallery">
                     <div class="main-image">
                         <span class="sale-badge">-9%</span>
-                        <img src="~/@Model.DienThoai.Thumbnail"
+                        <img src="@Model.DienThoai.Thumbnail"
                              alt="@Model.DienThoai.TenDienThoai"
                              id="mainImg">
                     </div>
@@ -125,8 +128,8 @@
                         @foreach (var img in Model.HinhAnhs)
                         {
                             <div class="thumbnail"
-                                 onclick="changeImage('@Url.Content("~/" + img.Url)', event)">
-                                <img src="~/@img.Url" alt="Ảnh sản phẩm">
+                                 onclick="changeImage(event)">
+                                <img src="@img.Url" alt="Ảnh sản phẩm">
                             </div>
                         }
                     </div>
@@ -321,6 +324,10 @@
                         <tr>
                             <td>Hệ điều hành</td>
                             <td>@Model.DienThoai.HeDieuHanh</td>
+                        </tr>
+                        <tr>
+                            <td>Màu sắc</td>
+                            <td>@Model.DienThoai.MauSac</td>
                         </tr>
                         <tr>
                             <td>Dung lượng</td>
@@ -907,6 +914,19 @@
             // 3. Kiểm tra quyền lần đầu
             checkReviewPermission();
         };
+        function changeImage(event) {
+            const mainImg = document.getElementById("mainImg");
+            const thumbImg = event.currentTarget.querySelector("img");
+
+            if (!mainImg || !thumbImg) return;
+
+            // Lấy src hiện tại
+            const temp = mainImg.src;
+
+            // Hoán đổi
+            mainImg.src = thumbImg.src;
+            thumbImg.src = temp;
+        }
     </script>
 </body>
 </html>
