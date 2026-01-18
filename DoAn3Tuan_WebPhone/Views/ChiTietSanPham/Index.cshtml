@@ -105,8 +105,8 @@
             <ul class="breadcrumb-list">
                 <li><a href="#">Trang Chủ</a> <i class="fas fa-chevron-right"></i></li>
                 <li><a href="#">Điện Thoại & Máy Tính Bảng</a> <i class="fas fa-chevron-right"></i></li>
-                <li><a href="#">iPhone</a> <i class="fas fa-chevron-right"></i></li>
-                <li>iPhone 15 Pro Max 256GB</li>
+                <li><a href="#">Điện thoại</a> <i class="fas fa-chevron-right"></i></li>
+                <li>@Model.DienThoai.TenDienThoai</li>
             </ul>
         </div>
     </div>
@@ -559,7 +559,7 @@
     </section>
 
     <!-- Related Products -->
-    @if (Model.SanPhamLienQuan.Any())
+    @if (Model.SanPhamLienQuan != null && Model.SanPhamLienQuan.Any())
     {
         <section class="related-products">
             <h2 class="section-title">Sản phẩm liên quan</h2>
@@ -568,24 +568,36 @@
                 @foreach (var sp in Model.SanPhamLienQuan)
                 {
                     <div class="product-card">
-                        <h3 class="product-name">
-                            <a asp-controller="ChiTietSanPham"
-                               asp-action="Index"
-                               asp-route-id="@sp.MaDienThoai">
+
+                        <!-- CLICK ẢNH -->
+                        <a asp-controller="ChiTietSanPham"
+                           asp-action="Index"
+                           asp-route-id="@sp.MaDienThoai"
+                           class="product-link">
+
+                            <div class="product-image">
+                                <img src="@sp.Thumbnail"
+                                     alt="@sp.TenDienThoai" />
+                            </div>
+
+                            <!-- CLICK TÊN -->
+                            <h3 class="product-name">
                                 @sp.TenDienThoai
-                            </a>
-                        </h3>
+                            </h3>
 
-                        <img src="@sp.Thumbnail" alt="@sp.TenDienThoai" />
+                            <!-- CLICK GIÁ -->
+                            <p class="product-price">
+                                @sp.DonGia.ToString("N0") ₫
+                            </p>
 
-                        <p class="product-price">
-                            @sp.DonGia.ToString("N0") ₫
-                        </p>
+                        </a>
+
                     </div>
                 }
             </div>
         </section>
     }
+
 
     <!-- Footer -->
     <footer>
