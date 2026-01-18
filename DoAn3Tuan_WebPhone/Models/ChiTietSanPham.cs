@@ -1,33 +1,27 @@
 ﻿using System.Collections.Generic;
-using DoAn3Tuan_WebPhone.Models;
 
 namespace DoAn3Tuan_WebPhone.Models
 {
     public class ChiTietSanPham
     {
-        // Thông tin sản phẩm
-        public DienThoai DienThoai { get; set; }
-        // Thông tin khách hàng
-        public TaiKhoan TaiKhoan { get; set; }
-        // Thông tin bình luận
-        public BinhLuan BinhLuan { get; set; }
+        // 🔹 Thông tin sản phẩm chính
+        public DienThoai DienThoai { get; set; } = null!;
 
-        // Danh sách hình ảnh liên quan
-        public List<HinhAnh> HinhAnhs { get; set; }
+        // 🔹 Danh sách hình ảnh
+        public List<HinhAnh> HinhAnhs { get; set; } = new();
 
-        // Danh sách bình luận của khách hàng
-        public List<BinhLuan> BinhLuans { get; set; }
+        // 🔹 Danh sách bình luận
+        public List<BinhLuan> BinhLuans { get; set; } = new();
 
-        // Điểm rating trung bình (tính từ các bình luận)
+        // 🔹 Rating
         public double DiemTrungBinh { get; set; }
-
-        // Tổng số lượt bình luận
         public int TongSoBinhLuan { get; set; }
 
-        // Tổng số lượt yêu thích
+        // 🔹 Thống kê
         public int SoLuongYeuThich { get; set; }
-
-        // Tổng số lượt xem
         public int LuotXem { get; set; }
+
+        // ✅ SẢN PHẨM LIÊN QUAN (CÙNG DANH MỤC)
+        public List<DienThoai> SanPhamLienQuan { get; set; } = new();
     }
 }

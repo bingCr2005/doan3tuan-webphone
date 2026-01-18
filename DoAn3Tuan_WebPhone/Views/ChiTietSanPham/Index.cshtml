@@ -552,77 +552,33 @@
     </section>
 
     <!-- Related Products -->
-    <section class="related-products">
-        <div class="container">
-            <h2 class="section-title">Sản Phẩm Liên Quan</h2>
+    @if (Model.SanPhamLienQuan.Any())
+    {
+        <section class="related-products">
+            <h2 class="section-title">Sản phẩm liên quan</h2>
+
             <div class="products-grid">
+                @foreach (var sp in Model.SanPhamLienQuan)
+                {
+                    <div class="product-card">
+                        <h3 class="product-name">
+                            <a asp-controller="ChiTietSanPham"
+                               asp-action="Index"
+                               asp-route-id="@sp.MaDienThoai">
+                                @sp.TenDienThoai
+                            </a>
+                        </h3>
 
-                <div class="product-card">
-                    <p class="product-category">iPhone, Điện Thoại</p>
-                    <h3 class="product-name"><a href="#">iPhone 15 Pro 128GB</a></h3>
-                    <div class="product-image">
-                        <a href="#">
-                            <img src="images/iphone15.jpg" alt="iPhone 15 Pro">
-                        </a>
+                        <img src="@sp.Thumbnail" alt="@sp.TenDienThoai" />
+
+                        <p class="product-price">
+                            @sp.DonGia.ToString("N0") ₫
+                        </p>
                     </div>
-                    <p class="product-price">$999.00</p>
-                </div>
-
-                <div class="product-card">
-                    <p class="product-category">iPhone, Phụ Kiện</p>
-                    <h3 class="product-name"><a href="#">Ốp Lưng iPhone 15 Pro Max</a></h3>
-                    <div class="product-image">
-                        <a href="#">
-                            <img src="images/iphone15.jpg" alt="Ốp lưng">
-                        </a>
-                    </div>
-                    <p class="product-price">$49.00</p>
-                </div>
-
-                <div class="product-card">
-                    <p class="product-category">iPhone, Phụ Kiện</p>
-                    <h3 class="product-name"><a href="#">Cáp Sạc USB-C 20W</a></h3>
-                    <div class="product-image">
-                        <a href="#">
-                            <img src="images/iphone15.jpg" alt="Cáp sạc">
-                        </a>
-                    </div>
-                    <p class="product-price">$29.00</p>
-                </div>
-
-                <div class="product-card">
-                    <p class="product-category">Phụ Kiện, Tai Nghe</p>
-                    <h3 class="product-name"><a href="#">AirPods Pro (Gen 2)</a></h3>
-                    <div class="product-image">
-                        <a href="#">
-                            <img src="images/iphone15.jpg" alt="AirPods Pro">
-                        </a>
-                    </div>
-                    <p class="product-price">$249.00</p>
-                </div>
-
+                }
             </div>
-        </div>
-    </section>
-
-    <!-- Newsletter -->
-    <section class="newsletter">
-        <div class="container">
-            <div class="newsletter-content">
-                <div class="newsletter-left">
-                    <div class="newsletter-icon"><i class="far fa-envelope"></i></div>
-                    <div class="newsletter-text">
-                        <h3>Đăng Ký Nhận Bản Tin</h3>
-                        <p>...và nhận phiếu giảm giá <strong>$20</strong> cho lần mua hàng đầu tiên</p>
-                    </div>
-                </div>
-                <div class="newsletter-form">
-                    <input type="email" class="newsletter-input" placeholder="Nhập địa chỉ email của bạn">
-                    <button class="newsletter-btn">Đăng Ký</button>
-                </div>
-            </div>
-        </div>
-    </section>
+        </section>
+    }
 
     <!-- Footer -->
     <footer>
@@ -720,9 +676,8 @@
         // ==========================================
         // 1. CẤU HÌNH & BIẾN TOÀN CỤC
         // ==========================================
-        let currentStock = 47;
-        let viewCount = 1523;
-        let wishlistCount = 245;
+        let currentStock = @Model.DienThoai.SoLuongTon;
+        let wishlistCount = @Model.DienThoai.SoLuongYeuThich;
         let cartCount = 0;
         let isInWishlist = false;
         let userHasBought = false; // Mặc định: CHƯA MUA (để demo)
@@ -951,9 +906,6 @@
 
             // 3. Kiểm tra quyền lần đầu
             checkReviewPermission();
-
-            // 4. Update view ảo
-            document.getElementById('viewCount').innerText = (viewCount + 1).toLocaleString();
         };
     </script>
 </body>

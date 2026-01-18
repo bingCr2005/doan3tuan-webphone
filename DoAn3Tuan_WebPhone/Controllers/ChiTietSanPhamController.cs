@@ -20,40 +20,52 @@ namespace DoAn3Tuan_WebPhone.Controllers
             if (string.IsNullOrEmpty(id))
                 return NotFound();
 
-            // 1️⃣ Lấy thông tin điện thoại
+            // 1️ Lấy thông tin điện thoại
             var dienThoai = _context.DienThoais
+                .AsNoTracking()
                 .FirstOrDefault(d => d.MaDienThoai == id);
 
             if (dienThoai == null)
                 return NotFound();
 
-            // ❗ Nếu có trạng thái ngừng bán (khuyên nên có)
-            // if (dienThoai.TrangThai == 0)
-            //     return RedirectToAction("HetHang");
-
-            // 2️⃣ Lấy danh sách hình ảnh
+            // 2️ Lấy danh sách hình ảnh
             var hinhAnhs = _context.HinhAnhs
                 .Where(h => h.MaDienThoai == id)
+                .AsNoTracking()
                 .ToList();
 
-            // 3️⃣ Lấy danh sách bình luận (đã duyệt)
+            // 3️ Lấy danh sách bình luận (đã duyệt)
             var binhLuans = _context.BinhLuans
                 .Include(b => b.MaKhachHangNavigation)
+                    .ThenInclude(kh => kh.MaKhachHangNavigation)
                 .Where(b => b.MaDienThoai == id && b.TrangThai == 1)
                 .OrderByDescending(b => b.NgayBinhLuan)
+                .AsNoTracking()
                 .ToList();
 
-            // 4️⃣ Tính điểm trung bình sao
+            // 4️ Tính điểm trung bình sao
             double diemTB = binhLuans.Any()
-            ? binhLuans.Average(b => (double?)b.SoSao) ?? 0
-            : 0;
+                ? binhLuans.Average(b => (double)b.SoSao)
+                : 0;
 
+            // 5️ Tăng lượt xem
+            _context.DienThoais
+                .Where(d => d.MaDienThoai == id)
+                .ExecuteUpdate(d =>
+                    d.SetProperty(x => x.LuotXem, x => x.LuotXem + 1)
+                );
 
-            // 5️⃣ Tăng lượt xem
-            dienThoai.LuotXem += 1;
-            _context.SaveChanges();
+            // 6️ LẤY SẢN PHẨM LIÊN QUAN THEO HÃNG 📱
+            var sanPhamLienQuan = _context.DienThoais
+                .Where(d =>
+                    d.HangDienThoai == dienThoai.HangDienThoai &&          // 👈 CÙNG HÃNG
+                    d.MaDienThoai != dienThoai.MaDienThoai)  // ❌ loại trừ chính nó
+                .OrderByDescending(d => d.LuotXem)          // ưu tiên xem nhiều
+                .Take(3)                                    // giới hạn số lượng
+                .AsNoTracking()
+                .ToList();
 
-            // 6️⃣ Gán ViewModel
+            // 7️ Gán ViewModel
             var viewModel = new ChiTietSanPham
             {
                 DienThoai = dienThoai,
@@ -62,7 +74,8 @@ namespace DoAn3Tuan_WebPhone.Controllers
                 DiemTrungBinh = diemTB,
                 TongSoBinhLuan = binhLuans.Count,
                 SoLuongYeuThich = dienThoai.SoLuongYeuThich,
-                LuotXem = dienThoai.LuotXem
+                LuotXem = dienThoai.LuotXem,
+                SanPhamLienQuan = sanPhamLienQuan // ✅ QUAN TRỌNG
             };
 
             return View(viewModel);
