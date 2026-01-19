@@ -1,0 +1,46 @@
+﻿@model HoaDon
+
+<h2>Chi tiết đơn hàng</h2>
+
+<div class="card mb-3">
+    <div class="card-body">
+        <p><b>Mã đơn:</b> @Model.MaHoaDon</p>
+        <p><b>Ngày đặt:</b> @Model.NgayLap?.ToString("dd/MM/yyyy")</p>
+        <p><b>Người nhận:</b> @Model.TenNguoiNhan</p>
+        <p><b>SĐT:</b> @Model.SoDienThoai</p>
+        <p><b>Địa chỉ:</b> @Model.DiaChiGiaoHang</p>
+    </div>
+</div>
+
+<h4>Sản phẩm</h4>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Tên sản phẩm</th>
+            <th>Số lượng</th>
+            <th>Đơn giá</th>
+            <th>Thành tiền</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var ct in Model.ChiTietHoaDons)
+        {
+            <tr>
+                <td>@ct.MaDienThoaiNavigation.TenDienThoai</td>
+                <td>@ct.SoLuong</td>
+                <td>@(ct.DonGia ?? 0)đ</td>
+                <td>@(ct.ThanhTien ?? 0)đ</td>
+
+             
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h4 class="text-end text-danger">
+    Tổng tiền: @(Model.TongTien ?? 0)đ
+</h4>
+
+<a asp-action="Index" class="btn btn-secondary mt-3">← Quay lại</a>

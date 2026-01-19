@@ -1,0 +1,36 @@
+﻿@model HoaDon
+
+<h2>Chi tiết đơn hàng @Model.MaHoaDon</h2>
+
+<p><b>Người nhận:</b> @Model.TenNguoiNhan</p>
+<p><b>SĐT:</b> @Model.SoDienThoai</p>
+<p><b>Địa chỉ:</b> @Model.DiaChiGiaoHang</p>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Sản phẩm</th>
+            <th>SL</th>
+            <th>Đơn giá</th>
+            <th>Thành tiền</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var ct in Model.ChiTietHoaDons)
+        {
+            <tr>
+                <td>@ct.MaDienThoaiNavigation.TenDienThoai</td>
+                <td>@ct.SoLuong</td>
+                <td>@(ct.DonGia?.ToString("N0") ?? "0") đ</td>
+                <td>@(ct.ThanhTien?.ToString("N0") ?? "0") đ</td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h4 class="text-end">
+    Tổng tiền: @(Model.TongTien?.ToString("N0") ?? "0") đ
+</h4>
+
+

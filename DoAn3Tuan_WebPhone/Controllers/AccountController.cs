@@ -11,6 +11,8 @@ public class AccountController : Controller
         _context = context;
     }
 
+
+    //  LOGIN 
     public IActionResult Login()
     {
         return View();
@@ -21,16 +23,17 @@ public class AccountController : Controller
     {
         var tk = _context.TaiKhoans
             .Include(x => x.TaiKhoanKhachHang)
-            .FirstOrDefault(x => x.TenDangNhap == username
-                              && x.MatKhau == password);
+            .FirstOrDefault(x =>
+                x.TenDangNhap == username &&
+                x.MatKhau == password);
 
-        if (tk == null)
+        if (tk == null || tk.TaiKhoanKhachHang == null)
         {
             ViewBag.Error = "Sai tài khoản hoặc mật khẩu";
             return View();
         }
 
-        // Lưu Session 
+            
         HttpContext.Session.SetString(
             "MaKH",
             tk.TaiKhoanKhachHang.MaKhachHang
@@ -39,9 +42,27 @@ public class AccountController : Controller
         return RedirectToAction("Index", "Home");
     }
 
+    //  LOGOUT 
     public IActionResult Logout()
     {
         HttpContext.Session.Clear();
         return RedirectToAction("Login");
     }
+    // PROFILE
+    public IActionResult Profile()
+    {
+        string maKH = "KH003";
+
+        var taiKhoan = _context.TaiKhoans
+            .Include(x => x.TaiKhoanKhachHang)
+            .FirstOrDefault(x => x.TaiKhoanKhachHang.MaKhachHang == maKH);
+
+        if (taiKhoan == null)
+            return RedirectToAction("Login");
+
+        return View(taiKhoan);
+    }
+
+
+
 }
