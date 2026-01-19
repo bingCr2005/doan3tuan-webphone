@@ -12,22 +12,6 @@ builder.Services.AddDbContext<DBBanDienThoaiContext>(options =>
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
-
-builder.Services.AddDbContext<DBBanDienThoaiContext>(options =>
-    options.UseSqlServer(
-        builder.Configuration.GetConnectionString("DefaultConnection")
-    ));
-
-
-
-builder.Services.AddControllersWithViews();
-
-builder.Services.AddDbContext<DBBanDienThoaiContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DBBanDienThoai")));
-
-
-
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(30);

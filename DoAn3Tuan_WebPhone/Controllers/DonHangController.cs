@@ -12,22 +12,33 @@ public class DonHangController : Controller
     }
 
     //  DANH SÁCH ĐƠN HÀNG 
-    public IActionResult Index(int? trangThai)
+    public IActionResult Index(int page = 1, int? trangThai = null)
     {
-        string maKH = "KH003";//HttpContext.Session.GetString("MaKH");
-        if (maKH == null)
-            return RedirectToAction("Login", "Account");
+        string maKH = "KH003";
+        int pageSize = 15;
 
-        var donHangs = _context.HoaDons
+        var query = _context.HoaDons
             .Where(x => x.MaKhachHang == maKH);
 
         if (trangThai != null)
-            donHangs = donHangs.Where(x => x.TrangThai == trangThai);
+            query = query.Where(x => x.TrangThai == trangThai);
 
-        return View(donHangs
+        int totalItems = query.Count();
+        int totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+
+        var donHangs = query
             .OrderByDescending(x => x.NgayLap)
-            .ToList());
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToList();
+
+        ViewBag.CurrentPage = page;
+        ViewBag.TotalPages = totalPages;
+        ViewBag.TrangThai = trangThai;
+
+        return View(donHangs);
     }
+
 
     //  CHI TIẾT ĐƠN HÀNG 
     public IActionResult Detail(string id)
@@ -51,24 +62,22 @@ public class DonHangController : Controller
 
     //  HỦY ĐƠN 
     [HttpPost]
-    public IActionResult Cancel(string id)
+    public IActionResult Cancel(string id, int page = 1, int? trangThai = null)
     {
-        string maKH = "KH003";// HttpContext.Session.GetString("MaKH");
-        if (maKH == null)
-            return RedirectToAction("Login", "Account");
+        string maKH = "KH003";
 
-        var don = _context.HoaDons
-            .FirstOrDefault(x =>
-                x.MaHoaDon == id &&
-                x.MaKhachHang == maKH &&
-                x.TrangThai == 0); // chỉ hủy khi chưa xử lý
+        var don = _context.HoaDons.FirstOrDefault(x =>
+            x.MaHoaDon == id &&
+            x.MaKhachHang == maKH &&
+            x.TrangThai == 0);
 
         if (don != null)
         {
-            don.TrangThai = -1; // -1 = đã hủy
+            don.TrangThai = -1;
             _context.SaveChanges();
         }
 
-        return RedirectToAction("Index");
+        return RedirectToAction("Index", new { page, trangThai });
     }
+
 }

@@ -59,8 +59,8 @@ else
                         <td>
                             <a asp-action="Delete"
                                asp-route-id="@item.MaCtgh"
-                               class="btn btn-danger btn-sm"
-                               onclick="return confirm('Xóa sản phẩm?')">
+                               asp-route-page="@ViewBag.CurrentPage"
+                               class="btn btn-danger btn-sm">
                                 Xóa
                             </a>
                         </td>
@@ -91,19 +91,55 @@ else
         </div>
 
     </form>
+    @if (ViewBag.TotalPages > 1)
+    {
+        <nav class="mt-3">
+            <ul class="pagination justify-content-center">
+
+                <!-- Previous -->
+                <li class="page-item @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
+                    <a class="page-link"
+                       href="@Url.Action("Index", new { page = ViewBag.CurrentPage - 1 })">
+                        «
+                    </a>
+                </li>
+
+                <!-- Page number -->
+                @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                {
+                    <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                        <a class="page-link"
+                           href="@Url.Action("Index", new { page = i })">
+                            @i
+                        </a>
+                    </li>
+                }
+
+                <!-- Next -->
+                <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPages ? "disabled" : "")">
+                    <a class="page-link"
+                       href="@Url.Action("Index", new { page = ViewBag.CurrentPage + 1 })">
+                        »
+                    </a>
+                </li>
+
+            </ul>
+        </nav>
+    }
+
 }
 
 <script>
-    function updateQty(id) {
+       function updateQty(id) {
         const qty = document.getElementById("qty_" + id).value;
 
-        fetch('/GioHang/Update', {
+        fetch('/GioHang/Update?page=@ViewBag.CurrentPage', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
             body: `id=${id}&qty=${qty}`
         })
-        .then(() => location.reload());
+        .then(() => location.href = '?page=@ViewBag.CurrentPage');
     }
 </script>

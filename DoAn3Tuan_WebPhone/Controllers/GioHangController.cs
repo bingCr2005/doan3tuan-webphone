@@ -14,9 +14,10 @@ public class GioHangController : Controller
     }
 
     // HIỂN THỊ GIỎ HÀNG
-    public IActionResult Index()
+    public IActionResult Index(int page = 1)
     {
         string maKH = "KH003";
+        int pageSize = 10;
 
         var gioHang = _context.GioHangs
             .Include(g => g.ChiTietGioHangs)
@@ -24,14 +25,32 @@ public class GioHangController : Controller
             .FirstOrDefault(g => g.MaKhachHang == maKH);
 
         if (gioHang == null)
+        {
+            ViewBag.TotalPages = 0;
+            ViewBag.CurrentPage = page;
             return View(new List<ChiTietGioHang>());
+        }
 
-        return View(gioHang.ChiTietGioHangs.ToList());
+        var query = gioHang.ChiTietGioHangs.AsQueryable();
+
+        int totalItems = query.Count();
+        int totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+
+        var items = query
+            .OrderBy(x => x.MaCtgh)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToList();
+
+        ViewBag.TotalPages = totalPages;
+        ViewBag.CurrentPage = page;
+
+        return View(items);
     }
 
     // CẬP NHẬT SỐ LƯỢNG
     [HttpPost]
-    public IActionResult Update(int id, int qty)
+    public IActionResult Update(int id, int qty, int page = 1)
     {
         if (qty < 1) qty = 1;
 
@@ -46,11 +65,11 @@ public class GioHangController : Controller
             _context.SaveChanges();
         }
 
-        return RedirectToAction("Index");
+        return RedirectToAction("Index", new { page });
     }
 
     // XÓA 1 SẢN PHẨM
-    public IActionResult Delete(int id)
+    public IActionResult Delete(int id, int page = 1)
     {
         var ct = _context.ChiTietGioHangs.Find(id);
         if (ct != null)
@@ -58,7 +77,7 @@ public class GioHangController : Controller
             _context.ChiTietGioHangs.Remove(ct);
             _context.SaveChanges();
         }
-        return RedirectToAction("Index");
+        return RedirectToAction("Index", new { page });
     }
 
     // XÓA HẾT GIỎ
