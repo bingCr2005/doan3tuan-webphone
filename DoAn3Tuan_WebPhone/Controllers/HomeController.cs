@@ -17,6 +17,11 @@ namespace DoAn3Tuan_WebPhone.Controllers
         {
             return View();
         }
+        // gioi thieu ve congty 
+        public IActionResult About()
+        {
+            return View(); //Views/Home/About.cshtml
+        }
 
         public IActionResult Privacy()
         {

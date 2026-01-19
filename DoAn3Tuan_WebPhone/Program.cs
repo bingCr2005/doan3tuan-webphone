@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDistributedMemoryCache();
+<<<<<<< HEAD
 
 
 // ??ng k˝ DbContext v‡ chu?i k?t n?i
@@ -19,10 +20,16 @@ builder.Services.AddDbContext<DBBanDienThoaiContext>(options =>
     ));
 
 
+=======
+>>>>>>> 887f2ed0f17672b439d918dc0ad3a9811b357512
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<DBBanDienThoaiContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DBBanDienThoai")));
+<<<<<<< HEAD
+=======
+
+>>>>>>> 887f2ed0f17672b439d918dc0ad3a9811b357512
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(30);
@@ -51,13 +58,13 @@ app.UseAuthorization();
 
 app.MapStaticAssets();
 
-// Route cho Trang c· nh‚n (vÌ d?: domain.com/ca-nhan)
+// Route cho Trang c√° nh√¢n (v√≠ d?: domain.com/ca-nhan)
 app.MapControllerRoute(
     name: "trang-ca-nhan",
     pattern: "ca-nhan",
     defaults: new { controller = "Profile", action = "Index" });
 
-// Route cho Gi? h‡ng (vÌ d?: domain.com/gio-hang)
+// Route cho Gi? h√†ng (v√≠ d?: domain.com/gio-hang)
 app.MapControllerRoute(
     name: "gio-hang",
     pattern: "gio-hang",
