@@ -1,0 +1,69 @@
+﻿@model List<HoaDon>
+
+<h2>Đơn hàng của tôi</h2>
+
+<div class="mb-3">
+    <a asp-action="Index" class="btn btn-outline-secondary">Tất cả</a>
+    <a asp-action="Index" asp-route-trangThai="0" class="btn btn-outline-primary">Chờ xử lý</a>
+    <a asp-action="Index" asp-route-trangThai="1" class="btn btn-outline-success">Đã giao</a>
+    <a asp-action="Index" asp-route-trangThai="-1" class="btn btn-outline-danger">Đã hủy</a>
+</div>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Mã đơn</th>
+            <th>Ngày</th>
+            <th>Tổng tiền</th>
+            <th>Trạng thái</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.MaHoaDon</td>
+                <td>@item.NgayLap</td>
+                <td>@(item.TongTien?.ToString("N0") ?? "0") đ</td>
+                <td>
+                    @switch (item.TrangThai)
+                    {
+                        case 0:
+                            <span class="text-warning">Chờ xử lý</span>
+                            ; break;
+                        case 1:
+
+                            <span class="text-success">Đã giao</span>
+                            ; break;
+                        case -1:
+
+                            <span class="text-danger">Đã hủy</span>
+                            ; break;
+                    }
+                </td>
+                <td>
+                    <a asp-action="Detail"
+                       asp-route-id="@item.MaHoaDon"
+                       class="btn btn-sm btn-info">
+                        Chi tiết
+                    </a>
+
+                    @if (item.TrangThai == 0)
+                    {
+                        <form asp-action="Cancel"
+                              method="post"
+                              style="display:inline">
+                            <input type="hidden" name="id" value="@item.MaHoaDon" />
+                            <button class="btn btn-sm btn-danger"
+                                    onclick="return confirm('Hủy đơn?')">
+                                Hủy
+                            </button>
+                        </form>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

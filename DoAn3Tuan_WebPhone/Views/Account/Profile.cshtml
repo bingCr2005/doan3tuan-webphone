@@ -1,0 +1,69 @@
+﻿@model DoAn3Tuan_WebPhone.Models.TaiKhoan
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow profile-card">
+                <div class="card-header bg-primary text-white text-center">
+                    <h4 class="mb-0"> Trang cá nhân</h4>
+                </div>
+
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Mã khách hàng</label>
+                            <div class="profile-text">
+                                @Model.TaiKhoanKhachHang?.MaKhachHang
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Họ tên</label>
+                            <div class="profile-text">
+                                @Model.HoVaTen
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Số điện thoại</label>
+                            <div class="profile-text">
+                                @Model.SoDienThoai
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Email</label>
+                            <div class="profile-text">
+                                @Model.Email
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Địa chỉ</label>
+                            <div class="profile-text">
+                                @Model.DiaChi
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Ngày đăng ký</label>
+                            <div class="profile-text">
+                                @Model.NgayTao?.ToString("dd/MM/yyyy")
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-end mt-4">
+                        <a class="btn btn-outline-primary">
+                            ✏️ Cập nhật thông tin
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
