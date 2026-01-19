@@ -17,5 +17,5 @@ public partial class LienHe
 
     public DateTime? NgayGui { get; set; }
 
-    public bool? TrangThai { get; set; }
+    public int? TrangThai { get; set; }
 }

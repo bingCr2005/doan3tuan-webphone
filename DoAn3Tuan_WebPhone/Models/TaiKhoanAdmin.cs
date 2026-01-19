@@ -7,6 +7,8 @@ public partial class TaiKhoanAdmin
 {
     public string MaAdmin { get; set; } = null!;
 
+    public virtual ICollection<BaiViet> BaiViets { get; set; } = new List<BaiViet>();
+
     public virtual ICollection<HoaDon> HoaDons { get; set; } = new List<HoaDon>();
 
     public virtual TaiKhoan MaAdminNavigation { get; set; } = null!;

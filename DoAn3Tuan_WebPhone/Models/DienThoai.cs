@@ -43,6 +43,8 @@ public partial class DienThoai
 
     public int LuotXem { get; set; }
 
+    public virtual ICollection<BaiViet> BaiViets { get; set; } = new List<BaiViet>();
+
     public virtual ICollection<BinhLuan> BinhLuans { get; set; } = new List<BinhLuan>();
 
     public virtual ICollection<ChiTietGioHang> ChiTietGioHangs { get; set; } = new List<ChiTietGioHang>();

@@ -22,5 +22,4 @@ public partial class BinhLuan
     public virtual DienThoai? MaDienThoaiNavigation { get; set; }
 
     public virtual TaiKhoanKhachHang? MaKhachHangNavigation { get; set; }
-    
 }
