@@ -110,30 +110,71 @@
 
     <nav class="main-nav">
     </nav>
-    <div class="main-content">
-        <div class="container">
-            <div class="contact-layout">
-                <div class="contact-form-wrapper">
-                    <h3 class="contact-title">Gửi Tin Nhắn Cho Chúng Tôi</h3>
-                    <form action="/LienHe/GuiTin" method="post">
-                        <div class="form-group">
+    <div class="main-contact-section">
+        <div class="container contact-flex-container">
+            <div class="contact-left-column">
+                <h2 class="contact-main-title">Để lại lời nhắn</h2>
+                <div class="contact-title-underline"></div>
+                <p class="contact-desc-text">Hãy để lại thông tin, chúng tôi sẽ hỗ trợ bạn sớm nhất có thể.</p>
+
+                @if (TempData["Success"] != null)
+                {
+                    <div class="contact-alert-success">
+                        <i class="fas fa-check-circle"></i> @TempData["Success"]
+                    </div>
+                }
+
+                <form action="/Contact/GuiTin" method="post" class="contact-modern-form">
+                    @Html.AntiForgeryToken()
+
+                    <div class="contact-input-row">
+                        <div class="contact-field-group">
                             <label>Họ và Tên *</label>
-                            <input type="text" class="form-control" name="HoTen" placeholder="Nhập họ tên của bạn" required>
+                            <input type="text" name="HoTen" placeholder="Nhập họ và tên của bạn" required>
                         </div>
-                        <div class="form-group">
+                        <div class="contact-field-group">
                             <label>Email *</label>
-                            <input type="email" class="form-control" name="Email" placeholder="Nhập địa chỉ email" required>
+                            <input type="email" name="Email" placeholder="Nhập địa chỉ email" required>
                         </div>
-                        <div class="form-group">
-                            <label>Số Điện Thoại</label>
-                            <input type="tel" class="form-control" name="SoDienThoai" placeholder="Nhập số điện thoại">
-                        </div>
-                        <div class="form-group">
-                            <label>Nội Dung Cần Hỗ Trợ *</label>
-                            <textarea class="form-control" name="NoiDung" placeholder="Ví dụ: Tôi muốn hỏi về chính sách trả góp..." required></textarea>
-                        </div>
-                        <button type="submit" class="btn-submit">Gửi Tin Nhắn <i class="fas fa-paper-plane"></i></button>
-                    </form>
+                    </div>
+
+                    <div class="contact-field-group">
+                        <label>Số Điện Thoại</label>
+                        <input type="tel" name="SoDienThoai" placeholder="Nhập số điện thoại">
+                    </div>
+
+                    <div class="contact-field-group">
+                        <label>Nội Dung Cần Hỗ Trợ *</label>
+                        <textarea name="NoiDung" rows="6" placeholder="Nhập nội dung bạn cần hỗ trợ hoặc lời nhắn" required></textarea>
+                    </div>
+
+                    <button type="submit" class="contact-pill-button">Gửi Tin Nhắn</button>
+                </form>
+            </div>
+
+            <div class="contact-right-column">
+                <div class="contact-info-widget">
+                    <h3 class="widget-title">Cửa hàng của chúng tôi</h3>
+                    <div class="widget-underline"></div>
+                    <div class="widget-content">
+                        <p>65 Huỳnh Thúc Kháng</p>
+                        <p>P. Bến Nghé, Quận 1</p>
+                        <p>TP. Hồ Chí Minh</p>
+                    </div>
+                </div>
+
+                <div class="contact-info-widget">
+                    <h3 class="widget-title">Giờ hoạt động</h3>
+                    <div class="widget-underline"></div>
+                    <ul class="contact-operating-hours">
+                        <li><span>Thứ Hai:</span> <span>08:00 AM - 10:00 PM</span></li>
+                        <li><span>Thứ Ba:</span> <span>08:00 AM - 10:00 PM</span></li>
+                        <li><span>Thứ Tư:</span> <span>08:00 AM - 10:00 PM</span></li>
+                        <li><span>Thứ Năm:</span> <span>08:00 AM - 10:00 PM</span></li>
+                        <li><span>Thứ Sáu:</span> <span>08:00 AM - 10:00 PM</span></li>
+                        <li><span>Thứ Bảy:</span> <span>09:00 AM - 08:00 PM</span></li>
+                        <li><span>Chủ Nhật:</span> <span class="status-closed">Đóng cửa</span></li>
+                    </ul>
                 </div>
             </div>
         </div>

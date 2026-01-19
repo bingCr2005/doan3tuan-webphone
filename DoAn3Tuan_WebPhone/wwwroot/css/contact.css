@@ -1,79 +1,168 @@
-﻿/* Main Content Contact */
-.main-content {
-    padding: 40px 0;
-}
-
-/* Layout căn giữa form */
-.contact-layout {
+﻿/* Layout chung 2 cột */
+.contact-flex-container {
     display: flex;
-    justify-content: center; /* Căn giữa theo chiều ngang */
-    background: #fff;
-    padding: 40px;
-    border: 1px solid #e5e5e5;
-    border-radius: 5px;
+    justify-content: space-between;
+    gap: 60px;
+    padding: 60px 0;
+    align-items: flex-start;
 }
 
-/* Wrapper bao quanh form */
-.contact-form-wrapper {
-    width: 100%;
-    max-width: 800px; /* Giới hạn độ rộng form cho đẹp */
+.contact-left-column {
+    flex: 2;
 }
 
-.contact-title {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 30px;
-    padding-bottom: 10px;
-    border-bottom: 3px solid #fed700;
-    display: inline-block;
+.contact-right-column {
+    flex: 1;
+    border-left: 1px solid #eeeeee;
+    padding-left: 50px;
 }
 
-/* Form Styles */
-.form-group {
-    margin-bottom: 20px;
+/* Trang trí tiêu đề */
+.contact-main-title {
+    font-size: 32px;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 10px;
 }
 
-    .form-group label {
+.contact-title-underline {
+    width: 50px;
+    height: 3px;
+    background: #fed700;
+    margin-bottom: 25px;
+}
+
+.contact-desc-text {
+    color: #777;
+    margin-bottom: 40px;
+    font-size: 15px;
+}
+
+/* Grid cho hàng đầu tiên */
+.contact-input-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+}
+
+.contact-field-group {
+    margin-bottom: 25px;
+}
+
+    .contact-field-group label {
         display: block;
-        margin-bottom: 8px;
         font-weight: 600;
+        margin-bottom: 10px;
         font-size: 14px;
+        color: #333;
     }
 
-.form-control {
-    width: 100%;
-    padding: 12px 15px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    outline: none;
-    transition: 0.3s;
-}
-
-    .form-control:focus {
-        border-color: #fed700;
-        box-shadow: 0 0 5px rgba(254, 215, 0, 0.3);
+    .contact-field-group input,
+    .contact-field-group textarea {
+        width: 100%;
+        padding: 15px 25px;
+        border: 1px solid #e5e5e5;
+        border-radius: 40px; /* Bo tròn lớn theo mẫu */
+        background: #fff;
+        font-size: 14px;
+        outline: none;
+        transition: 0.3s;
+        box-sizing: border-box; /* Cực kỳ quan trọng để không bị vỡ khung */
     }
 
-textarea.form-control {
-    resize: vertical;
-    height: 150px;
-}
+    .contact-field-group textarea {
+        border-radius: 25px;
+        resize: none;
+    }
 
-.btn-submit {
+        .contact-field-group input:focus,
+        .contact-field-group textarea:focus {
+            border-color: #fed700;
+            box-shadow: 0 0 10px rgba(254, 215, 0, 0.1);
+        }
+
+/* Nút bấm vàng bo tròn */
+.contact-pill-button {
     background: #fed700;
     color: #333;
     border: none;
-    padding: 12px 40px;
-    font-weight: bold;
-    text-transform: uppercase;
-    border-radius: 25px;
+    padding: 18px 50px;
+    font-weight: 700;
+    border-radius: 50px;
     cursor: pointer;
+    font-size: 15px;
     transition: 0.3s;
-    font-size: 14px;
-    display: block;
 }
 
-    .btn-submit:hover {
+    .contact-pill-button:hover {
         background: #333;
-        color: #fff;
+        color: #fed700;
     }
+
+/* Thông tin cột phải */
+.widget-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.widget-underline {
+    width: 30px;
+    height: 2px;
+    background: #fed700;
+    margin-bottom: 20px;
+}
+
+.widget-content p {
+    color: #555;
+    line-height: 1.8;
+    margin-bottom: 5px;
+}
+
+.contact-operating-hours {
+    list-style: none;
+    padding: 0;
+}
+
+    .contact-operating-hours li {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 0;
+        border-bottom: 1px dashed #eee;
+        color: #666;
+        font-size: 14px;
+    }
+
+.status-closed {
+    color: #d9534f;
+    font-weight: bold;
+}
+
+/* Thông báo thành công */
+.contact-alert-success {
+    background: #d4edda;
+    color: #155724;
+    padding: 15px 30px;
+    border-radius: 50px;
+    margin-bottom: 30px;
+    border: 1px solid #c3e6cb;
+}
+
+/* Mobile responsive */
+@media (max-width: 991px) {
+    .contact-flex-container {
+        flex-direction: column;
+    }
+
+    .contact-right-column {
+        border-left: none;
+        padding-left: 0;
+        border-top: 1px solid #eee;
+        padding-top: 40px;
+    }
+
+    .contact-input-row {
+        grid-template-columns: 1fr;
+    }
+}
