@@ -4,8 +4,7 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDistributedMemoryCache();
 
-<<<<<<< HEAD
-// ??ng k˝ DbContext v‡ chu?i k?t n?i
+// ??ng k√Ω DbContext v√† chu?i k?t n?i
 builder.Services.AddDbContext<DbbanDienThoaiContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DBBanDienThoai")));
 
@@ -18,12 +17,10 @@ builder.Services.AddDbContext<DbbanDienThoaiContext>(options =>
         builder.Configuration.GetConnectionString("DefaultConnection")
     ));
 
-=======
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<DBBanDienThoaiContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DBBanDienThoai")));
->>>>>>> b36cd94f553d30763bb975a2aeb7d0203674e74e
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(30);
@@ -52,13 +49,13 @@ app.UseAuthorization();
 
 app.MapStaticAssets();
 
-// Route cho Trang c· nh‚n (vÌ d?: domain.com/ca-nhan)
+// Route cho Trang c√° nh√¢n (v√≠ d?: domain.com/ca-nhan)
 app.MapControllerRoute(
     name: "trang-ca-nhan",
     pattern: "ca-nhan",
     defaults: new { controller = "Profile", action = "Index" });
 
-// Route cho Gi? h‡ng (vÌ d?: domain.com/gio-hang)
+// Route cho Gi? h√†ng (v√≠ d?: domain.com/gio-hang)
 app.MapControllerRoute(
     name: "gio-hang",
     pattern: "gio-hang",
