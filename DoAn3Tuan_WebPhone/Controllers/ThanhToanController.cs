@@ -5,9 +5,9 @@ using System.Text.RegularExpressions;
 
 public class ThanhToanController : Controller
 {
-    private readonly DbbanDienThoaiContext _context;
+    private readonly DBBanDienThoaiContext _context;
 
-    public ThanhToanController(DbbanDienThoaiContext context)
+    public ThanhToanController(DBBanDienThoaiContext context)
     {
         _context = context;
     }

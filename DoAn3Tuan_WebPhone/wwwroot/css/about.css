@@ -1,0 +1,227 @@
+﻿/* about.css */
+
+/* About Layout */
+.about-section {
+    padding: 0 0 60px 0;
+}
+
+
+/* Header của bài viết */
+.about-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+    .about-header h1 {
+        font-size: 36px;
+        font-weight: 800;
+        color: #003d82;
+        margin-bottom: 15px;
+        text-transform: uppercase;
+    }
+
+    .about-header .line {
+        width: 80px;
+        height: 4px;
+        background: #fed700;
+        margin: 0 auto;
+    }
+
+/* Nội dung chính chia 2 cột */
+.about-content-wrapper {
+    display: flex;
+    gap: 50px;
+    align-items: flex-start;
+    margin-bottom: 60px;
+}
+
+.about-text {
+    flex: 1;
+}
+
+    .about-text h2 {
+        font-size: 24px;
+        color: #333;
+        margin-bottom: 20px;
+        font-weight: 700;
+        border-left: 5px solid #fed700;
+        padding-left: 15px;
+    }
+
+    .about-text p {
+        font-size: 16px;
+        line-height: 1.8;
+        color: #555;
+        margin-bottom: 20px;
+        text-align: justify;
+    }
+
+    .about-text ul {
+        list-style: none;
+        margin-bottom: 20px;
+    }
+
+        .about-text ul li {
+            position: relative;
+            padding-left: 25px;
+            margin-bottom: 10px;
+            color: #555;
+        }
+
+            .about-text ul li::before {
+                content: "\f00c";
+                font-family: "Font Awesome 5 Free";
+                font-weight: 900;
+                color: #fed700;
+                position: absolute;
+                left: 0;
+                top: 2px;
+            }
+
+.about-image {
+    flex: 1;
+    position: relative;
+}
+
+    .about-image img {
+        width: 100%;
+        border-radius: 10px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+
+.experience-badge {
+    position: absolute;
+    bottom: -20px;
+    right: -20px;
+    background: #fed700;
+    color: #003d82;
+    padding: 30px;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    text-align: center;
+    line-height: 1.2;
+}
+
+    .experience-badge span {
+        font-size: 32px;
+        display: block;
+    }
+
+/* Stats Section (Thống kê) */
+.stats-section {
+    background: #003d82;
+    padding: 60px 0;
+    color: #fff;
+    margin-bottom: 60px;
+    border-radius: 8px;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+    text-align: center;
+}
+
+.stat-item i {
+    font-size: 40px;
+    color: #fed700;
+    margin-bottom: 15px;
+}
+
+.stat-number {
+    font-size: 36px;
+    font-weight: 800;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.stat-label {
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.8;
+}
+
+/* Policies (Chính sách) */
+.policies-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+
+.policy-card {
+    background: #fff;
+    padding: 30px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    text-align: center;
+    transition: 0.3s;
+}
+
+    .policy-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        border-color: #fed700;
+    }
+
+.policy-icon {
+    width: 70px;
+    height: 70px;
+    background: #f9f9f9;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    font-size: 28px;
+    color: #003d82;
+    transition: 0.3s;
+}
+
+.policy-card:hover .policy-icon {
+    background: #fed700;
+    color: #fff;
+}
+
+.policy-card h3 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.policy-card p {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.6;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .about-content-wrapper {
+        flex-direction: column;
+    }
+
+    .stats-grid, .policies-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .experience-badge {
+        right: 10px;
+        bottom: 10px;
+        width: 80px;
+        height: 80px;
+        padding: 10px;
+    }
+
+        .experience-badge span {
+            font-size: 20px;
+        }
+}

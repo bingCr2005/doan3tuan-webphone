@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 public class AccountController : Controller
 {
-    private readonly DbbanDienThoaiContext _context;
+    private readonly DBBanDienThoaiContext _context;
 
-    public AccountController(DbbanDienThoaiContext context)
+    public AccountController(DBBanDienThoaiContext context)
     {
         _context = context;
     }

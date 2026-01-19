@@ -1,0 +1,944 @@
+﻿@model DoAn3Tuan_WebPhone.Models.ChiTietSanPham
+@using System.Linq
+@{
+    ViewData["Title"] = "Chi tiết sản phẩm";
+}
+@{
+    int total = Model.TongSoBinhLuan;
+
+    int star5 = Model.BinhLuans.Count(b => b.SoSao == 5);
+    int star4 = Model.BinhLuans.Count(b => b.SoSao == 4);
+    int star3 = Model.BinhLuans.Count(b => b.SoSao == 3);
+    int star2 = Model.BinhLuans.Count(b => b.SoSao == 2);
+    int star1 = Model.BinhLuans.Count(b => b.SoSao == 1);
+
+    Func<int, int> percent = c => total == 0 ? 0 : (int)((double)c / total * 100);
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@Model.DienThoai.TenDienThoai - Cửa Hàng Điện Thoại Toàn Cầu</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="~/css/single-product1.css" asp-append-version="true" />
+
+</head>
+<body>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="container">
+            <div class="top-bar-left">
+                Chào mừng đến với Cửa Hàng Điện Thoại Toàn Cầu
+            </div>
+            <div class="top-bar-right">
+                <a href="#"><i class="fas fa-map-marker-alt"></i> Tìm Cửa Hàng</a>
+                <a href="#"><i class="fas fa-truck"></i> Theo Dõi Đơn Hàng</a>
+                <a href="#"><i class="fas fa-shopping-bag"></i> Cửa Hàng</a>
+                <a href="#"><i class="fas fa-user"></i> Tài Khoản Của Tôi</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="#" class="logo">electro<span>.</span></a>
+                <div class="burger-menu">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <div class="search-container">
+                    <input type="text" placeholder="Tìm kiếm sản phẩm...">
+                    <select>
+                        <option>Tất Cả Danh Mục</option>
+                        <option>iPhone</option>
+                        <option>Samsung</option>
+                        <option>Xiaomi</option>
+                    </select>
+                    <button><i class="fas fa-search"></i></button>
+                </div>
+                <div class="header-icons">
+                    <a href="#" class="icon-btn">
+                        <i class="fas fa-sync-alt"></i>
+                        <span class="icon-badge">0</span>
+                    </a>
+                    <a href="#" class="icon-btn">
+                        <i class="far fa-heart"></i>
+                    </a>
+                    <a href="#" class="icon-btn">
+                        <i class="far fa-user"></i>
+                    </a>
+                    <div class="cart-info">
+                        <a href="#" class="icon-btn">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="icon-badge" id="cartCount">0</span>
+                        </a>
+                        <span class="cart-price" id="cartTotal">$0.00</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <div class="container">
+            <div class="nav-content">
+                <ul class="nav-menu">
+                    <li><a href="index.html">Trang Chủ</a></li>
+                    <li><a href="shop.html">Sản Phẩm</a></li>
+                    <li><a href="about.html">Giới Thiệu</a></li>
+                    <li><a href="contact.html">Liên Hệ</a></li>
+                </ul>
+                <div class="shipping-banner">
+                    Miễn Phí Vận Chuyển Đơn Hàng Từ $50+
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <div class="container">
+            <ul class="breadcrumb-list">
+                <li><a href="#">Trang Chủ</a> <i class="fas fa-chevron-right"></i></li>
+                <li><a href="#">Điện Thoại & Máy Tính Bảng</a> <i class="fas fa-chevron-right"></i></li>
+                <li><a href="#">Điện thoại</a> <i class="fas fa-chevron-right"></i></li>
+                <li>@Model.DienThoai.TenDienThoai</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Product Detail -->
+    <section class="product-detail">
+        <div class="container">
+            <div class="product-main">
+                <!-- Product Gallery -->
+                <div class="product-gallery">
+                    <div class="main-image">
+                        <span class="sale-badge">-9%</span>
+                        <img src="@Model.DienThoai.Thumbnail"
+                             alt="@Model.DienThoai.TenDienThoai"
+                             id="mainImg">
+                    </div>
+
+                    <div class="thumbnail-list">
+                        @foreach (var img in Model.HinhAnhs)
+                        {
+                            <div class="thumbnail"
+                                 onclick="changeImage(event)">
+                                <img src="@img.Url" alt="Ảnh sản phẩm">
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <script>
+                    function changeImage(src, evt) {
+                        document.getElementById('mainImg').src = src;
+
+                        document.querySelectorAll('.thumbnail')
+                            .forEach(el => el.classList.remove('active'));
+
+                        if (evt && evt.currentTarget) {
+                            evt.currentTarget.classList.add('active');
+                        }
+                    }
+                </script>
+
+
+                <!-- Product Info -->
+                <div class="product-info">
+                    <div class="product-category">Điện Thoại & Máy Tính Bảng, iPhone</div>
+                    <h1 class="product-title">@Model.DienThoai.TenDienThoai</h1>
+
+                    <div class="product-meta">
+                        <div class="rating-summary">
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                            <span class="rating-count" id="ratingAvg">@Model.DiemTrungBinh.ToString("0.0")</span>
+                            <span class="rating-count" onclick="scrollToReviews()" style="text-decoration: underline;">(<span id="reviewCount">@Model.TongSoBinhLuan</span> đánh giá)</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-heart"></i>
+                            <span id="wishlistCount">@Model.DienThoai.SoLuongYeuThich</span> Yêu thích
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-eye"></i>
+                            <span id="viewCount">@Model.DienThoai.LuotXem</span> Lượt xem
+                        </div>
+                    </div>
+
+                    <div class="brand-logo">
+                        <span class="brand-name">Giá:</span>
+                    </div>
+
+                    <div class="product-price-section">
+                        <div class="price-wrapper">
+                            <span class="current-price" id="currentPrice">@Model.DienThoai.DonGia.ToString("N0") đ</span>
+                        </div>
+                    </div>
+
+                    @if (Model.DienThoai.SoLuongTon > 0)
+                    {
+                        <div class="stock-status in-stock" id="stockStatus">
+                            <i class="fas fa-check-circle"></i> Còn hàng
+                        </div>
+
+                        <div class="stock-quantity">
+                            Còn lại: <strong id="stockQuantity">
+                                @Model.DienThoai.SoLuongTon
+                            </strong> sản phẩm
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="stock-status out-of-stock" id="stockStatus">
+                            <i class="fas fa-times-circle"></i> Hết hàng
+                        </div>
+
+                        <div class="stock-quantity">
+                            <strong>0</strong> sản phẩm
+                        </div>
+                    }
+
+
+                    <div class="product-features">
+                        <h3>Đặc điểm nổi bật:</h3>
+                        <ul class="features-list">
+                            <li>Màn hình 6.7 inch Super Retina XDR OLED</li>
+                            <li>Chip A17 Pro 3nm - Hiệu năng vượt trội</li>
+                            <li>Camera chính 48MP + Telephoto 5x zoom quang học</li>
+                            <li>Khung Titanium cao cấp, nhẹ và bền</li>
+                            <li>Pin 4,422 mAh - Sạc nhanh 27W</li>
+                            <li>Hỗ trợ 5G, Wi-Fi 6E, USB-C</li>
+                        </ul>
+                    </div>
+
+                    <div class="quantity-selector">
+                        <label>Số lượng:</label>
+                        <div class="quantity-controls">
+                            <button type="button" class="qty-btn" onclick="decreaseQty()">-</button>
+
+                            <input type="number"
+                                   class="qty-input"
+                                   id="quantity"
+                                   value="1"
+                                   min="1"
+                                   max="@Model.DienThoai.SoLuongTon">
+
+                            <button type="button" class="qty-btn" onclick="increaseQty()">+</button>
+                        </div>
+                    </div>
+
+
+                    @if (!User.Identity.IsAuthenticated)
+                    {
+                        <div class="login-notice" id="loginNotice">
+                            <i class="fas fa-info-circle"></i>
+                            Vui lòng <strong>đăng nhập</strong> để thêm sản phẩm vào yêu thích
+                        </div>
+                    }
+
+                    <div class="action-buttons">
+
+                        @* Nút Thêm vào giỏ *@
+                        @if (Model.DienThoai.SoLuongTon > 0)
+                        {
+                            <button class="add-to-cart-btn" onclick="addToCart()">
+                                <i class="fas fa-shopping-cart"></i>
+                                Thêm Vào Giỏ Hàng
+                            </button>
+                        }
+                        else
+                        {
+                            <button class="add-to-cart-btn disabled" disabled>
+                                <i class="fas fa-shopping-cart"></i>
+                                Hết hàng
+                            </button>
+                        }
+
+                        @* Nút Yêu thích *@
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <button class="wishlist-btn" id="wishlistBtn" onclick="toggleWishlist()">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        }
+                        else
+                        {
+                            <button class="wishlist-btn disabled" disabled>
+                                <i class="far fa-heart"></i>
+                            </button>
+                        }
+
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Product Tabs -->
+            <div class="product-tabs">
+                <div class="tabs-nav">
+                    <button class="tab-btn active" onclick="switchTab('description')">Mô Tả</button>
+                    <button class="tab-btn" onclick="switchTab('specifications')">Thông Số Kỹ Thuật</button>
+                    <button class="tab-btn" onclick="switchTab('reviews')">Đánh Giá (<span id="reviewCountTab">@Model.TongSoBinhLuan</span>)</button>
+                </div>
+
+                <!-- Description Tab -->
+                <div class="tab-content active" id="descriptionTab">
+                    <div class="description-content">
+                        <h3>Giới thiệu @Model.DienThoai.TenDienThoai</h3>
+                        <p>@Model.DienThoai.MoTa</p>
+                        <p>@Model.DienThoai.TenDienThoai đánh dấu bước tiến mới của nhà sản xuất với thiết kế đẳng cấp, mạnh mẽ nhưng nhẹ hơn 19g so với thế hệ trước. Đây là chiếc điện thoại đầu tiên sử dụng chất liệu hàng không vũ trụ, mang đến sự sang trọng và bền bỉ vượt trội.</p>
+
+                        <h3>Hiệu năng đỉnh cao với chip A17 Pro</h3>
+                        <p>Chip A17 Pro được sản xuất trên tiến trình 3nm tiên tiến nhất hiện nay, mang lại hiệu năng CPU nhanh hơn 10%, GPU nhanh hơn 20% so với A16 Bionic. Neural Engine 16 nhân xử lý AI/ML nhanh gấp đôi, hỗ trợ tối ưu cho các tính năng nhiếp ảnh tính toán và gaming.</p>
+
+                        <h3>Hệ thống camera chuyên nghiệp</h3>
+                        <p>Camera chính 48MP với cảm biến lớn hơn, hỗ trợ chụp ảnh RAW 48MP và ProRAW. Camera telephoto cải tiến với zoom quang học 5x (tương đương 120mm), cho phép chụp cận cảnh chi tiết hơn. Video ProRes 4K 60fps có thể quay và lưu trực tiếp lên ổ cứng ngoài qua USB-C.</p>
+
+                        <h3>Màn hình Always-On Display</h3>
+                        <p>Màn hình @Model.DienThoai.KichThuocManHinh hỗ trợ ProMotion 120Hz, độ sáng tối đa 2000 nits ngoài trời. Tính năng Always-On Display hiển thị thông tin liên tục mà không tốn pin, kết hợp Dynamic Island tương tác thông minh.</p>
+                    </div>
+                </div>
+
+                <!-- Specifications Tab -->
+                <div class="tab-content" id="specificationsTab">
+                    <table class="specs-table">
+                        <tr>
+                            <td>Màn hình</td>
+                            <td>@Model.DienThoai.KichThuocManHinh</td>
+                        </tr>
+                        <tr>
+                            <td>Độ phân giải</td>
+                            <td>@Model.DienThoai.DoPhanGiaiManHinh</td>
+                        </tr>
+                        <tr>
+                            <td>Hệ điều hành</td>
+                            <td>@Model.DienThoai.HeDieuHanh</td>
+                        </tr>
+                        <tr>
+                            <td>Màu sắc</td>
+                            <td>@Model.DienThoai.MauSac</td>
+                        </tr>
+                        <tr>
+                            <td>Dung lượng</td>
+                            <td>@Model.DienThoai.DungLuong</td>
+                        </tr>
+                        <tr>
+                            <td>RAM</td>
+                            <td>@Model.DienThoai.Ram</td>
+                        </tr>
+                        <tr>
+                            <td>Pin</td>
+                            <td>@Model.DienThoai.DungLuongPin</td>
+                        </tr>
+                        <tr>
+                            <td>Chất liệu</td>
+                            <td>@Model.DienThoai.ChatLieu</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- Reviews Tab -->
+                <div class="tab-content" id="reviewsTab">
+                    <div class="reviews-wrapper">
+
+                        <!-- LEFT -->
+                        <div class="reviews-left">
+
+                            <div class="rating-summary-box">
+                                <h4>
+                                    Đã có <span id="reviewCountDisplay">@Model.TongSoBinhLuan</span> đánh giá
+                                </h4>
+
+                                <div class="rating-overview-flex">
+                                    <div class="big-rating-number">
+                                        @Model.DiemTrungBinh.ToString("0.0")
+                                    </div>
+
+                                    <div class="rating-stars-static">
+                                        <div class="stars-yellow">
+                                            @{
+                                                int fullStars = (int)Math.Floor(Model.DiemTrungBinh);
+                                                for (int i = 1; i <= 5; i++)
+                                                {
+                                                    if (i <= fullStars)
+                                                    {
+                                                        <i class="fas fa-star"></i>
+                                                    }
+                                                    else
+                                                    {
+                                                        <i class="far fa-star"></i>
+                                                    }
+                                                }
+                                            }
+                                        </div>
+                                        <span class="overall-text">overall</span>
+                                    </div>
+                                </div>
+
+                                <!-- PROGRESS -->
+                                <div class="rating-progress-list">
+
+                                    @* 5 sao *@
+                                    <div class="progress-item">
+                                        <div class="p-stars">
+                                            <i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                        </div>
+                                        <div class="p-bar-bg">
+                                            <div class="p-bar-fill" style="width:@percent(star5)%"></div>
+                                        </div>
+                                        <span class="p-count">@star5</span>
+                                    </div>
+
+                                    @* 4 sao *@
+                                    <div class="progress-item">
+                                        <div class="p-stars">
+                                            <i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                        </div>
+                                        <div class="p-bar-bg">
+                                            <div class="p-bar-fill" style="width:@percent(star4)%"></div>
+                                        </div>
+                                        <span class="p-count">@star4</span>
+                                    </div>
+
+                                    @* 3 sao *@
+                                    <div class="progress-item">
+                                        <div class="p-stars">
+                                            <i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="far fa-star"></i><i class="far fa-star"></i>
+                                        </div>
+                                        <div class="p-bar-bg">
+                                            <div class="p-bar-fill" style="width:@percent(star3)%"></div>
+                                        </div>
+                                        <span class="p-count">@star3</span>
+                                    </div>
+
+                                    @* 2 sao *@
+                                    <div class="progress-item">
+                                        <div class="p-stars">
+                                            <i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                            <i class="far fa-star"></i><i class="far fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                        </div>
+                                        <div class="p-bar-bg">
+                                            <div class="p-bar-fill" style="width:@percent(star2)%"></div>
+                                        </div>
+                                        <span class="p-count">@star2</span>
+                                    </div>
+
+                                    @* 1 sao *@
+                                    <div class="progress-item">
+                                        <div class="p-stars">
+                                            <i class="fas fa-star"></i>
+                                            <i class="far fa-star"></i><i class="far fa-star"></i>
+                                            <i class="far fa-star"></i><i class="far fa-star"></i>
+                                        </div>
+                                        <div class="p-bar-bg">
+                                            <div class="p-bar-fill" style="width:@percent(star1)%"></div>
+                                        </div>
+                                        <span class="p-count">@star1</span>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <!-- COMMENTS -->
+                            <div class="comments-container" id="commentsList">
+                                @if (Model.BinhLuans != null && Model.BinhLuans.Any())
+                                {
+                                    foreach (var bl in Model.BinhLuans)
+                                    {
+                                        <div class="comment-card">
+
+                                            <div class="comment-stars">
+                                                @for (int i = 1; i <= 5; i++)
+                                                {
+                                                    if (i <= bl.SoSao)
+                                                    {
+                                                        <i class="fas fa-star"></i>
+                                                    }
+                                                    else
+                                                    {
+                                                        <i class="far fa-star"></i>
+                                                    }
+                                                }
+                                    </div>
+
+                                    <p class="comment-body">@bl.NoiDung</p>
+
+                                    <div class="comment-footer">
+                                        <strong>
+                                            @(bl.MaKhachHangNavigation?
+                                                                                        .MaKhachHangNavigation?
+                                                                                        .HoVaTen
+                                                                                        ?? "Khách hàng")
+                                                </strong>
+                                                –
+                                                @(bl.NgayBinhLuan.HasValue
+                                                                                        ? bl.NgayBinhLuan.Value.ToString("dd/MM/yyyy")
+                                                                                        : "")
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <p class="no-comment">Chưa có đánh giá nào cho sản phẩm này.</p>
+                                }
+                            </div>
+
+                        </div>
+
+                        <!-- RIGHT -->
+                        <div class="reviews-right">
+                            <h3>Thêm đánh giá</h3>
+
+                            @if (!User.Identity.IsAuthenticated)
+                            {
+                                <div class="alert-warning">
+                                    <i class="fas fa-lock"></i> Vui lòng đăng nhập để viết đánh giá.
+                                </div>
+                            }
+                            else
+                            {
+                                <form asp-action="ThemBinhLuan"
+                                      asp-controller="ChiTietSanPham"
+                                      method="post">
+
+                                    <input type="hidden" name="MaDienThoai"
+                                           value="@Model.DienThoai.MaDienThoai" />
+
+                                    <div class="form-row">
+                                        <label>Đánh giá của bạn</label>
+                                        <div class="star-input-group" id="starInputGroup">
+                                            @for (int i = 1; i <= 5; i++)
+                                            {
+                                                <i class="far fa-star star-rate"
+                                                   data-value="@i"></i>
+                                            }
+                                        </div>
+                                        <input type="hidden" name="SoSao"
+                                               id="ratingValueInput" required />
+                                    </div>
+
+                                    <div class="form-row">
+                                        <label>Nội dung đánh giá</label>
+                                        <textarea class="input-custom"
+                                              name="NoiDung"
+                                              rows="4"
+                                              required></textarea>
+                                    </div>
+
+                                    <button type="submit" class="btn-yellow-submit">
+                                        Gửi đánh giá
+                                    </button>
+                                </form>
+                            }
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Related Products -->
+    @if (Model.SanPhamLienQuan != null && Model.SanPhamLienQuan.Any())
+    {
+        <section class="related-products">
+            <h2 class="section-title">Sản phẩm liên quan</h2>
+
+            <div class="products-grid">
+                @foreach (var sp in Model.SanPhamLienQuan)
+                {
+                    <div class="product-card">
+
+                        <!-- CLICK ẢNH -->
+                        <a asp-controller="ChiTietSanPham"
+                           asp-action="Index"
+                           asp-route-id="@sp.MaDienThoai"
+                           class="product-link">
+
+                            <div class="product-image">
+                                <img src="@sp.Thumbnail"
+                                     alt="@sp.TenDienThoai" />
+                            </div>
+
+                            <!-- CLICK TÊN -->
+                            <h3 class="product-name">
+                                @sp.TenDienThoai
+                            </h3>
+
+                            <!-- CLICK GIÁ -->
+                            <p class="product-price">
+                                @sp.DonGia.ToString("N0") ₫
+                            </p>
+
+                        </a>
+
+                    </div>
+                }
+            </div>
+        </section>
+    }
+
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <!-- Brand Column -->
+                <div class="footer-brand">
+                    <div class="footer-logo"><i class="fas fa-phone-volume"></i></div>
+                    <div class="footer-info">
+                        <h3>Có Câu Hỏi? Gọi Cho Chúng Tôi 24/7!</h3>
+                        <div class="footer-phone">(800) 8001-8588, (0600) 874 548</div>
+                        <div class="footer-address">
+                            <strong>Thông Tin Liên Hệ</strong><br>
+                            17 Princess Road, London, Greater London NW1 8JR, UK
+                        </div>
+                        <div class="social-icons">
+                            <div class="social-icon"><i class="fab fa-facebook-f"></i></div>
+                            <div class="social-icon"><i class="fab fa-whatsapp"></i></div>
+                            <div class="social-icon"><i class="fab fa-pinterest"></i></div>
+                            <div class="social-icon"><i class="fab fa-linkedin-in"></i></div>
+                            <div class="social-icon"><i class="fab fa-instagram"></i></div>
+                            <div class="social-icon"><i class="fab fa-youtube"></i></div>
+                            <div class="social-icon"><i class="fas fa-rss"></i></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Find It Fast -->
+                <div class="footer-column">
+                    <h4>Tìm Nhanh</h4>
+                    <ul>
+                        <li><a href="#">Laptop & Máy Tính</a></li>
+                        <li><a href="#">Camera & Nhiếp Ảnh</a></li>
+                        <li><a href="#">Điện Thoại & Máy Tính Bảng</a></li>
+                        <li><a href="#">Trò Chơi Video & Console</a></li>
+                        <li><a href="#">TV & Âm Thanh</a></li>
+                        <li><a href="#">Thiết Bị Đeo</a></li>
+                        <li><a href="#">Tai Nghe Không Dây</a></li>
+                    </ul>
+                </div>
+
+                <!-- Customer Care -->
+                <div class="footer-column">
+                    <h4>Chăm Sóc Khách Hàng</h4>
+                    <ul>
+                        <li><a href="#">Tài Khoản Của Tôi</a></li>
+                        <li><a href="#">Theo Dõi Đơn Hàng</a></li>
+                        <li><a href="#">Dịch Vụ Khách Hàng</a></li>
+                        <li><a href="#">Hoàn Trả / Đổi Hàng</a></li>
+                        <li><a href="#">Câu Hỏi Thường Gặp</a></li>
+                        <li><a href="#">Hỗ Trợ Sản Phẩm</a></li>
+                    </ul>
+                </div>
+
+                <!-- About -->
+                <div class="footer-column">
+                    <h4>Về Chúng Tôi</h4>
+                    <ul>
+                        <li><a href="#">Giới Thiệu</a></li>
+                        <li><a href="#">Liên Hệ</a></li>
+                        <li><a href="#">Danh Sách Yêu Thích</a></li>
+                        <li><a href="#">So Sánh</a></li>
+                        <li><a href="#">Câu Hỏi Thường Gặp</a></li>
+                        <li><a href="#">Danh Mục Cửa Hàng</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Bottom -->
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="footer-bottom-content">
+                    <div class="copyright">
+                        © Electro - Bản Quyền Đã Được Bảo Lưu
+                    </div>
+                    <div class="payment-methods">
+                        <div class="payment-icon">DISCOVER</div>
+                        <div class="payment-icon">●●</div>
+                        <div class="payment-icon">PayPal</div>
+                        <div class="payment-icon">Skrill</div>
+                        <div class="payment-icon">VISA</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top -->
+    <div class="scroll-top" onclick="scrollToTop()">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <script>
+        // ==========================================
+        // 1. CẤU HÌNH & BIẾN TOÀN CỤC
+        // ==========================================
+        let currentStock = @Model.DienThoai.SoLuongTon;
+        let wishlistCount = @Model.DienThoai.SoLuongYeuThich;
+        let cartCount = 0;
+        let isInWishlist = false;
+        let userHasBought = false; // Mặc định: CHƯA MUA (để demo)
+
+        // ==========================================
+        // 2. LOGIC TAB (SỬA LỖI CHUYỂN TAB TẠI ĐÂY)
+        // ==========================================
+        function switchTab(tabName) {
+            // Bước 1: Ẩn tất cả nội dung tab
+            // Tìm tất cả thẻ có class 'tab-content' và ẩn đi
+            const allContents = document.querySelectorAll('.tab-content');
+            allContents.forEach(content => {
+                content.style.display = 'none';
+                content.classList.remove('active');
+            });
+
+            // Bước 2: Bỏ trạng thái 'active' (màu đậm) của tất cả nút bấm
+            const allBtns = document.querySelectorAll('.tab-btn');
+            allBtns.forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Bước 3: Hiện tab đúng với tên được bấm (description / specifications / reviews)
+            const selectedTab = document.getElementById(tabName + 'Tab');
+            if (selectedTab) {
+                selectedTab.style.display = 'block';
+                selectedTab.classList.add('active');
+            }
+
+            // Bước 4: Active nút được bấm
+            // (Duyệt qua các nút để tìm nút nào gọi đến tab này thì active nó lên)
+            allBtns.forEach(btn => {
+                // Kiểm tra xem nút này có gọi switchTab('tabName') không
+                if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(tabName)) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+        // Hàm cuộn nhanh xuống phần đánh giá khi bấm link "(1 đánh giá)" ở trên đầu
+        function scrollToReviews() {
+            switchTab('reviews');
+            const reviewSection = document.getElementById('reviewsTab');
+            if (reviewSection) {
+                reviewSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        // ==========================================
+        // 3. LOGIC CHỨC NĂNG CƠ BẢN (Giỏ hàng, Yêu thích...)
+        // ==========================================
+
+        // Tăng/Giảm số lượng
+        function increaseQty() {
+            let qtyInput = document.getElementById('quantity');
+            let val = parseInt(qtyInput.value);
+            if (val < currentStock) qtyInput.value = val + 1;
+        }
+
+        function decreaseQty() {
+            let qtyInput = document.getElementById('quantity');
+            let val = parseInt(qtyInput.value);
+            if (val > 1) qtyInput.value = val - 1;
+        }
+
+        // Thêm vào giỏ
+        function addToCart() {
+            let qty = parseInt(document.getElementById('quantity').value);
+            if(currentStock >= qty) {
+                currentStock -= qty;
+                cartCount += qty;
+                document.getElementById('cartCount').innerText = cartCount;
+                document.getElementById('stockQuantity').innerText = currentStock;
+
+                // Xử lý khi hết hàng
+                if(currentStock === 0) {
+                   document.getElementById('stockStatus').className = 'stock-status out-stock';
+                   document.getElementById('stockStatus').innerHTML = '<i class="fas fa-times-circle"></i> Hết hàng';
+                }
+                alert("Đã thêm " + qty + " sản phẩm vào giỏ!");
+            } else {
+                alert("Hết hàng!");
+            }
+        }
+
+        // Yêu thích
+        function toggleWishlist() {
+            let btn = document.getElementById('wishlistBtn');
+            let icon = btn.querySelector('i');
+            isInWishlist = !isInWishlist;
+
+            if (isInWishlist) {
+                btn.classList.add('active');
+                icon.className = 'fas fa-heart';
+                wishlistCount++;
+            } else {
+                btn.classList.remove('active');
+                icon.className = 'far fa-heart';
+                wishlistCount--;
+            }
+            document.getElementById('wishlistCount').textContent = wishlistCount;
+        }
+
+        function addToCompare() {
+            alert("Đã thêm vào so sánh!");
+        }
+
+        // ==========================================
+        // 4. LOGIC ĐÁNH GIÁ & CHECK MUA HÀNG (TIÊU CHÍ 16)
+        // ==========================================
+
+        // Kiểm tra quyền khi load trang hoặc đổi trạng thái
+        function checkReviewPermission() {
+            const alertBox = document.getElementById('notPurchasedAlert');
+            const formInputs = document.querySelectorAll('#reviewFormCustom input, #reviewFormCustom textarea, #reviewFormCustom button');
+
+            if (userHasBought) {
+                // ĐÃ MUA -> Cho phép nhập
+                if(alertBox) alertBox.style.display = 'none';
+                formInputs.forEach(el => {
+                    el.disabled = false;
+                    el.style.opacity = '1';
+                    el.style.cursor = 'pointer';
+                });
+            } else {
+                // CHƯA MUA -> Khóa form
+                if(alertBox) alertBox.style.display = 'block';
+                formInputs.forEach(el => {
+                    el.disabled = true;
+                    el.style.opacity = '0.6';
+                    el.style.cursor = 'not-allowed';
+                });
+            }
+        }
+
+        // Chọn sao
+        function rateStar(n) {
+            if (!userHasBought) {
+                alert("Bạn phải mua sản phẩm mới được đánh giá! (Tiêu chí 16)");
+                return;
+            }
+            document.getElementById('ratingValueInput').value = n;
+            let stars = document.querySelectorAll('#starInputGroup i');
+            stars.forEach((s, index) => {
+                if (index < n) {
+                    s.className = "fas fa-star active";
+                } else {
+                    s.className = "far fa-star";
+                }
+            });
+        }
+
+        // Gửi đánh giá
+        function submitReviewCustom(e) {
+            e.preventDefault();
+            if (!userHasBought) return;
+
+            const name = document.getElementById('reviewNameInput').value;
+            const text = document.getElementById('reviewTextInput').value;
+            const rating = document.getElementById('ratingValueInput').value || 5;
+
+            // Tạo HTML sao
+            let starHtml = '';
+            for(let i=0; i<5; i++) {
+                starHtml += i < rating ? '<i class="fas fa-star"></i>' : '<i class="far fa-star"></i>';
+            }
+
+            // Tạo phần tử comment mới
+            const html = `
+                <div class="comment-card" style="border-bottom:1px solid #eee; padding:15px 0; animation: fadeIn 0.5s;">
+                    <div class="comment-stars" style="color:#fed700; margin-bottom:5px;">${starHtml}</div>
+                    <p class="comment-body" style="font-style:italic; margin-bottom:5px;">${text}</p>
+                    <div class="comment-footer" style="font-size:13px; color:#666;">
+                        <strong>${name}</strong> – Vừa xong
+                        <span class="badge-bought" style="background:#d4edda; color:#155724; padding:2px 6px; border-radius:3px; font-size:11px; margin-left:10px;"><i class="fas fa-check"></i> Đã mua</span>
+                    </div>
+                </div>
+            `;
+
+            // Thêm vào đầu danh sách
+            document.getElementById('commentsList').insertAdjacentHTML('afterbegin', html);
+
+            // Reset form
+            document.getElementById('reviewFormCustom').reset();
+            rateStar(0);
+
+            // Update số lượng review hiển thị trên tab và tiêu đề
+            const countSpan = document.getElementById('reviewCountDisplay');
+            const tabCountSpan = document.getElementById('reviewCountTab');
+            if(countSpan) countSpan.innerText = parseInt(countSpan.innerText) + 1;
+            if(tabCountSpan) tabCountSpan.innerText = parseInt(tabCountSpan.innerText) + 1;
+
+            alert("Đánh giá thành công!");
+        }
+
+        // ==========================================
+        // 5. KHỞI TẠO & DEMO
+        // ==========================================
+
+        // Hàm Demo đổi trạng thái mua hàng
+        function toggleDemo() {
+            userHasBought = !userHasBought;
+            const btn = document.getElementById('demoBtn');
+            if(userHasBought) {
+                btn.innerText = "Trạng thái: ĐÃ MUA (VIP)";
+                btn.style.background = "#28a745";
+            } else {
+                btn.innerText = "Trạng thái: CHƯA MUA (Guest)";
+                btn.style.background = "#dc3545";
+            }
+            checkReviewPermission();
+        }
+
+        // Chạy khi trang tải xong
+        window.onload = function() {
+            // 1. Mặc định hiển thị tab Mô tả (Description)
+            switchTab('description');
+
+            // 2. Tạo nút Demo góc phải dưới
+            let btn = document.createElement('div');
+            btn.id = 'demoBtn';
+            btn.className = 'demo-btn-float';
+            btn.onclick = toggleDemo;
+            btn.innerText = "Trạng thái: CHƯA MUA (Guest)";
+            document.body.appendChild(btn);
+
+            // 3. Kiểm tra quyền lần đầu
+            checkReviewPermission();
+        };
+        function changeImage(event) {
+            const mainImg = document.getElementById("mainImg");
+            const thumbImg = event.currentTarget.querySelector("img");
+
+            if (!mainImg || !thumbImg) return;
+
+            // Lấy src hiện tại
+            const temp = mainImg.src;
+
+            // Hoán đổi
+            mainImg.src = thumbImg.src;
+            thumbImg.src = temp;
+        }
+    </script>
+</body>
+</html>

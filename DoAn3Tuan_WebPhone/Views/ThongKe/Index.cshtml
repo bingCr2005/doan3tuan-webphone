@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@{
+    ViewData["Title"] = "Quản lý thống kê";
+}
+<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
@@ -86,19 +89,19 @@
         <div class="row">
 
             <!-- Sidebar -->
-            <div class="col-2 sidebar">
-                <h4>ADMIN</h4>
-                <a href="#">🏠 Dashboard</a>
-                <a href="QuanLyDienThoai.html">📱 Điện thoại</a>
-                <a href="QuanLyHangDienThoai.html">🏷️ Hãng điện thoại</a>
-                <a href="QuanLyKhachHang.html">👥 Khách hàng</a>
-                <a href="QuanLyNCC.html">🏭 Nhà cung cấp</a>
-                <a href="QuanLyKhuyenMai.html">🎁 Khuyến mãi</a>
-                <a href="QuanLyDonHang.html">🛒 Đơn hàng</a>
-                <a href="QuanLyThongKe.html" class="active">📈 Thống kê</a>
-                <a href="QuanLyBinhLuan.html">💬 Bình luận</a>
-                <a href="QuanLyLienHe.html">📞 Liên hệ</a>
-                <a href="#">🚪 Đăng xuất</a>
+            <div class="col-2 sidebar bg-dark text-white p-3">
+                <h4 class="text-center mb-4">ADMIN</h4>
+                <a href="#" class="d-block text-white text-decoration-none p-2">🏠 Dashboard</a>
+                <a href="/DienThoai/Index" class="d-block text-white text-decoration-none p-2">📱 Điện thoại</a>
+                <a href="/HangDienThoai/Index" class="d-block text-white text-decoration-none p-2">🏷️ Hãng điện thoại</a>
+                <a href="/KhachHang/Index" class="d-block text-white text-decoration-none p-2">👥 Khách hàng</a>
+                <a href="/NhaCungCap/Index" class="d-block text-white text-decoration-none p-2">🏭 Nhà cung cấp</a>
+                <a href="/KhuyenMai/Index" class="d-block text-white text-decoration-none p-2">🎁 Khuyến mãi</a>
+                <a href="/DonHang/Index" class="d-block text-white text-decoration-none p-2">🛒 Đơn hàng</a>
+                <a href="/ThongKe/Index" class="d-block text-white text-decoration-none p-2 active bg-primary rounded">📈 Thống kê</a>
+                <a href="/BinhLuan/Index" class="d-block text-white text-decoration-none p-2">💬 Bình luận</a>
+                <a href="/LienHe/Index" class="d-block text-white text-decoration-none p-2">📞 Liên hệ</a>
+                <a href="#" class="d-block text-white text-decoration-none p-2">🚪 Đăng xuất</a>
             </div>
 
             <!-- Content -->

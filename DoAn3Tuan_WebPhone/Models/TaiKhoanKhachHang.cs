@@ -11,7 +11,7 @@ public partial class TaiKhoanKhachHang
 
     public virtual GioHang? GioHang { get; set; }
 
-    public virtual ICollection<GioHangBackup20260116> GioHangBackup20260116s { get; set; } = new List<GioHangBackup20260116>();
+    public virtual ICollection<GioHangOld> GioHangOlds { get; set; } = new List<GioHangOld>();
 
     public virtual ICollection<HoaDon> HoaDons { get; set; } = new List<HoaDon>();
 
