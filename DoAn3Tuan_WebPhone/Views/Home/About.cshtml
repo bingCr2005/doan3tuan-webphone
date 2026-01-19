@@ -1,18 +1,17 @@
 ﻿@{
     Layout = null;
+    ViewData["Title"] = "Giới Thiệu - Electro Mobile";
 }
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Liên Hệ - Cửa Hàng Điện Thoại Toàn Cầu</title>
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
 
-    <link rel="stylesheet" href="~/css/contact.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/about.css" asp-append-version="true" />
 </head>
 <body>
 
@@ -107,35 +106,105 @@
             </div>
         </div>
     </nav>
-
-    <nav class="main-nav">
-    </nav>
-    <div class="main-content">
+    <div class="about-section">
         <div class="container">
-            <div class="contact-layout">
-                <div class="contact-form-wrapper">
-                    <h3 class="contact-title">Gửi Tin Nhắn Cho Chúng Tôi</h3>
-                    <form action="/LienHe/GuiTin" method="post">
-                        <div class="form-group">
-                            <label>Họ và Tên *</label>
-                            <input type="text" class="form-control" name="HoTen" placeholder="Nhập họ tên của bạn" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Email *</label>
-                            <input type="email" class="form-control" name="Email" placeholder="Nhập địa chỉ email" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Số Điện Thoại</label>
-                            <input type="tel" class="form-control" name="SoDienThoai" placeholder="Nhập số điện thoại">
-                        </div>
-                        <div class="form-group">
-                            <label>Nội Dung Cần Hỗ Trợ *</label>
-                            <textarea class="form-control" name="NoiDung" placeholder="Ví dụ: Tôi muốn hỏi về chính sách trả góp..." required></textarea>
-                        </div>
-                        <button type="submit" class="btn-submit">Gửi Tin Nhắn <i class="fas fa-paper-plane"></i></button>
-                    </form>
+
+            <div class="about-header">
+                <h1>Về Electro Mobile</h1>
+                <div class="line"></div>
+                <p style="margin-top: 15px; color: #666;">Đối tác tin cậy hàng đầu về thiết bị công nghệ chính hãng tại Việt Nam</p>
+            </div>
+
+            <div class="about-content-wrapper">
+                <div class="about-text">
+                    <h2>Câu Chuyện Khởi Nghiệp</h2>
+                    <p>
+                        Ra mắt vào năm <strong>2025</strong>, Electro Mobile là đứa con tinh thần đầy tâm huyết của một nhóm <strong>4 thành viên trẻ</strong> đam mê công nghệ. Xuất phát điểm từ <strong>CDTH 23WEBC</strong> với khát vọng xây dựng một hệ thống bán lẻ hiện đại, chúng tôi đã cùng nhau phát triển Electro Mobile trở thành điểm đến tin cậy cho những tín đồ yêu thích smartphone.
+                    </p>
+                    <p>
+                        Không chỉ đơn thuần là bán điện thoại, chúng tôi mong muốn mang đến trải nghiệm mua sắm trực tuyến mượt mà, minh bạch và tận tâm nhất. Với sức trẻ và tư duy đổi mới, Electro Mobile cam kết mỗi sản phẩm đến tay khách hàng đều là sự kết tinh của uy tín và chất lượng.
+                    </p>
+
+                    <h2>Lĩnh Vực Kinh Doanh Cốt Lõi</h2>
+                    <ul>
+                        <li><strong>Smartphone Chính Hãng:</strong> Phân phối các dòng điện thoại mới nhất từ Apple, Samsung, Xiaomi...</li>
+                        <li><strong>Thiết Bị & Phụ Kiện:</strong> Cung cấp iPad, Laptop, Tai nghe, Sạc dự phòng chất lượng cao.</li>
+                        <li><strong>Giải Pháp Công Nghệ:</strong> Tư vấn phần mềm, hỗ trợ kỹ thuật và dịch vụ Thu cũ đổi mới (Trade-in) trợ giá tốt nhất.</li>
+                    </ul>
+                </div>
+
+                <div class="about-image">
+                    <img src="~/images/iphone15.jpg" alt="Electro Mobile Store" onerror="this.src='https://images.unsplash.com/photo-1556742049-0cfed4f7a07d?auto=format&fit=crop&w=1000'">
+                    <div class="experience-badge">
+                        <span>2025</span>
+                        Thành Lập
+                    </div>
                 </div>
             </div>
+
+            <div class="stats-section">
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <i class="fas fa-users"></i>
+                        <span class="stat-number">50.000+</span>
+                        <span class="stat-label">Khách Hàng Tin Dùng</span>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-mobile-alt"></i>
+                        <span class="stat-number">100.000+</span>
+                        <span class="stat-label">Sản Phẩm Đã Bán</span>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-store"></i>
+                        <span class="stat-number">4</span>
+                        <span class="stat-label">Thành Viên Sáng Lập</span>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-award"></i>
+                        <span class="stat-number">Top 1</span>
+                        <span class="stat-label">Startup Công Nghệ</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="about-header" style="margin-bottom: 30px;">
+                <h1>Tại Sao Chọn Chúng Tôi?</h1>
+                <div class="line"></div>
+            </div>
+
+            <div class="policies-grid">
+                <div class="policy-card">
+                    <div class="policy-icon"><i class="fas fa-check-circle"></i></div>
+                    <h3>100% Chính Hãng</h3>
+                    <p>Cam kết hàng chính hãng, nguyên seal, đầy đủ hóa đơn VAT. Phát hiện hàng giả đền bù 200% giá trị.</p>
+                </div>
+                <div class="policy-card">
+                    <div class="policy-icon"><i class="fas fa-undo-alt"></i></div>
+                    <h3>Đổi Trả 30 Ngày</h3>
+                    <p>Lỗi là đổi mới trong 30 ngày đầu tiên. Bảo hành chính hãng lên đến 24 tháng cho các dòng máy cao cấp.</p>
+                </div>
+                <div class="policy-card">
+                    <div class="policy-icon"><i class="fas fa-truck"></i></div>
+                    <h3>Giao Hàng Hỏa Tốc</h3>
+                    <p>Miễn phí vận chuyển toàn quốc cho đơn hàng từ 50$. Giao nhanh 2h trong nội thành TP.HCM và Hà Nội.</p>
+                </div>
+                <div class="policy-card">
+                    <div class="policy-icon"><i class="fas fa-tools"></i></div>
+                    <h3>Bảo Hành Trọn Đời</h3>
+                    <p>Hỗ trợ cài đặt phần mềm trọn đời. Vệ sinh máy miễn phí bất cứ lúc nào bạn ghé cửa hàng.</p>
+                </div>
+                <div class="policy-card">
+                    <div class="policy-icon"><i class="fas fa-headset"></i></div>
+                    <h3>Hỗ Trợ 24/7</h3>
+                    <p>Đội ngũ tư vấn viên am hiểu công nghệ, sẵn sàng giải đáp mọi thắc mắc của bạn qua Hotline và Fanpage.</p>
+                </div>
+                <div class="policy-card">
+                    <div class="policy-icon"><i class="fas fa-hand-holding-usd"></i></div>
+                    <h3>Trả Góp 0%</h3>
+                    <p>Hỗ trợ trả góp lãi suất 0% qua thẻ tín dụng hoặc công ty tài chính. Duyệt hồ sơ nhanh chóng trong 15 phút.</p>
+                </div>
+            </div>
+
         </div>
     </div>
 
@@ -208,23 +277,23 @@
         </div>
 
 
-    <!-- Footer Bottom -->
-    <div class="footer-bottom">
-        <div class="container">
-            <div class="footer-bottom-content">
-                <div class="copyright">
-                    © Electro - Bản Quyền Đã Được Bảo Lưu
-                </div>
-                <div class="payment-methods">
-                    <div class="payment-icon">DISCOVER</div>
-                    <div class="payment-icon">●●</div>
-                    <div class="payment-icon">PayPal</div>
-                    <div class="payment-icon">Skrill</div>
-                    <div class="payment-icon">VISA</div>
+        <!-- Footer Bottom -->
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="footer-bottom-content">
+                    <div class="copyright">
+                        © Electro - Bản Quyền Đã Được Bảo Lưu
+                    </div>
+                    <div class="payment-methods">
+                        <div class="payment-icon">DISCOVER</div>
+                        <div class="payment-icon">●●</div>
+                        <div class="payment-icon">PayPal</div>
+                        <div class="payment-icon">Skrill</div>
+                        <div class="payment-icon">VISA</div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
     </footer>
 
     <!-- Theme Toggle -->
