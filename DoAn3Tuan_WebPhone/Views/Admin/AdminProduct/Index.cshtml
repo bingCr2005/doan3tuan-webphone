@@ -1,0 +1,106 @@
+﻿@model IEnumerable<DoAn3Tuan_WebPhone.Models.DienThoai>
+@{
+    ViewData["Title"] = "Quản lý điện thoại";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-2 sidebar bg-dark text-white p-3" style="min-height: 100vh;">
+            <h4 class="text-center mb-4">ADMIN</h4>
+            <a href="#" class="d-block text-white text-decoration-none p-2">🏠 Dashboard</a>
+            <a href="/AdminProduct/Index" class="d-block text-white text-decoration-none p-2 active bg-primary rounded">📱 Điện thoại</a>
+            <a href="/HangDienThoai/Index" class="d-block text-white text-decoration-none p-2">🏷️ Hãng điện thoại</a>
+            <a href="/KhachHang/Index" class="d-block text-white text-decoration-none p-2">👥 Khách hàng</a>
+            <a href="/NhaCungCap/Index" class="d-block text-white text-decoration-none p-2">🏭 Nhà cung cấp</a>
+            <a href="/KhuyenMai/Index" class="d-block text-white text-decoration-none p-2">🎁 Khuyến mãi</a>
+            <a href="/DonHang/Index" class="d-block text-white text-decoration-none p-2">🛒 Đơn hàng</a>
+            <a href="/ThongKe/Index" class="d-block text-white text-decoration-none p-2">📈 Thống kê</a>
+            <a href="/BinhLuan/Index" class="d-block text-white text-decoration-none p-2">💬 Bình luận</a>
+            <a href="/LienHe/Index" class="d-block text-white text-decoration-none p-2">📞 Liên hệ</a>
+            <a href="#" class="d-block text-white text-decoration-none p-2">🚪 Đăng xuất</a>
+        </div>
+
+        <div class="col-10 p-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h3>📱 Quản lý điện thoại</h3>
+                <div class="d-flex gap-2">
+                    <a asp-action="Create" class="btn btn-primary">➕ Thêm mới</a>
+                    <form class="d-flex gap-2" method="get" asp-action="Index">
+                        <input type="text" name="searchString" class="form-control" placeholder="🔍 Tìm tên hoặc mã máy..." style="width: 300px;">
+                        <button type="submit" class="btn btn-success">Tìm</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover text-center align-middle">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Ảnh</th>
+                            <th>Mã máy</th>
+                            <th>Tên điện thoại</th>
+                            <th>Hãng</th>
+                            <th>Thông số</th>
+                            <th>Đơn giá</th>
+                            <th>Tồn kho</th>
+                            <th>Trạng thái</th>
+                            <th style="width: 150px;">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <img src="@item.Thumbnail" width="50" class="rounded shadow-sm" onerror="this.src='/images/no-image.png'" />
+                                </td>
+                                <td class="fw-bold">@item.MaDienThoai</td>
+                                <td class="text-start">@item.TenDienThoai</td>
+                                <td>@item.HangDienThoaiNavigation?.TenHangDienThoai</td>
+                                <td class="text-start small">
+                                    <span>💾 @item.Ram/@item.DungLuong</span><br />
+                                    <span>🔋 @item.DungLuongPin</span>
+                                </td>
+                                <td class="text-danger fw-bold">@item.DonGia.ToString("N0")đ</td>
+                                <td>@item.SoLuongTon</td>
+                                <td>
+                                    @if (item.TrangThai == 1)
+                                    {
+                                        <span class="badge bg-success">Đang bán</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">Tạm ẩn</span>
+                                    }
+                                </td>
+                                <td>
+                                    <div class="d-flex gap-1 justify-content-center">
+                                        <a asp-action="Edit" asp-route-id="@item.MaDienThoai" class="btn btn-sm btn-warning">✏️ Sửa</a>
+                                        <form asp-action="DeleteConfirmed" asp-route-id="@item.MaDienThoai" method="post" onsubmit="return confirm('Xóa sản phẩm này?');">
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" class="btn btn-sm btn-danger">🗑️ Xóa</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            @if (ViewBag.TotalPages > 1)
+            {
+                <nav>
+                    <ul class="pagination justify-content-center mt-3">
+                        @for (int i = 1; i <= (int)ViewBag.TotalPages; i++)
+                        {
+                            <li class="page-item @(i == (int)ViewBag.CurrentPage ? "active" : "")">
+                                <a class="page-link" href="@Url.Action("Index", new { page = i, searchString = ViewBag.Search })">@i</a>
+                            </li>
+                        }
+                    </ul>
+                </nav>
+            }
+        </div>
+    </div>
+</div>
