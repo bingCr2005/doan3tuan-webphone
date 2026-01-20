@@ -249,12 +249,17 @@
                     <div class="products-grid">
                         @foreach (var sp in Model.SanPhamMoi)
                         {
-                            bool isSale = (sp.DonGia < 10000000 || sp.MaDienThoai == "DT008");
+                            bool isSale = sp.DonGia < 10000000;
+                            bool isSuperHot = sp.LuotXem > 2000;
 
                             <div class="product-card">
-                                @if (isSale)
+                                @if (isSuperHot)
                                 {
-                                    <div class="badge-hot-deal">GIẢM GIÁ</div>
+                                    <div>HOT</div>
+                                }
+                                else if (isSale)
+                                {
+                                    <div>GIẢM GIÁ</div>
                                 }
 
                                 <div class="product-category">@sp.HangDienThoaiNavigation?.TenHangDienThoai</div>
