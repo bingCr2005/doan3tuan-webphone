@@ -7,15 +7,12 @@
     <title>Document</title>
 </head>
 <body>
-<<<<<<< HEAD
     <!-- Sidebar -->
     <div class="col-2 sidebar">
         <h4>ADMIN</h4>
         <a href="#">Dashboard</a>
         <a href="QuanLyDienThoai.html">📱 Điện thoại</a>
         <a href="QuanLyHangDienThoai.html">🏷️ Hãng điện thoại</a>
-=======
-<<<<<<< HEAD
     <div class="col-2 sidebar">
     <h4>ADMIN</h4>
     <a href="#" class="active">Dashboard</a>
@@ -25,26 +22,20 @@
     <a href="#">Đơn hàng</a>
     <a href="#">Thống Kê</a>
 </div>
-=======
     <!-- Sidebar -->
     <div class="col-2 sidebar">
         <h4>ADMIN</h4>
-        <a href="#">Dashboard</a>
-        <a href="QuanLyDienThoai.html">📱 Điện thoại</a>
-        <a href="QuanLyHangDienThoai.html" class="active">🏷️ Hãng điện thoại</a>
->>>>>>> 6cd6911e6a789d1be217678789afe721ede331cb
-        <a href="QuanLyKhachHang.html">👥 Khách hàng</a>
-        <a href="QuanLyNCC.html">🏭 Nhà cung cấp</a>
-        <a href="QuanLyKhuyenMai.html">🎁 Khuyến mãi</a>
-        <a href="QuanLyDonHang.html">🛒 Đơn hàng</a>
-        <a href="QuanLyThongKe.html">📈 Thống kê</a>
-        <a href="QuanLyBinhLuan.html">💬 Bình luận</a>
-        <a href="QuanLyLienHe.html">📞 Liên hệ</a>
-        <a href="#">🚪 Đăng xuất</a>
+        <a asp-controller="Admin" asp-action="Dashboard">Dashboard</a>
+        <a asp-controller="DienThoai" asp-action="Index">📱 Điện thoại</a>
+        <a asp-controller="HangDienThoai" asp-action="Index" class="active">🏷️ Hãng điện thoại</a>
+        <a asp-controller="KhachHang" asp-action="Index">👥 Khách hàng</a>
+        <a asp-controller="NCC" asp-action="Index">🏭 Nhà cung cấp</a>
+        <a asp-controller="KhuyenMai" asp-action="Index">🎁 Khuyến mãi</a>
+        <a asp-controller="DonHang" asp-action="Index">🛒 Đơn hàng</a>
+        <a asp-controller="ThongKe" asp-action="Index">📈 Thống kê</a>
+        <a asp-controller="BinhLuan" asp-action="Index">💬 Bình luận</a>
+        <a asp-controller="LienHe" asp-action="Index">📞 Liên hệ</a>
+        <a asp-controller="Account" asp-action="Logout">🚪 Đăng xuất</a>
     </div>
-<<<<<<< HEAD
-=======
->>>>>>> origin/feature/anh-chitiet-sanpham-thongke
->>>>>>> 6cd6911e6a789d1be217678789afe721ede331cb
 </body>
 </html>

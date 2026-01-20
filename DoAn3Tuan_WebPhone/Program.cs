@@ -8,25 +8,21 @@ builder.Services.AddDistributedMemoryCache();
 
 // ??ng ký DbContext và chu?i k?t n?i
 builder.Services.AddDbContext<DBBanDienThoaiContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DBBanDienThoai")));
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("DBBanDienThoai"),
+        sqlOptions =>
+        {
+            sqlOptions.EnableRetryOnFailure(
+                maxRetryCount: 5,
+                maxRetryDelay: TimeSpan.FromSeconds(10),
+                errorNumbersToAdd: null
+            );
+        }
+    )
+);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
-
-builder.Services.AddDbContext<DBBanDienThoaiContext>(options =>
-    options.UseSqlServer(
-        builder.Configuration.GetConnectionString("DefaultConnection")
-    ));
-
-
-
-builder.Services.AddControllersWithViews();
-
-builder.Services.AddDbContext<DBBanDienThoaiContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DBBanDienThoai")));
-
-
 
 builder.Services.AddSession(options =>
 {

@@ -1,0 +1,23 @@
+﻿@model DoAn3Tuan_WebPhone.Models.HangDienThoai
+
+<div class="container p-4">
+    <h4>Cập nhật: @Model.TenHangDienThoai</h4>
+    <hr />
+    <form asp-action="Edit">
+        <input type="hidden" asp-for="MaHangDienThoai" />
+        <div class="mb-3">
+            <label class="form-label">Tên Hãng</label>
+            <input asp-for="TenHangDienThoai" class="form-control" required />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Mô Tả</label>
+            <textarea asp-for="MoTa" class="form-control" rows="3"></textarea>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Trạng Thái (1: Hiện, 0: Ẩn)</label>
+            <input asp-for="TrangThai" class="form-control" type="number" />
+        </div>
+        <button type="submit" class="btn btn-primary">Cập nhật</button>
+        <a asp-action="Index" class="btn btn-secondary">Hủy bỏ</a>
+    </form>
+</div>

@@ -1227,5 +1227,93 @@ footer {
 .mini-img {
     position: relative; /* Quan trọng */
 }
+/* ===== USER LOGIN DROPDOWN ===== */
+.user-dropdown-container {
+    position: relative;
+}
+
+.user-dropdown-content {
+    display: none;
+    position: absolute;
+    top: 45px;
+    right: 0;
+    width: 280px;
+    background: #fff;
+    padding: 18px;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    z-index: 999;
+}
+
+/* Hiện dropdown khi hover */
+.user-dropdown-container:hover .user-dropdown-content {
+    display: block;
+}
+
+/* Title */
+.dropdown-title {
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    color: #003d82;
+    margin-bottom: 12px;
+}
+
+/* Input */
+.dropdown-input {
+    width: 100%;
+    padding: 10px 12px;
+    margin-bottom: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    outline: none;
+}
+
+    .dropdown-input:focus {
+        border-color: #fed700;
+    }
+
+/* Button login */
+.btn-login {
+    width: 100%;
+    padding: 10px;
+    background: #fed700;
+    border: none;
+    border-radius: 25px;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    color: #333;
+}
+
+    .btn-login:hover {
+        background: #f5cc00;
+    }
+
+/* Divider */
+.dropdown-divider {
+    height: 1px;
+    background: #eee;
+    margin: 14px 0;
+}
+
+/* Footer */
+.dropdown-footer {
+    text-align: center;
+    font-size: 13px;
+    color: #666;
+}
+
+.link-register {
+    margin-left: 5px;
+    font-weight: bold;
+    color: #003d82;
+    text-decoration: none;
+}
+
+    .link-register:hover {
+        text-decoration: underline;
+    }
 
 </style >
