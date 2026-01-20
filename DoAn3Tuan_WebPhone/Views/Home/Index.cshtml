@@ -63,32 +63,55 @@
 
                     <!-- USER DROPDOWN -->
                     <div class="user-dropdown-container">
-                        <a href="#" class="icon-btn user-icon">
-                            <i class="far fa-user"></i>
-                        </a>
-
-                        <div class="user-dropdown-content">
-                            <h4 class="dropdown-title">Đăng nhập</h4>
-
-                            <input type="text"
-                                   class="dropdown-input"
-                                   placeholder="Email hoặc tên đăng nhập" />
-
-                            <input type="password"
-                                   class="dropdown-input"
-                                   placeholder="Mật khẩu" />
-
-                            <button class="btn-login">Đăng nhập</button>
-
-                            <div class="dropdown-divider"></div>
-
-                            <div class="dropdown-footer">
-                                <span>Chưa có tài khoản?</span>
-                                <a href="/Account/Register" class="link-register">
-                                    Đăng ký
-                                </a>
+                        @if (Context.Session.GetString("MaKH") != null)
+                        {
+                            <a href="#" class="icon-btn user-icon">
+                                <i class="fas fa-user"></i>
+                                <span class="user-name-label">@Context.Session.GetString("TenUser")</span>
+                            </a>
+                            <div class="user-dropdown-content logged-in">
+                                <h4 class="dropdown-title">Tài khoản của tôi</h4>
+                                <a href="/Account/Profile"><i class="fas fa-id-card me-2"></i> Trang cá nhân</a>
+                                <a href="/DonHang/History"><i class="fas fa-shopping-bag me-2"></i> Đơn hàng đã mua</a>
+                                <div class="dropdown-divider"></div>
+                                <a href="/Account/Logout" class="text-danger"><i class="fas fa-sign-out-alt me-2"></i> Đăng xuất</a>
                             </div>
-                        </div>
+                        }
+                        else
+                        {
+                            <a href="#" class="icon-btn user-icon">
+                                <i class="far fa-user"></i>
+                            </a>
+
+                            <div class="user-dropdown-content" id="authDropdown">
+                                <div id="loginSection">
+                                    <h4 class="dropdown-title">Đăng nhập</h4>
+                                    <form action="/Account/Login" method="post">
+                                        <input type="text" name="username" class="dropdown-input" placeholder="Tên đăng nhập" required />
+                                        <input type="password" name="password" class="dropdown-input" placeholder="Mật khẩu" required />
+                                        <button type="submit" class="btn-login">Đăng nhập</button>
+                                    </form>
+                                    <div class="dropdown-footer">
+                                        <span>Chưa có tài khoản?</span>
+                                        <a href="javascript:void(0)" onclick="toggleAuth('register')" class="link-register">Đăng ký ngay</a>
+                                    </div>
+                                </div>
+
+                                <div id="registerSection" style="display: none;">
+                                    <h4 class="dropdown-title">Đăng ký</h4>
+                                    <form action="/Account/Register" method="post">
+                                        <input type="text" name="hoten" class="dropdown-input" placeholder="Họ và tên" required />
+                                        <input type="text" name="username" class="dropdown-input" placeholder="Tên đăng nhập" required />
+                                        <input type="email" name="email" class="dropdown-input" placeholder="Email" required />
+                                        <input type="password" name="password" class="dropdown-input" placeholder="Mật khẩu" required />
+                                        <button type="submit" class="btn-login btn-register-submit">Tạo tài khoản</button>
+                                    </form>
+                                    <div class="dropdown-footer text-center mt-2">
+                                        <a href="javascript:void(0)" onclick="toggleAuth('login')" class="link-register small">Quay lại Đăng nhập</a>
+                                    </div>
+                                </div>
+                            </div>
+                        }
                     </div>
                     <!-- END USER DROPDOWN -->
                     <!-- CART -->
@@ -775,7 +798,40 @@
             <i class="fas fa-comment-dots" style="font-size: 24px;"></i>
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            // Thay ".hero-slider-owl" bằng class chuẩn của slider trong template của ông
+            $(".hero-slider-owl").owlCarousel({
+                items: 1,
+                loop: true,
+                autoplay: true,
+                dots: true, // Đây là những cái nút nhỏ nhỏ để bấm chuyển sản phẩm
+                nav: false
+            });
+        });
+    </script>
+    <script>
+        function toggleAuth(type) {
+            // Lấy hai khối nội dung dựa trên ID bạn đã đặt
+            const loginSec = document.getElementById('loginSection');
+            const registerSec = document.getElementById('registerSection');
 
+            if (type === 'register') {
+                // Sử dụng style.display để ẩn/hiện
+                loginSec.style.display = 'none';
+                registerSec.style.display = 'block';
+            } else {
+                loginSec.style.display = 'block';
+                registerSec.style.display = 'none';
+            }
+        }
 
+        // Chống việc menu tự đóng lại khi bấm vào các ô nhập liệu (Nếu dùng Bootstrap)
+        document.querySelector('.user-dropdown-content').addEventListener('click', function (e) {
+            e.stopPropagation();
+        });
+    </script>
 </body>
 </html>

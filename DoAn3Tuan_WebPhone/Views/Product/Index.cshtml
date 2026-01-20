@@ -1,20 +1,19 @@
-﻿@{
-    Layout = null;
-    ViewData["Title"] = "Giới Thiệu - Electro Mobile";
+﻿@model List<DoAn3Tuan_WebPhone.Models.DienThoai>
+@{
+    ViewData["Title"] = "Danh sách sản phẩm";
+}
+@{
+    Layout = null; // Để tạm null cho giống Home của ông
 }
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh Sách Sản Phẩm - Toàn Cầu</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
     <link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
-
-    <link rel="stylesheet" href="~/css/about.css" asp-append-version="true" />
 </head>
 <body>
-
     <!-- Top Bar -->
     <div class="top-bar">
         <div class="container">
@@ -128,120 +127,49 @@
             </div>
         </div>
     </nav>
-    <div class="about-section">
-        <div class="container">
 
-            <div class="about-header">
-                <h1>Về Electro Mobile</h1>
-                <div class="line"></div>
-                <p style="margin-top: 15px; color: #666;">Đối tác tin cậy hàng đầu về thiết bị công nghệ chính hãng tại Việt Nam</p>
-            </div>
 
-            <div class="about-content-wrapper">
-                <div class="about-text">
-                    <h2>Câu Chuyện Khởi Nghiệp</h2>
-                    <p>
-                        Ra mắt vào năm <strong>2025</strong>, Electro Mobile là đứa con tinh thần đầy tâm huyết của một nhóm <strong>4 thành viên trẻ</strong> đam mê công nghệ. Xuất phát điểm từ <strong>CDTH 23WEBC</strong> với khát vọng xây dựng một hệ thống bán lẻ hiện đại, chúng tôi đã cùng nhau phát triển Electro Mobile trở thành điểm đến tin cậy cho những tín đồ yêu thích smartphone.
-                    </p>
-                    <p>
-                        Không chỉ đơn thuần là bán điện thoại, chúng tôi mong muốn mang đến trải nghiệm mua sắm trực tuyến mượt mà, minh bạch và tận tâm nhất. Với sức trẻ và tư duy đổi mới, Electro Mobile cam kết mỗi sản phẩm đến tay khách hàng đều là sự kết tinh của uy tín và chất lượng.
-                    </p>
+    <div class="container mt-5">
+        <h2 class="mb-4">Tất Cả Sản Phẩm</h2>
 
-                    <h2>Lĩnh Vực Kinh Doanh Cốt Lõi</h2>
-                    <ul>
-                        <li><strong>Smartphone Chính Hãng:</strong> Phân phối các dòng điện thoại mới nhất từ Apple, Samsung, Xiaomi...</li>
-                        <li><strong>Thiết Bị & Phụ Kiện:</strong> Cung cấp iPad, Laptop, Tai nghe, Sạc dự phòng chất lượng cao.</li>
-                        <li><strong>Giải Pháp Công Nghệ:</strong> Tư vấn phần mềm, hỗ trợ kỹ thuật và dịch vụ Thu cũ đổi mới (Trade-in) trợ giá tốt nhất.</li>
-                    </ul>
-                </div>
-
-                <div class="about-image">
-                    <img src="~/images/iphone15.jpg" alt="Electro Mobile Store" onerror="this.src='https://images.unsplash.com/photo-1556742049-0cfed4f7a07d?auto=format&fit=crop&w=1000'">
-                    <div class="experience-badge">
-                        <span>2025</span>
-                        Thành Lập
+        <div class="products-grid">
+            @if (Model.Any())
+            {
+                @foreach (var sp in Model)
+                {
+                    <div class="product-card">
+                        <div class="product-category">@sp.HangDienThoaiNavigation?.TenHangDienThoai</div>
+                        <h3 class="product-name">
+                            <a href="/ChiTietSanPham/Index/@sp.MaDienThoai">@sp.TenDienThoai</a>
+                        </h3>
+                        <div class="product-image">
+                            <a href="/ChiTietSanPham/Index/@sp.MaDienThoai">
+                                <img src="@sp.Thumbnail" alt="@sp.TenDienThoai" onerror="this.src='/images/no-image.png'">
+                            </a>
+                        </div>
+                        <div class="price-action-row">
+                            <div class="price-box">
+                                <span class="product-price">@sp.DonGia.ToString("N0")đ</span>
+                            </div>
+                            <button class="btn-cart-round"><i class="fas fa-shopping-cart"></i></button>
+                        </div>
                     </div>
-                </div>
-            </div>
-
-            <div class="stats-section">
-                <div class="stats-grid">
-                    <div class="stat-item">
-                        <i class="fas fa-users"></i>
-                        <span class="stat-number">50.000+</span>
-                        <span class="stat-label">Khách Hàng Tin Dùng</span>
-                    </div>
-                    <div class="stat-item">
-                        <i class="fas fa-mobile-alt"></i>
-                        <span class="stat-number">100.000+</span>
-                        <span class="stat-label">Sản Phẩm Đã Bán</span>
-                    </div>
-                    <div class="stat-item">
-                        <i class="fas fa-store"></i>
-                        <span class="stat-number">4</span>
-                        <span class="stat-label">Thành Viên Sáng Lập</span>
-                    </div>
-                    <div class="stat-item">
-                        <i class="fas fa-award"></i>
-                        <span class="stat-number">Top 1</span>
-                        <span class="stat-label">Startup Công Nghệ</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="about-header" style="margin-bottom: 30px;">
-                <h1>Tại Sao Chọn Chúng Tôi?</h1>
-                <div class="line"></div>
-            </div>
-
-            <div class="policies-grid">
-                <div class="policy-card">
-                    <div class="policy-icon"><i class="fas fa-check-circle"></i></div>
-                    <h3>100% Chính Hãng</h3>
-                    <p>Cam kết hàng chính hãng, nguyên seal, đầy đủ hóa đơn VAT. Phát hiện hàng giả đền bù 200% giá trị.</p>
-                </div>
-                <div class="policy-card">
-                    <div class="policy-icon"><i class="fas fa-undo-alt"></i></div>
-                    <h3>Đổi Trả 30 Ngày</h3>
-                    <p>Lỗi là đổi mới trong 30 ngày đầu tiên. Bảo hành chính hãng lên đến 24 tháng cho các dòng máy cao cấp.</p>
-                </div>
-                <div class="policy-card">
-                    <div class="policy-icon"><i class="fas fa-truck"></i></div>
-                    <h3>Giao Hàng Hỏa Tốc</h3>
-                    <p>Miễn phí vận chuyển toàn quốc cho đơn hàng từ 50$. Giao nhanh 2h trong nội thành TP.HCM và Hà Nội.</p>
-                </div>
-                <div class="policy-card">
-                    <div class="policy-icon"><i class="fas fa-tools"></i></div>
-                    <h3>Bảo Hành Trọn Đời</h3>
-                    <p>Hỗ trợ cài đặt phần mềm trọn đời. Vệ sinh máy miễn phí bất cứ lúc nào bạn ghé cửa hàng.</p>
-                </div>
-                <div class="policy-card">
-                    <div class="policy-icon"><i class="fas fa-headset"></i></div>
-                    <h3>Hỗ Trợ 24/7</h3>
-                    <p>Đội ngũ tư vấn viên am hiểu công nghệ, sẵn sàng giải đáp mọi thắc mắc của bạn qua Hotline và Fanpage.</p>
-                </div>
-                <div class="policy-card">
-                    <div class="policy-icon"><i class="fas fa-hand-holding-usd"></i></div>
-                    <h3>Trả Góp 0%</h3>
-                    <p>Hỗ trợ trả góp lãi suất 0% qua thẻ tín dụng hoặc công ty tài chính. Duyệt hồ sơ nhanh chóng trong 15 phút.</p>
-                </div>
-            </div>
-
+                }
+            }
+            else
+            {
+                <p>Không tìm thấy sản phẩm nào phù hợp.</p>
+            }
         </div>
-    </div>
 
-    <div class="blog-teaser" style="text-align: center; margin-top: 60px; background: #f9f9f9; padding: 40px; border-radius: 10px;">
-
-        <h2 style="color: #003d82; margin-bottom: 15px;">Tin Tức & Đánh Giá Sản Phẩm</h2>
-
-        <p style="color: #666; margin-bottom: 25px;">
-            Tham khảo các bài viết <strong>Review sản phẩm</strong>, so sánh cấu hình và mẹo sử dụng thiết bị mới nhất.
-        </p>
-
-        <a asp-controller="Blog" asp-action="Index" class="btn-go-blog" style="background: #fed700; color: #333; padding: 12px 30px; text-decoration: none; font-weight: bold; border-radius: 25px; transition: 0.3s; display: inline-block;">
-            Xem Danh Sách Bài Viết <i class="fas fa-arrow-right"></i>
-        </a>
-
+        <div class="pagination mt-5 text-center" style="display:flex; justify-content:center; gap:10px;">
+            @for (int i = 1; i <= ViewBag.TotalPages; i++)
+            {
+                <a href="@Url.Action("Index", new { page = i, hangId = ViewBag.CurrentHang, searchString = ViewBag.CurrentSearch })"
+                   class="page-btn @(i == ViewBag.CurrentPage ? "active" : "")"
+                   style="padding: 10px 15px; border: 1px solid #ddd; text-decoration:none;">@i</a>
+            }
+        </div>
     </div>
 
     <!-- Footer -->
@@ -312,7 +240,6 @@
             </div>
         </div>
 
-
         <!-- Footer Bottom -->
         <div class="footer-bottom">
             <div class="container">
@@ -348,6 +275,5 @@
             <i class="fas fa-comment-dots" style="font-size: 24px;"></i>
         </div>
     </div>
-
 </body>
 </html>
