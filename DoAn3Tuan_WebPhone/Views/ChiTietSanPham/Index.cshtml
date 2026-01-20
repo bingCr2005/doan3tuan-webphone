@@ -765,22 +765,32 @@
         // Thêm vào giỏ
         function addToCart() {
             let qty = parseInt(document.getElementById('quantity').value);
-            if(currentStock >= qty) {
-                currentStock -= qty;
-                cartCount += qty;
-                document.getElementById('cartCount').innerText = cartCount;
-                document.getElementById('stockQuantity').innerText = currentStock;
+            let maDT = '@Model.DienThoai.MaDienThoai';
 
-                // Xử lý khi hết hàng
-                if(currentStock === 0) {
-                   document.getElementById('stockStatus').className = 'stock-status out-stock';
-                   document.getElementById('stockStatus').innerHTML = '<i class="fas fa-times-circle"></i> Hết hàng';
+            fetch('/GioHang/AddToCart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: `maDT=${maDT}&qty=${qty}`
+            })
+            .then(res => res.json())
+                    .then(data => {
+            alert(data.message);
+
+            if (data.success) {
+                // cập nhật tồn kho ngay trên trang
+                document.getElementById('stockQuantity').innerText = data.newStock;
+
+                if (data.newStock === 0) {
+                    document.getElementById('stockStatus').innerHTML =
+                        '<i class="fas fa-times-circle"></i> Hết hàng';
                 }
-                alert("Đã thêm " + qty + " sản phẩm vào giỏ!");
-            } else {
-                alert("Hết hàng!");
             }
+        });
         }
+
+
 
         // Yêu thích
         function toggleWishlist() {

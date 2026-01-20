@@ -50,7 +50,7 @@ public class GioHangController : Controller
 
     // CẬP NHẬT SỐ LƯỢNG
     [HttpPost]
-    public IActionResult Update(int id, int qty, int page = 1)
+    public IActionResult Update(int id, int qty)
     {
         if (qty < 1) qty = 1;
 
@@ -58,14 +58,29 @@ public class GioHangController : Controller
             .Include(x => x.MaDienThoaiNavigation)
             .FirstOrDefault(x => x.MaCtgh == id);
 
-        if (ct != null)
+        if (ct == null)
+            return Json(new { success = false, message = "Không tìm thấy sản phẩm" });
+
+        int tonKho = ct.MaDienThoaiNavigation!.SoLuongTon ?? 0;
+
+        if (qty > tonKho)
         {
-            ct.SoLuong = qty;
-            ct.ThanhTien = qty * ct.MaDienThoaiNavigation!.DonGia;
+            ct.SoLuong = tonKho;
+            ct.ThanhTien = tonKho * ct.MaDienThoaiNavigation.DonGia;
             _context.SaveChanges();
+
+            return Json(new
+            {
+                success = false,
+                message = $" Chỉ còn {tonKho} sản phẩm trong kho. Đã đặt số lượng tối đa."
+            });
         }
 
-        return RedirectToAction("Index", new { page });
+        ct.SoLuong = qty;
+        ct.ThanhTien = qty * ct.MaDienThoaiNavigation.DonGia;
+        _context.SaveChanges();
+
+        return Json(new { success = true });
     }
 
     // XÓA 1 SẢN PHẨM
@@ -99,7 +114,8 @@ public class GioHangController : Controller
     }
 
     // THÊM SẢN PHẨM
-    public IActionResult AddToCart(string maDT)
+    [HttpPost]
+    public IActionResult AddToCart(string maDT, int qty)
     {
         string maKH = "KH003";
 
@@ -109,41 +125,51 @@ public class GioHangController : Controller
 
         if (gioHang == null)
         {
-            gioHang = new GioHang
-            {
-                MaGioHang = "GH" + DateTime.Now.Ticks.ToString().Substring(10),
-                MaKhachHang = maKH
-            };
+            gioHang = new GioHang { MaKhachHang = maKH };
             _context.GioHangs.Add(gioHang);
             _context.SaveChanges();
         }
 
-        var ct = _context.ChiTietGioHangs
-            .Include(x => x.MaDienThoaiNavigation)
-            .FirstOrDefault(x => x.MaGioHang == gioHang.MaGioHang &&
-                                 x.MaDienThoai == maDT);
+        var sanPham = _context.DienThoais.FirstOrDefault(x => x.MaDienThoai == maDT);
+        if (sanPham == null)
+            return Json(new { success = false, message = "Sản phẩm không tồn tại" });
 
-        if (ct == null)
+        if (sanPham.SoLuongTon < qty)
+            return Json(new { success = false, message = "Không đủ số lượng tồn" });
+
+        var ct = gioHang.ChiTietGioHangs
+            .FirstOrDefault(x => x.MaDienThoai == maDT);
+
+        if (ct != null)
         {
-            var dt = _context.DienThoais.Find(maDT);
-            if (dt == null) return NotFound();
-
+            ct.SoLuong += qty;
+        }
+        else
+        {
             ct = new ChiTietGioHang
             {
                 MaGioHang = gioHang.MaGioHang,
                 MaDienThoai = maDT,
-                SoLuong = 1,
-                ThanhTien = dt.DonGia
+                SoLuong = qty
             };
             _context.ChiTietGioHangs.Add(ct);
         }
-        else
-        {
-            ct.SoLuong++;
-            ct.ThanhTien = ct.SoLuong * ct.MaDienThoaiNavigation!.DonGia;
-        }
+
+        // 🔥 TRỪ TỒN KHO THẬT
+        sanPham.SoLuongTon -= qty;
+
+        // cập nhật thành tiền
+        ct.ThanhTien = ct.SoLuong * sanPham.DonGia;
 
         _context.SaveChanges();
-        return RedirectToAction("Index");
+
+        return Json(new
+        {
+            success = true,
+            message = "Đã thêm vào giỏ hàng",
+            newStock = sanPham.SoLuongTon // 🔥 trả tồn kho mới
+        });
     }
+
+
 }

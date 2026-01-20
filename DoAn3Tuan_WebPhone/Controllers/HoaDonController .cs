@@ -18,17 +18,17 @@ public class HoaDonController : Controller
 
         var query = _context.HoaDons.AsQueryable();
 
-        // 🔍 LỌC THEO TRẠNG THÁI
+        //  LỌC THEO TRẠNG THÁI
         if (trangThai.HasValue)
         {
             query = query.Where(hd => hd.TrangThai == trangThai);
         }
 
-        // 🔢 TỔNG SỐ ĐƠN
+        //  TỔNG SỐ ĐƠN
         int totalItems = query.Count();
         int totalPages = (int)Math.Ceiling((double)totalItems / pageSize);
 
-        // 📄 PHÂN TRANG
+        //  PHÂN TRANG
         var hoaDons = query
             .OrderByDescending(hd => hd.NgayLap)
             .Skip((page - 1) * pageSize)
