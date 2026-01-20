@@ -311,7 +311,9 @@
                                             <span class="old-price">@((sp.DonGia * 1.15m).ToString("N0"))đ</span>
                                         }
                                     </div>
-                                    <button class="btn-cart-round"><i class="fas fa-shopping-cart"></i></button>
+                                    <button class="btn-cart-round" onclick="addToCart('@sp.MaDienThoai')">
+                                        <i class="fas fa-shopping-cart"></i>
+                                    </button>
                                 </div>
 
                                 <div class="hover-footer">
@@ -629,6 +631,35 @@
                 nav: false
             });
         });
+        function addToCart(maDT) {
+                $.ajax({
+                    url: '/GioHang/AddToCart',
+                    type: 'POST',
+                    // maDT và qty phải khớp với tham số trong GioHangController.cs
+                    data: { maDT: maDT, qty: 1 },
+                    success: function (response) {
+                        if (response.success) {
+                            // Hiển thị thông báo từ Controller trả về
+                            alert(response.message);
+
+                            // Tìm thẻ span có class 'icon-badge' để cập nhật số lượng hiển thị
+                            // Logic này cộng dồn số lượng trực tiếp trên giao diện
+                            var currentBadge = parseInt($('.icon-badge').first().text()) || 0;
+                            $('.icon-badge').text(currentBadge + 1);
+
+                            // Nếu muốn cập nhật chính xác số lượng tồn kho mới (newStock) từ response
+                            console.log("Số lượng tồn kho còn lại: " + response.newStock);
+                        } else {
+                            // Thông báo nếu hết hàng hoặc lỗi khác từ Controller
+                            alert("Lỗi: " + response.message);
+                        }
+                    },
+                    error: function () {
+                        // Xử lý lỗi kết nối mạng hoặc server sập
+                        alert("Không thể kết nối đến hệ thống giỏ hàng.");
+                    }
+                });
+            }
     </script>
     <script>
         function toggleAuth(type) {
