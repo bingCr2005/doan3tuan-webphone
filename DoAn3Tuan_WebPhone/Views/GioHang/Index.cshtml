@@ -1,11 +1,17 @@
 ﻿@model List<DoAn3Tuan_WebPhone.Models.ChiTietGioHang>
-
 <h2>Giỏ hàng</h2>
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-warning">
+        @TempData["Error"]
+    </div>
+}
 
 @if (!Model.Any())
 {
     <p>Giỏ hàng trống</p>
 }
+
 else
 {
     <form asp-controller="ThanhToan"
@@ -59,8 +65,9 @@ else
                         <td>
                             <a asp-action="Delete"
                                asp-route-id="@item.MaCtgh"
+                               asp-route-page="@ViewBag.CurrentPage"
                                class="btn btn-danger btn-sm"
-                               onclick="return confirm('Xóa sản phẩm?')">
+                                onclick="return confirm('Xóa sản phẩm này ra khỏi giỏ hàng')">
                                 Xóa
                             </a>
                         </td>
@@ -91,6 +98,42 @@ else
         </div>
 
     </form>
+    @if (ViewBag.TotalPages > 1)
+    {
+        <nav class="mt-3">
+            <ul class="pagination justify-content-center">
+
+                <!-- Previous -->
+                <li class="page-item @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
+                    <a class="page-link"
+                       href="@Url.Action("Index", new { page = ViewBag.CurrentPage - 1 })">
+                        «
+                    </a>
+                </li>
+
+                <!-- Page number -->
+                @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                {
+                    <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                        <a class="page-link"
+                           href="@Url.Action("Index", new { page = i })">
+                            @i
+                        </a>
+                    </li>
+                }
+
+                <!-- Next -->
+                <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPages ? "disabled" : "")">
+                    <a class="page-link"
+                       href="@Url.Action("Index", new { page = ViewBag.CurrentPage + 1 })">
+                        »
+                    </a>
+                </li>
+
+            </ul>
+        </nav>
+    }
+
 }
 
 <script>
@@ -104,6 +147,31 @@ else
             },
             body: `id=${id}&qty=${qty}`
         })
-        .then(() => location.reload());
+        .then(res => res.json())
+        .then(data => {
+            if (!data.success) {
+                alert(data.message); //  HIỆN THÔNG BÁO
+            }
+            location.reload(); // reload để cập nhật lại số lượng
+        });
+    }
+         function deleteItem(id) {
+        if (!confirm("Bạn có chắc muốn xóa sản phẩm này không?")) return;
+
+        fetch('/GioHang/DeleteAjax', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: `id=${id}`
+        })
+        .then(res => res.json())
+        .then(data => {
+            alert(data.message);
+            if (data.success) {
+                location.reload();
+            }
+        });
     }
 </script>
+

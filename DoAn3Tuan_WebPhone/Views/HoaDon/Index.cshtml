@@ -1,0 +1,81 @@
+﻿@model List<DoAn3Tuan_WebPhone.Models.HoaDon>
+@{
+    ViewData["Title"] = "Quản lý đơn hàng";
+}
+
+
+<h3>Quản lý đơn hàng</h3>
+<div class="mb-3">
+    <a asp-action="Index" class="btn btn-outline-secondary">Tất cả</a>
+    <a asp-action="Index" asp-route-trangThai="0" class="btn btn-outline-warning">Chờ xử lý</a>
+    <a asp-action="Index" asp-route-trangThai="1" class="btn btn-outline-success">Đã giao</a>
+    <a asp-action="Index" asp-route-trangThai="-1" class="btn btn-outline-danger">Đã hủy</a>
+</div>
+
+
+<table class="table table-bordered table-hover text-center align-middle">
+    <thead class="table-dark">
+        <tr>
+            <th>Mã đơn</th>
+            <th>Ngày lập</th>
+            <th>Tổng tiền</th>
+            <th>Trạng thái</th>
+            <th>Thao tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.MaHoaDon</td>
+                <td>@item.NgayLap</td>
+                <td>@(item.TongTien?.ToString("N0") ?? "0") đ</td>
+                <td>
+                    @switch (item.TrangThai)
+                    {
+                        case 0:
+                            <span class="badge bg-warning text-dark">Chờ xử lý</span>
+                            break;
+                        case 1:
+                            <span class="badge bg-success">Đã giao</span>
+                            break;
+                        case -1:
+                            <span class="badge bg-danger">Đã hủy</span>
+                            break;
+                    }
+                </td>
+                <td>
+                    <a asp-action="Edit"
+                       asp-route-id="@item.MaHoaDon"
+                       class="btn btn-sm btn-warning">
+                        ✏️ Cập nhật
+                    </a>
+
+                    <form asp-action="DeleteConfirmed"
+                          asp-route-id="@item.MaHoaDon"
+                          method="post"
+                          style="display:inline"
+                          onsubmit="return confirm('Bạn có chắc muốn xóa đơn hàng này không?');">
+                        @Html.AntiForgeryToken()
+                        <button class="btn btn-sm btn-danger">
+                            🗑️ Xóa
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<nav>
+    <ul class="pagination justify-content-center">
+        @for (int i = 1; i <= (int)ViewBag.TotalPages; i++)
+        {
+            <li class="page-item @(i == (int)ViewBag.CurrentPage ? "active" : "")">
+                <a class="page-link"
+                   href="@Url.Action("Index", new { page = i, trangThai = ViewBag.TrangThai })">
+                    @i
+                </a>
+            </li>
+        }
+    </ul>
+</nav>
