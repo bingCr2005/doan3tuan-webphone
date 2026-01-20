@@ -14,16 +14,29 @@ namespace DoAn3Tuan_WebPhone.Controllers
         }
 
         // 39. Tìm kiếm và Liệt kê hãng
-        public async Task<IActionResult> Index(string searchString)
+        public async Task<IActionResult> Index(string search, int page = 1)
         {
+            int pageSize = 10;
             var query = _context.HangDienThoais.AsQueryable();
 
-            if (!string.IsNullOrEmpty(searchString))
+            // 1. Kiểm tra từ khóa tìm kiếm
+            if (!string.IsNullOrEmpty(search))
             {
-                query = query.Where(h => h.TenHangDienThoai.Contains(searchString));
+                query = query.Where(h => h.TenHangDienThoai.StartsWith(search));
             }
 
-            return View(await query.ToListAsync());
+            // 2. Tính toán phân trang đồng bộ với giao diện bạn
+            int totalItems = await query.CountAsync();
+            ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+            ViewBag.CurrentPage = page;
+            ViewBag.Search = search; // Giữ lại từ khóa trên ô tìm kiếm
+
+            var result = await query
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return View(result);
         }
 
         // 36. Hiển thị trang Thêm hãng mới
@@ -64,15 +77,21 @@ namespace DoAn3Tuan_WebPhone.Controllers
         }
 
         // 38. Xóa hãng
+        // Hàm POST để thực hiện xóa
         [HttpPost]
-        public async Task<IActionResult> Delete(string id)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var hang = await _context.HangDienThoais.FindAsync(id);
-            if (hang != null)
+            if (id == null) return NotFound();
+
+            // Tìm và xóa hãng điện thoại
+            var hangDienThoai = await _context.HangDienThoais.FindAsync(id.Trim());
+            if (hangDienThoai != null)
             {
-                _context.HangDienThoais.Remove(hang);
+                _context.HangDienThoais.Remove(hangDienThoai);
                 await _context.SaveChangesAsync();
             }
+
             return RedirectToAction(nameof(Index));
         }
     }
