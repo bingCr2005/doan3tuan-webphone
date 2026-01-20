@@ -1,7 +1,8 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DoAn3Tuan_WebPhone.Models;
 using DoAn3Tuan_WebPhone.ViewModels;
+using DoAn3Tuan_WebPhone.Helpers;// thêm để sử dụng session
 
 namespace DoAn3Tuan_WebPhone.Controllers
 {
@@ -25,7 +26,7 @@ namespace DoAn3Tuan_WebPhone.Controllers
 
             var baseQuery = _context.DienThoais.Where(p => p.TrangThai == 1);
 
-            // l?y d? li?u cho Slideshow
+            // lay du lieu cho slideShow
             var topViews = await baseQuery.OrderByDescending(p => p.LuotXem).Take(5).ToListAsync();
 
             viewModel.SanPhamNoiBat = new List<DienThoai>();
@@ -33,18 +34,19 @@ namespace DoAn3Tuan_WebPhone.Controllers
             viewModel.SanPhamNoiBat.Add(topViews.First());
             viewModel.SanPhamNoiBat.Add(await baseQuery.OrderBy(p => p.DonGia).FirstOrDefaultAsync());
             viewModel.SanPhamNoiBat.Add(await baseQuery.FirstOrDefaultAsync(p => p.TenDienThoai.Contains("iPhone 17")));
-            // Lo?i b? c�c ph?n t? null n?u kh�ng t�m th?y m�y
+           
             viewModel.SanPhamNoiBat.RemoveAll(item => item == null);
 
-            // 2. Ph�n trang t?i ?u
+            // phân trang
             int totalItems = await baseQuery.CountAsync();
             int totalPages = (int)Math.Ceiling((double)totalItems / pageSize);
             page = Math.Clamp(page, 1, totalPages > 0 ? totalPages : 1);
 
-            //S?p x?p theo l??t xem gi?m d?n
+
+            //sap xep luot xem giam dan
             viewModel.SanPhamMoi = await baseQuery
                 .Include(p => p.HangDienThoaiNavigation)
-                .OrderByDescending(p => p.LuotXem) // Con n�o nhi?u View nh?t s? l�n ??u
+                .OrderByDescending(p => p.LuotXem) // view nhiều nhất thì lên trước
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
@@ -53,6 +55,44 @@ namespace DoAn3Tuan_WebPhone.Controllers
             ViewBag.TotalPages = totalPages;
             viewModel.DanhSachHang = await _context.HangDienThoais.ToListAsync();
 
+            // Lấy 3 điện thoại có mã ID lớn nhất
+            viewModel.SanPhamMoiVe = await _context.DienThoais
+                .Where(p => p.TrangThai == 1)
+                .OrderByDescending(p => p.MaDienThoai)
+                .Take(3)
+                .ToListAsync();
+
+            // Bán Chạy laysa 3 sản phẩm có tổng số lượng bán nhiều nhất
+            viewModel.SanPhamBanChay = await _context.DienThoais
+                .Include(p => p.HangDienThoaiNavigation) // Để lấy tên hãng (thông tin thứ 4)
+                .OrderByDescending(p => p.ChiTietHoaDons.Sum(ct => ct.SoLuong))
+                .Take(3)
+                            .ToListAsync();
+            // Lấy chuỗi ID từ Session, nếu trống thì trả về chuỗi rỗng
+            string currentViews = HttpContext.Session.GetString("RecentViews") ?? "";
+
+            //Tách chuỗi thành List và xóa khoảng trắng (Trim) cho từng ID
+            var dsId = currentViews.Split(',', StringSplitOptions.RemoveEmptyEntries)
+                                    .Select(id => id.Trim())
+                                    .ToList();
+
+            viewModel.SanPhamDaXem = new List<DienThoai>();
+
+            if (dsId.Any())
+            {
+                //Lấy sản phẩm từ Database
+                var listSP = await _context.DienThoais
+                    .Include(p => p.BinhLuans)
+                    .Where(p => dsId.Contains(p.MaDienThoai)) // Database tự so sánh khớp mã
+                    .ToListAsync();
+
+                // Sắp xếp lại danh sách theo đúng thứ tự trong dsId và gán vào ViewModel
+                viewModel.SanPhamDaXem = dsId
+                    .Select(id => listSP.FirstOrDefault(sp => sp.MaDienThoai.Trim() == id))
+                    .Where(sp => sp != null) // Bỏ qua nếu không tìm thấy máy (null)
+                    .Cast<DienThoai>()     // Ép kiểu về đúng đối tượng điện thoại
+                    .ToList();
+            }
             return View(viewModel);
         }
     }
