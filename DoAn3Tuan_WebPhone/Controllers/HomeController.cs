@@ -95,5 +95,42 @@ namespace DoAn3Tuan_WebPhone.Controllers
             }
             return View(viewModel);
         }
+
+        // phương thức xử lý đăng ký nhận bản tin (Newsletter)
+        [HttpPost]
+        public async Task<IActionResult> SubscribeNewsletter(string email)
+        {
+            try
+            {
+                // 1. Kiểm tra dữ liệu đầu vào
+                if (string.IsNullOrEmpty(email))
+                {
+                    return Json(new { success = false, message = "Email không được để trống." });
+                }
+
+                // 2. Tạo đối tượng liên hệ mới để lưu vào Database(line he)
+                var contact = new LienHe
+                {
+                    HoTen = "Khách Newsletter", // Tên mặc định cho người đăng ký qua form newsletter
+                    Email = email,
+                    SoDienThoai = "N/A",
+                    NoiDung = "Đăng ký nhận bản tin khuyến mãi 500.000đ từ trang chủ.",
+                    NgayGui = DateTime.Now,
+                    TrangThai = 0 // 0: Mới, 1: Đã xử lý
+                };
+
+                // 3. Lưu vào cơ sở dữ liệu
+                _context.LienHes.Add(contact);
+                await _context.SaveChangesAsync();
+
+                // 4. Trả về kết quả thành công cho AJAX
+                return Json(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                // Trả về lỗi nếu có sự cố
+                return Json(new { success = false, message = "Có lỗi xảy ra: " + ex.Message });
+            }
+        }
     }
 }

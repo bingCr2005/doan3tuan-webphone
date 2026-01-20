@@ -499,17 +499,17 @@
     <!-- Newsletter -->
     <section class="newsletter">
         <div class="container">
-            <div class="newsletter-content">
+            <div class="newsletter-content" id="newsletter-area">
                 <div class="newsletter-left">
                     <div class="newsletter-icon"><i class="far fa-envelope"></i></div>
                     <div class="newsletter-text">
                         <h3>Đăng Ký Nhận Bản Tin</h3>
-                        <p>...và nhận phiếu giảm giá <strong>$20</strong> cho lần mua hàng đầu tiên</p>
+                        <p>...và nhận phiếu giảm giá <strong>500.000đ</strong> cho lần mua hàng đầu tiên</p>
                     </div>
                 </div>
                 <div class="newsletter-form">
-                    <input type="email" class="newsletter-input" placeholder="Nhập địa chỉ email của bạn">
-                    <button class="newsletter-btn">Đăng Ký</button>
+                    <input type="email" id="newsletterEmail" class="newsletter-input" placeholder="Nhập địa chỉ email của bạn">
+                    <button class="newsletter-btn" onclick="subscribeNewsletter()">Đăng Ký</button>
                 </div>
             </div>
         </div>
@@ -622,44 +622,64 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
     <script>
         $(document).ready(function(){
-            // Thay ".hero-slider-owl" bằng class chuẩn của slider trong template
+            // Khởi tạo slider
             $(".hero-slider-owl").owlCarousel({
-                items: 1,
-                loop: true,
-                autoplay: true,
-                dots: true, // Đây là những cái nút nhỏ nhỏ để bấm chuyển sản phẩm
-                nav: false
+                items: 1, loop: true, autoplay: true, dots: true, nav: false
             });
         });
+
+        // 1. CHỨC NĂNG GIỎ HÀNG (GIỮ NGUYÊN)
         function addToCart(maDT) {
-                $.ajax({
-                    url: '/GioHang/AddToCart',
-                    type: 'POST',
-                    // maDT và qty phải khớp với tham số trong GioHangController.cs
-                    data: { maDT: maDT, qty: 1 },
-                    success: function (response) {
-                        if (response.success) {
-                            // Hiển thị thông báo từ Controller trả về
-                            alert(response.message);
-
-                            // Tìm thẻ span có class 'icon-badge' để cập nhật số lượng hiển thị
-                            // Logic này cộng dồn số lượng trực tiếp trên giao diện
-                            var currentBadge = parseInt($('.icon-badge').first().text()) || 0;
-                            $('.icon-badge').text(currentBadge + 1);
-
-                            // Nếu muốn cập nhật chính xác số lượng tồn kho mới (newStock) từ response
-                            console.log("Số lượng tồn kho còn lại: " + response.newStock);
-                        } else {
-                            // Thông báo nếu hết hàng hoặc lỗi khác từ Controller
-                            alert("Lỗi: " + response.message);
-                        }
-                    },
-                    error: function () {
-                        // Xử lý lỗi kết nối mạng hoặc server sập
-                        alert("Không thể kết nối đến hệ thống giỏ hàng.");
+            $.ajax({
+                url: '/GioHang/AddToCart',
+                type: 'POST',
+                data: { maDT: maDT, qty: 1 },
+                success: function (response) {
+                    if (response.success) {
+                        alert(response.message);
+                        var currentBadge = parseInt($('.icon-badge').first().text()) || 0;
+                        $('.icon-badge').text(currentBadge + 1);
+                    } else {
+                        alert("Lỗi: " + response.message);
                     }
-                });
+                },
+                error: function () {
+                    alert("Không thể kết nối đến hệ thống giỏ hàng.");
+                }
+            });
+        }
+
+        //CHỨC NĂNG NEWSLETTER (HIỂN THỊ THÔNG BÁO TẠI CHỖ)
+        function subscribeNewsletter() {
+            var email = $('#newsletterEmail').val();
+
+            // Sử dụng @@ để tránh gạch đỏ
+            if (!email || !email.includes('@@')) {
+                alert("Vui lòng nhập email hợp lệ!");
+                return;
             }
+
+            $.ajax({
+                url: '/Home/SubscribeNewsletter',
+                type: 'POST',
+                data: { email: email },
+                success: function (response) {
+                    if (response.success) {
+                        // thong bao chữ cảm ơn
+                        $('#newsletter-area').html(`
+                            <div style="background: #e6ffed; color: #155724; padding: 15px 30px; border-radius: 5px; width: 100%; border: 1px solid #c3e6cb; text-align: left;">
+                                Cảm ơn bạn đã liên hệ với chúng tôi! Chúng tôi sẽ liên lạc lại với bạn trong thời gian ngắn nhất.
+                            </div>
+                        `);
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function () {
+                    alert("Lỗi kết nối máy chủ");
+                }
+            });
+        }
     </script>
     <script>
         function toggleAuth(type) {
