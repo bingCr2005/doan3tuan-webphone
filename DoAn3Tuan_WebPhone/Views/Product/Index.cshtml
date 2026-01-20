@@ -137,21 +137,44 @@
             {
                 @foreach (var sp in Model)
                 {
+                    //giảm giá và hot
+                    bool isSale = sp.DonGia < 10000000;
+                    bool isSuperHot = sp.LuotXem > 2000;
+
                     <div class="product-card">
+                        @* 1. Hiển thị Badge *@
+                        @if (isSuperHot)
+                        {
+                            <div class="badge-status hot">HOT</div>
+                        }
+                        else if (isSale)
+                        {
+                            <div class="badge-status sale">GIẢM GIÁ</div>
+                        }
+
                         <div class="product-category">@sp.HangDienThoaiNavigation?.TenHangDienThoai</div>
+
                         <h3 class="product-name">
                             <a href="/ChiTietSanPham/Index/@sp.MaDienThoai">@sp.TenDienThoai</a>
                         </h3>
+
                         <div class="product-image">
                             <a href="/ChiTietSanPham/Index/@sp.MaDienThoai">
                                 <img src="@sp.Thumbnail" alt="@sp.TenDienThoai" onerror="this.src='/images/no-image.png'">
                             </a>
                         </div>
+
                         <div class="price-action-row">
                             <div class="price-box">
                                 <span class="product-price">@sp.DonGia.ToString("N0")đ</span>
                             </div>
                             <button class="btn-cart-round"><i class="fas fa-shopping-cart"></i></button>
+                        </div>
+
+                        @* 3. Thêm Footer Hover cho đồng bộ *@
+                        <div class="hover-footer">
+                            <div class="footer-action"><i class="far fa-heart"></i> Wishlist</div>
+                            <div class="footer-action"><i class="fas fa-sync-alt"></i> Compare</div>
                         </div>
                     </div>
                 }

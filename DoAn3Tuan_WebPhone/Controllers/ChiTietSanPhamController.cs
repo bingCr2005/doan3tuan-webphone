@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using DoAn3Tuan_WebPhone.Models;
 using System.Linq;
+using DoAn3Tuan_WebPhone.Helpers;// su dụng GetJson/SetJson
 
 namespace DoAn3Tuan_WebPhone.Controllers
 {
@@ -17,8 +18,32 @@ namespace DoAn3Tuan_WebPhone.Controllers
         // GET: /ChiTietSanPham/Index/DT001
         public IActionResult Index(string id)
         {
+
             if (string.IsNullOrEmpty(id))
                 return NotFound();
+
+            // 1. Loại bỏ khoảng trắng thừa của ID sản phẩm (Xử lý vấn đề kiểu CHAR(10) trong SQL)
+            string cleanId = id.Trim();
+
+            // 2. Lấy danh sách ID cũ từ túi áo (Session). Nếu chưa có thì tạo chuỗi rỗng ""
+            string currentViews = HttpContext.Session.GetString("RecentViews") ?? "";
+
+            // 3. Chuyển chuỗi ID thành một danh sách (List) để dễ xử lý (thêm, xóa, sắp xếp)
+            List<string> dsId = currentViews.Split(',', StringSplitOptions.RemoveEmptyEntries)
+                                             .Select(x => x.Trim()).ToList();
+
+            // 4. Nếu sản phẩm này đã có trong danh sách thì xóa đi 
+            // Mục đích: Để khi Insert lại, nó sẽ nhảy lên vị trí đầu tiên (vừa xem xong)
+            if (dsId.Contains(cleanId)) dsId.Remove(cleanId);
+
+            // 5. Thêm ID sản phẩm hiện tại vào vị trí đầu tiên (vị trí số 0)
+            dsId.Insert(0, cleanId);
+
+            // 6. Chỉ giữ lại tối đa 3 sản phẩm xem gần nhất
+            if (dsId.Count > 3) dsId = dsId.Take(3).ToList();
+
+            // 7. Gộp danh sách ID lại thành một chuỗi duy nhất (ngăn cách bởi dấu phẩy) và cất vào túi áo
+            HttpContext.Session.SetString("RecentViews", string.Join(",", dsId));
 
             // 1️ Lấy thông tin điện thoại
             var dienThoai = _context.DienThoais
