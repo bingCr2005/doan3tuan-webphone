@@ -1472,6 +1472,10 @@ footer {
     .link-register:hover {
         text-decoration: underline;
     }
+.user-dropdown-content {
+    min-height: 250px; /* Đảm bảo chiều cao tối thiểu để không bị nhảy khung */
+    transition: all 0.3s ease;
+}
 
 /* --- PREMIUM MINIMALIST BENTO HUB (MỤC 9) --- */
 .premium-service-section {

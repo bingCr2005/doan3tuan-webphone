@@ -1,5 +1,8 @@
 ﻿@model List<DoAn3Tuan_WebPhone.Models.DienThoai>
 @{
+    ViewData["Title"] = "Danh sách sản phẩm";
+}
+@{
     Layout = null; // Để tạm null cho giống Home của ông
 }
 <!DOCTYPE html>
@@ -30,54 +33,76 @@
     <header>
         <div class="container">
             <div class="header-content">
-                <a href="#" class="logo">electro<span>.</span></a>
+
+                <!-- LOGO -->
+                <a href="/" class="logo">electro<span>.</span></a>
+
+                <!-- MENU -->
                 <div class="burger-menu">
                     <i class="fas fa-bars"></i>
                 </div>
+
+                <!-- SEARCH FORM -->
                 <div class="search-container">
-                    <input type="text" placeholder="Tìm kiếm sản phẩm...">
-                    <select>
-                        <option>Tất Cả Danh Mục</option>
-                        <option>iPhone</option>
-                        <option>Samsung</option>
-                        <option>Xiaomi</option>
-                    </select>
-                    <button><i class="fas fa-search"></i></button>
+                    <form action="/Search" method="get" style="display: flex; width: 100%;">
+
+                        <input type="text" name="keyword" placeholder="Tìm kiếm sản phẩm..." value="@Context.Request.Query["keyword"]">
+
+                        <button type="submit"><i class="fas fa-search"></i></button>
+                    </form>
                 </div>
+
+                <!-- ICONS -->
                 <div class="header-icons">
+
                     <a href="#" class="icon-btn">
                         <i class="fas fa-sync-alt"></i>
                         <span class="icon-badge">0</span>
                     </a>
+
                     <a href="#" class="icon-btn">
                         <i class="far fa-heart"></i>
                     </a>
-                    <div class="icon-btn user-dropdown-container">
-                        <a href="#" class="icon-btn">
+
+                    <!-- USER DROPDOWN -->
+                    <div class="user-dropdown-container">
+                        <a href="#" class="icon-btn user-icon">
                             <i class="far fa-user"></i>
                         </a>
 
                         <div class="user-dropdown-content">
-                            <div class="dropdown-header">Returning Customer?</div>
+                            <h4 class="dropdown-title">Đăng nhập</h4>
 
-                            <a href="login.html" class="btn-signin">Sign in</a>
+                            <input type="text"
+                                   class="dropdown-input"
+                                   placeholder="Email hoặc tên đăng nhập" />
+
+                            <input type="password"
+                                   class="dropdown-input"
+                                   placeholder="Mật khẩu" />
+
+                            <button class="btn-login">Đăng nhập</button>
 
                             <div class="dropdown-divider"></div>
 
                             <div class="dropdown-footer">
-                                <span>Don't have an account?</span>
-                                <a href="register.html" class="link-register">Register</a>
+                                <span>Chưa có tài khoản?</span>
+                                <a href="/Account/Register" class="link-register">
+                                    Đăng ký
+                                </a>
                             </div>
                         </div>
                     </div>
-
+                    <!-- END USER DROPDOWN -->
+                    <!-- CART -->
                     <div class="cart-info">
                         <a href="#" class="icon-btn">
                             <i class="fas fa-shopping-cart"></i>
                             <span class="icon-badge">0</span>
                         </a>
-                        <span class="cart-price">$0.00</span>
+                        <span class="cart-price">0 ₫</span>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -141,17 +166,7 @@
 
                         <div class="price-action-row">
                             <div class="price-box">
-                                @* 2. Hiển thị giá và giá cũ gạch đi *@
-                                <span class="product-price @(isSale ? "sale-text" : "normal-text")">
-                                    @sp.DonGia.ToString("N0")đ
-                                </span>
-
-                                @if (isSale)
-                                {
-                                    <span class="old-price" style="color: #999; text-decoration: line-through; margin-left: 8px; font-size: 0.9em;">
-                                        @((sp.DonGia * 1.15m).ToString("N0"))đ
-                                    </span>
-                                }
+                                <span class="product-price">@sp.DonGia.ToString("N0")đ</span>
                             </div>
                             <button class="btn-cart-round"><i class="fas fa-shopping-cart"></i></button>
                         </div>
@@ -166,35 +181,16 @@
             }
             else
             {
-                <div class="no-data-msg" style="grid-column: 1/-1; text-align: center; padding: 50px; color: #999;">
-                    <i class="fas fa-search" style="font-size: 40px; margin-bottom: 15px;"></i>
-                    <p>Không tìm thấy sản phẩm nào phù hợp với yêu cầu của bạn.</p>
-                </div>
+                <p>Không tìm thấy sản phẩm nào phù hợp.</p>
             }
         </div>
 
-        <div class="pagination-modern" style="display:flex; justify-content:center; gap:8px; margin-top: 30px;">
-            @* Nút Quay lại *@
-            @if (ViewBag.CurrentPage > 1)
-            {
-                <a href="@Url.Action("Index", new { page = ViewBag.CurrentPage - 1, hangId = ViewBag.CurrentHang, searchString = ViewBag.CurrentSearch })" class="page-btn">
-                    <i class="fas fa-chevron-left"></i>
-                </a>
-            }
-
-            @* Các con số trang *@
+        <div class="pagination mt-5 text-center" style="display:flex; justify-content:center; gap:10px;">
             @for (int i = 1; i <= ViewBag.TotalPages; i++)
             {
                 <a href="@Url.Action("Index", new { page = i, hangId = ViewBag.CurrentHang, searchString = ViewBag.CurrentSearch })"
-                   class="page-btn @(i == ViewBag.CurrentPage ? "active" : "")">@i</a>
-            }
-
-            @* Nút Tiếp theo *@
-            @if (ViewBag.CurrentPage < ViewBag.TotalPages)
-            {
-                <a href="@Url.Action("Index", new { page = ViewBag.CurrentPage + 1, hangId = ViewBag.CurrentHang, searchString = ViewBag.CurrentSearch })" class="page-btn">
-                    <i class="fas fa-chevron-right"></i>
-                </a>
+                   class="page-btn @(i == ViewBag.CurrentPage ? "active" : "")"
+                   style="padding: 10px 15px; border: 1px solid #ddd; text-decoration:none;">@i</a>
             }
         </div>
     </div>
