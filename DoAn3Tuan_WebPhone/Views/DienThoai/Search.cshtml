@@ -1,108 +1,81 @@
-﻿@model DoAn3Tuan_WebPhone.Models.SearchViewModel
+﻿@model SearchViewModel
 
-<div class="search-page">
+<div class="container mt-4">
+    <div class="row">
+        <aside class="col-md-3">
+            <form method="get" asp-action="Index" class="card p-3 shadow-sm border-0">
+                <h5 class="fw-bold mb-3">Bộ lọc tìm kiếm</h5>
+                <div class="mb-3">
+                    <label class="form-label text-secondary fw-semibold">Từ khóa (Tên, Mô tả)</label>
+                    <input type="text" name="keyword" class="form-control"
+                           value="@Model.Keyword" placeholder="Nhập tên máy cần tìm...">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Hãng sản xuất</label>
+                    <select name="brandId" class="form-select" asp-for="BrandId">
+                        <option value="">Tất cả hãng</option>
+                        @foreach (var brand in Model.Brands)
+                        {
+                            <option value="@brand.MaHangDienThoai">@brand.TenHangDienThoai</option>
+                        }
+                    </select>
+                </div>
 
-    <!-- FILTER -->
-    <aside class="search-filter">
-        <form method="get" asp-action="Search">
+                <div class="mb-3">
+                    <label class="form-label">Giá từ (VNĐ)</label>
+                    <input type="number" name="minPrice" class="form-control" value="@Model.MinPrice" placeholder="0">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Đến giá (VNĐ)</label>
+                    <input type="number" name="maxPrice" class="form-control" value="@Model.MaxPrice" placeholder="50,000,000">
+                </div>
 
-            <h3>Bộ lọc sản phẩm</h3>
+                <button type="submit" class="btn btn-warning w-100 fw-bold">Tìm kiếm ngay</button>
+            </form>
+        </aside>
 
-            <div class="filter-group">
-                <label>Từ khóa</label>
-                <input type="text"
-                       name="keyword"
-                       placeholder="Nhập tên, dung lượng, RAM (VD: iphone 15 256GB)"
-                       value="@Model.Keyword" />
-            </div>
-
-            <div class="filter-group">
-                <label>Hãng</label>
-                <select name="hang">
-                    <option value="">-- Tất cả --</option>
-                    <option value="HANG001" selected="@(Model.Hang == "HANG001")">Apple</option>
-                    <option value="HANG002" selected="@(Model.Hang == "HANG002")">Samsung</option>
-                    <option value="HANG003" selected="@(Model.Hang == "HANG003")">Xiaomi</option>
-                </select>
-            </div>
-
-            <div class="filter-group">
-                <label>Giá từ</label>
-                <input type="number"
-                       name="giaMin"
-                       placeholder="₫"
-                       value="@Model.GiaMin" />
-            </div>
-
-            <div class="filter-group">
-                <label>Giá đến</label>
-                <input type="number"
-                       name="giaMax"
-                       placeholder="₫"
-                       value="@Model.GiaMax" />
-            </div>
-
-            <button type="submit" class="btn-filter">
-                Tìm kiếm
-            </button>
-
-        </form>
-    </aside>
-
-    <!-- RESULT -->
-    <section class="search-result">
-
-        <h2>Kết quả tìm kiếm</h2>
-
-        @if (Model.DienThoais != null && Model.DienThoais.Count > 0)
-        {
-            <div class="product-grid">
-                @foreach (var p in Model.DienThoais)
-                {
-                    <div class="product-card">
-                        <img src="@p.Thumbnail"
-                             alt="@p.TenDienThoai" />
-
-                        <h4>@p.TenDienThoai</h4>
-
-                        <div class="product-price">
-                            @p.DonGia.ToString("N0") ₫
+        <main class="col-md-9">
+            @if (Model.Products != null && Model.Products.Any())
+            {
+                <div class="row row-cols-1 row-cols-md-3 g-4">
+                    @foreach (var item in Model.Products)
+                    {
+                        <div class="col">
+                            <div class="card h-100 shadow-sm border-0">
+                                <img src="@item.Thumbnail" class="card-img-top p-3" alt="@item.TenDienThoai">
+                                <div class="card-body text-center">
+                                    <h6 class="card-title fw-bold">@item.TenDienThoai</h6>
+                                    <p class="text-danger fw-bold fs-5">@item.DonGia.ToString("N0")₫</p>
+                                    <a href="/Product/Details/@item.MaDienThoai" class="btn btn-outline-dark btn-sm shadow-none">Xem chi tiết</a>
+                                </div>
+                            </div>
                         </div>
+                    }
+                </div>
 
-                        <div class="product-meta">
-                            <span>@p.Ram</span> |
-                            <span>@p.DungLuong</span>
-                        </div>
-                    </div>
-                }
-            </div>
-        }
-        else
-        {
-            <p class="no-result">
-                Không tìm thấy sản phẩm phù hợp.
-            </p>
-        }
-
-        <!-- PAGINATION -->
-        @if (Model.TotalPages > 1)
-        {
-            <div class="pagination">
-                @for (int i = 1; i <= Model.TotalPages; i++)
+                @if (Model.TotalPages > 1)
                 {
-                    <a asp-action="Search"
-                       asp-route-page="@i"
-                       asp-route-keyword="@Model.Keyword"
-                       asp-route-hang="@Model.Hang"
-                       asp-route-giaMin="@Model.GiaMin"
-                       asp-route-giaMax="@Model.GiaMax"
-                       class="@(i == Model.CurrentPage ? "active" : "")">
-                        @i
-                    </a>
+                    <nav class="mt-5">
+                        <ul class="pagination justify-content-center">
+                            @for (int i = 1; i <= Model.TotalPages; i++)
+                            {
+                                <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                                    <a class="page-link shadow-none" href="@Url.Action("Index", new { keyword = Model.Keyword, brandId = Model.BrandId, minPrice = Model.MinPrice, maxPrice = Model.MaxPrice, page = i })">@i</a>
+                                </li>
+                            }
+                        </ul>
+                    </nav>
                 }
-            </div>
-        }
-
-    </section>
-
+            }
+            else
+            {
+                <div class="text-center py-5 shadow-sm bg-light rounded-3">
+                    <i class="fas fa-box-open fa-4x text-secondary mb-3"></i>
+                    <h4 class="text-dark fw-bold">Rất tiếc, không tìm thấy sản phẩm!</h4>
+                    <p class="text-muted">Không có sản phẩm nào khớp với từ khóa "<strong>@Model.Keyword</strong>" hoặc bộ lọc bạn đã chọn.</p>
+                    <a href="@Url.Action("Index", "DienThoai")" class="btn btn-warning fw-bold mt-2">Xem tất cả sản phẩm</a>
+                </div>
+            }
+        </main>
+    </div>
 </div>

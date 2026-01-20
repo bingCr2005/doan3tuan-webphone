@@ -4,18 +4,18 @@ namespace DoAn3Tuan_WebPhone.Models
 {
     public class SearchViewModel
     {
-        // ===== FILTER =====
-        public string? Keyword { get; set; }
-        public string? Hang { get; set; }
-        public decimal? GiaMin { get; set; }
-        public decimal? GiaMax { get; set; }
+        // Kết quả trả về
+        public List<DienThoai> Products { get; set; }
+        public List<HangDienThoai> Brands { get; set; }
 
-        // ===== RESULT =====
-        public List<DienThoai> DienThoais { get; set; } = new();
+        // Tiêu chí tìm kiếm (Criteria)
+        public string Keyword { get; set; }
+        public string BrandId { get; set; }
+        public decimal? MinPrice { get; set; }
+        public decimal? MaxPrice { get; set; }
 
-        // ===== PAGINATION =====
-        public int CurrentPage { get; set; } = 1;
+        // Dữ liệu phân trang
+        public int CurrentPage { get; set; }
         public int TotalPages { get; set; }
-        public int PageSize { get; set; } = 9;
     }
 }
