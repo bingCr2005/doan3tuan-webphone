@@ -40,18 +40,14 @@
                 </div>
 
                 <!-- SEARCH FORM -->
-                <form class="search-container"
-                      asp-controller="DienThoai"
-                      asp-action="Search"
-                      method="get">
+                <div class="search-container">
+                    <form asp-controller="DienThoai" asp-action="Index" method="get" style="display: flex; width: 100%;">
 
-                    <input type="text"
-                           name="keyword"
-                           placeholder="Tìm kiếm sản phẩm..." />
-                    <button type="submit">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </form>
+                        <input type="text" name="keyword" placeholder="Tìm kiếm sản phẩm..." value="@Context.Request.Query["keyword"]">
+
+                        <button type="submit"><i class="fas fa-search"></i></button>
+                    </form>
+                </div>
 
                 <!-- ICONS -->
                 <div class="header-icons">
