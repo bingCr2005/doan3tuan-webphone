@@ -831,76 +831,88 @@ a.product-link {
         background: #f5f5f5;
     }
 
-/* Product Sections */
-/* 1. Cấu trúc lưới 4 cột */
+/* Product Sections - Khu vực 3 cột sản phẩm + 1 Banner */
+
+/* 1. Cấu trúc lưới 4 cột - Tăng khoảng cách và Margin để layout thoáng đạt */
 .triple-section {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* Chia 4 cột đều nhau */
-    gap: 30px;
-    margin: 50px 0;
+    grid-template-columns: repeat(4, 1fr); /* Chia 4 cột đều nhau tuyệt đối */
+    gap: 35px; /* Tăng gap để các cột không bị dính vào nhau */
+    margin: 60px 0; /* Khoảng cách trên dưới rộng rãi */
 }
 
-/* 2. Sửa lại khung chứa sản phẩm (Bỏ viền, bỏ nền trắng) */
+/* 2. Khung chứa sản phẩm (Bỏ viền, bỏ nền để đồng bộ với màu web) */
 .section-box {
-    background: transparent; /* Nền trong suốt để hòa vào trang */
-    border: none; /* Bỏ viền bao quanh */
-    padding: 0; /* Bỏ padding thừa */
+    background: transparent;
+    border: none;
+    padding: 0;
 }
 
-    /* 3. Tiêu đề: Đường kẻ xám dài + Gạch vàng ngắn đè lên */
+    /* 3. Tiêu đề: Đường kẻ xám dài + Gạch vàng đậm đè lên (Style Amazon) */
     .section-box h3 {
-        font-size: 18px;
-        font-weight: bold;
-        padding-bottom: 15px;
-        margin-bottom: 20px;
-        border-bottom: 2px solid #e5e5e5; /* Đường kẻ xám mờ chạy dài */
-        position: relative; /* Để căn chỉnh đường gạch vàng */
+        font-size: 20px; /* Tăng size để nổi bật hơn */
+        font-weight: 700;
+        padding-bottom: 12px;
+        margin-bottom: 25px;
+        border-bottom: 2px solid #e5e5e5; /* Đường kẻ nền */
+        position: relative;
         color: #333;
+        text-transform: uppercase; /* Viết hoa tiêu đề cho mạnh mẽ */
+        letter-spacing: 0.5px;
     }
 
-        /* Tạo đường gạch vàng ngắn */
+        /* Tạo đường gạch vàng ngắn làm điểm nhấn */
         .section-box h3::after {
             content: '';
             position: absolute;
-            bottom: -2px; /* Đè lên đường kẻ xám */
+            bottom: -2px; /* Đè khít lên đường kẻ xám */
             left: 0;
-            width: 50px; /* Chiều dài gạch vàng */
-            height: 2px;
+            width: 60px; /* Độ dài vệt vàng */
+            height: 3px; /* Độ dày vệt vàng */
             background: #fed700;
         }
 
-/* 4. Style cho sản phẩm nhỏ (Giữ nguyên cấu trúc nhưng chỉnh lại cho thoáng) */
+/* 4. Style cho sản phẩm nhỏ (Mini Product) - TĂNG KÍCH THƯỚC */
 .mini-product {
     display: flex;
-    gap: 15px;
-    padding: 15px 0;
-    border-bottom: 1px solid #eee; /* Viền mờ ngăn cách các sp */
+    gap: 20px; /* Khoảng cách giữa ảnh và nội dung rộng hơn */
+    padding: 18px 0; /* Tăng độ cao mỗi dòng */
+    border-bottom: 1px solid #f0f0f0; /* Viền ngăn cách nhẹ nhàng */
+    transition: 0.3s;
 }
 
     .mini-product:last-child {
         border-bottom: none;
     }
 
+    /* Hiệu ứng khi di chuột vào sản phẩm nhỏ */
+    .mini-product:hover .mini-name a {
+        color: #fed700;
+    }
+
+/* Khung ảnh Mini - Làm to lên để nhìn rõ sản phẩm */
 .mini-img {
-    width: 75px;
-    height: 75px;
-    background: #fff; /* Nền trắng cho ảnh */
-    border: 1px solid #f0f0f0; /* Viền nhẹ cho ảnh */
-    border-radius: 5px;
+    width: 95px; /* Tăng từ 75px lên 95px giúp layout đầy đặn hơn */
+    height: 95px;
+    background: #fff;
+    border: 1px solid #f0f0f0;
+    border-radius: 8px;
     flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
+    transition: 0.3s;
 }
 
     .mini-img img {
-        width: 100%;
-        height: 100%;
+        width: 85%; /* Ảnh chiếm 85% khung chứa */
+        height: 85%;
         object-fit: contain;
-        padding: 5px;
+        padding: 2px;
     }
 
+/* Thông tin sản phẩm Mini */
 .mini-info {
     flex: 1;
     display: flex;
@@ -909,7 +921,8 @@ a.product-link {
 }
 
 .mini-name {
-    font-size: 14px;
+    font-size: 15px;
+    font-weight: 500;
     line-height: 1.4;
     margin-bottom: 5px;
 }
@@ -920,116 +933,96 @@ a.product-link {
         transition: 0.2s;
     }
 
-        .mini-name a:hover {
-            color: #fed700;
-        }
-
 .rating {
     color: #fed700;
     font-size: 11px;
-    margin-bottom: 3px;
+    margin-bottom: 5px;
 }
 
 .mini-price {
-    font-weight: bold;
+    font-weight: 700;
     color: #333;
-    font-size: 15px;
+    font-size: 17px; /* Tăng cỡ chữ giá tiền */
 }
 
-.sale-price {
-    color: #d00;
-}
-
-.old-price {
-    color: #999;
-    font-size: 13px;
-    text-decoration: line-through;
-    margin-left: 5px;
-    font-weight: normal;
-}
-/* 5. CSS CHO CỘT SMART G3 (MỚI) - GIỐNG ẢNH MẪU */
+/* 5. CSS CHO SMART BANNER (CỘT THỨ 4) - HIỆU ỨNG CAO CẤP */
 .smart-banner {
-    background: #f4f4f4; /* Màu xám nhạt chuẩn mẫu */
-    padding: 25px 20px;
-    border-radius: 5px;
-    height: 100%; /* Cao bằng các cột bên cạnh */
+    background: #f4f4f4; /* Màu xám nhạt sang trọng */
+    padding: 35px 25px; /* Padding rộng để banner hoành tráng */
+    border-radius: 10px;
+    height: 100%;
     display: flex;
     flex-direction: column;
     position: relative;
-    transition: transform 0.3s;
+    transition: all 0.4s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05); /* Bóng đổ nhẹ */
 }
 
     .smart-banner:hover {
-        transform: translateY(-5px); /* Hiệu ứng nhấc lên nhẹ khi hover */
+        transform: translateY(-8px); /* Nhấc cao hơn khi hover */
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
     }
 
-/* Header của banner: Chia đôi trái phải */
+/* Header của banner */
 .sb-header {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
 
-/* Phần Text bên trái: smartG3 */
 .sb-title {
-    font-size: 26px;
-    line-height: 1;
-    color: #777;
+    font-size: 28px;
+    line-height: 1.1;
+    color: #555;
     font-weight: 300;
 }
 
     .sb-title strong {
-        font-weight: 700;
-        color: #6a89cc; /* Màu xanh nhạt của chữ G3 */
+        font-weight: 800;
+        color: #333; /* Màu đậm cho tên sản phẩm chính */
     }
 
 .sb-subtitle {
-    font-size: 13px;
-    color: #999;
-    margin-top: 8px;
-    font-weight: 400;
+    font-size: 14px;
+    color: #888;
+    margin-top: 10px;
 }
 
-/* Phần Giá bên phải */
+/* Phần Giá Banner */
 .sb-price-group {
     text-align: right;
 }
 
 .sb-label {
-    font-size: 10px;
+    font-size: 11px;
     text-transform: uppercase;
     color: #999;
-    font-weight: bold;
-    margin-bottom: 2px;
+    font-weight: 700;
 }
 
 .sb-price {
-    font-size: 26px;
-    font-weight: 800;
-    color: #333;
+    font-size: 28px;
+    font-weight: 900;
+    color: #D10024; /* Đổi sang màu đỏ để kích thích mua hàng */
     line-height: 1;
 }
 
-    .sb-price sup {
-        font-size: 14px;
-        top: -0.5em;
-    }
-
-/* Ảnh sản phẩm ở dưới */
+/* Ảnh sản phẩm Banner */
 .sb-image {
-    margin-top: auto; /* Tự động đẩy xuống đáy */
+    margin-top: auto;
     width: 100%;
     text-align: center;
     padding-top: 20px;
+    transform: scale(1.05); /* Phóng to nhẹ ảnh iPhone */
 }
 
     .sb-image img {
         max-width: 100%;
         height: auto;
         object-fit: contain;
-        /* Tạo hiệu ứng bóng đổ dưới chân sản phẩm cho thật */
-        filter: drop-shadow(0 10px 10px rgba(0,0,0,0.1));
+        /* Bóng đổ thực tế dưới chân sản phẩm */
+        filter: drop-shadow(0 15px 15px rgba(0,0,0,0.15));
     }
 /* Newsletter */
 .newsletter {

@@ -333,121 +333,90 @@
         </div>
     </section>
 
-    <!-- Triple Product Sections -->
     <div class="triple-section">
 
         <div class="section-box">
-            <h3>Sản Phẩm Mới Về</h3> <div class="mini-product">
-                <div class="mini-img">
-                    <span class="badge-new">NEW</span> <img src="images/iphone15.jpg" alt="Tablet">
+            <h3>Sản Phẩm Mới Về</h3>
+            @foreach (var sp in Model.SanPhamMoiVe)
+            {
+                <div class="mini-product">
+                    <div class="mini-img">
+                        <span class="badge-new">NEW</span>
+                        <img src="@sp.Thumbnail" alt="@sp.TenDienThoai" onerror="this.src='/images/no-image.png'">
+                    </div>
+                    <div class="mini-info">
+                        <div class="mini-name">
+                            <a href="/ChiTietSanPham/Index/@sp.MaDienThoai">@sp.TenDienThoai</a>
+                        </div>
+                        <div class="rating">★★★★★</div>
+                        <div class="mini-price">@sp.DonGia.ToString("N0")đ</div>
+                    </div>
                 </div>
-                <div class="mini-info">
-                    <div class="mini-name"><a href="#">Tablet Thin EliteBook Revolve 810 G6</a></div>
-                    <div class="rating">★★★★☆</div>
-                    <div class="mini-price">$1,300.00</div>
-                </div>
-            </div>
-
-            <div class="mini-product">
-                <div class="mini-img">
-                    <span class="badge-new">NEW</span> <img src="images/iphone15.jpg" alt="Notebook">
-                </div>
-                <div class="mini-info">
-                    <div class="mini-name"><a href="#">Notebook Widescreen Z51-70 40K6013UPB</a></div>
-                    <div class="rating">★★★★★</div>
-                    <div class="mini-price">$1,100.00</div>
-                </div>
-            </div>
-
-            <div class="mini-product">
-                <div class="mini-img">
-                    <span class="badge-new">NEW</span> <img src="images/iphone15.jpg" alt="Smartphone">
-                </div>
-                <div class="mini-info">
-                    <div class="mini-name"><a href="#">Smartphone 6S 128GB LTE</a></div>
-                    <div class="rating">★★★★½</div>
-                    <div class="mini-price sale-price">$750.00 <span class="old-price">$780.00</span></div>
-                </div>
-            </div>
+            }
         </div>
+
         <div class="section-box">
             <h3>Sản phẩm bán chạy nhất</h3>
-
-            <div class="mini-product">
-                <div class="mini-img"><img src="images/iphone15.jpg" alt="Controller"></div>
-                <div class="mini-info">
-                    <div class="mini-name"><a href="#">Game Console Controller + USB 3.0 Cable</a></div>
-                    <div class="rating">★★★★★</div>
-                    <div class="mini-price">$99.00</div>
+            @foreach (var sp in Model.SanPhamBanChay)
+            {
+                <div class="mini-product">
+                    <div class="mini-img">
+                        <img src="@sp.Thumbnail" alt="@sp.TenDienThoai" onerror="this.src='/images/no-image.png'">
+                    </div>
+                    <div class="mini-info">
+                        <div class="mini-name">
+                            <a href="/ChiTietSanPham/Index/@sp.MaDienThoai">@sp.TenDienThoai</a>
+                        </div>
+                        <div class="rating">★★★★★</div>
+                        <div class="mini-price">@sp.DonGia.ToString("N0")đ</div>
+                    </div>
                 </div>
-            </div>
-
-            <div class="mini-product">
-                <div class="mini-img"><img src="images/iphone15.jpg" alt="Headphones"></div>
-                <div class="mini-info">
-                    <div class="mini-name"><a href="#">Universal Headphones Case in Black</a></div>
-                    <div class="rating">★★★★☆</div>
-                    <div class="mini-price">$159.00</div>
-                </div>
-            </div>
-
-            <div class="mini-product">
-                <div class="mini-img"><img src="images/iphone15.jpg" alt="Tablet"></div>
-                <div class="mini-info">
-                    <div class="mini-name"><a href="#">Tablet Thin EliteBook Revolve 810 G6</a></div>
-                    <div class="rating">★★★★½</div>
-                    <div class="mini-price">$1,300.00</div>
-                </div>
-            </div>
+            }
         </div>
 
         <div class="section-box">
-            <h3>Sản phẩm đang giảm giá</h3>
-
-            <div class="mini-product">
-                <div class="mini-img"><img src="images/iphone15.jpg" alt="Watch"></div>
-                <div class="mini-info">
-                    <div class="mini-name"><a href="#">Smartwatch 2.0 LTE Wifi Waterproof</a></div>
-                    <div class="rating">★★★★★</div>
-                    <div class="mini-price sale-price">$700.00 <span class="old-price">$725.00</span></div>
+            <h3>Sản phẩm đã xem gần đây</h3>
+            @if (Model.SanPhamDaXem != null && Model.SanPhamDaXem.Any())
+            {
+                @foreach (var sp in Model.SanPhamDaXem)
+                {
+                    <div class="mini-product">
+                        <div class="mini-img">
+                            <img src="@sp.Thumbnail" alt="@sp.TenDienThoai" onerror="this.src='/images/no-image.png'">
+                        </div>
+                        <div class="mini-info">
+                            <div class="mini-name">
+                                <a href="/ChiTietSanPham/Index/@sp.MaDienThoai">@sp.TenDienThoai</a>
+                            </div>
+                            <div class="rating">★★★★★</div>
+                            <div class="mini-price">@sp.DonGia.ToString("N0")đ</div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="no-viewed-data" style="padding: 15px; text-align: center; color: #999; font-style: italic; border: 1px dashed #ddd; border-radius: 5px;">
+                    Bạn chưa xem sản phẩm nào.
                 </div>
-            </div>
-
-            <div class="mini-product">
-                <div class="mini-img"><img src="images/iphone15.jpg" alt="Case"></div>
-                <div class="mini-info">
-                    <div class="mini-name"><a href="#">Aerocool EN52377 Dead Silence Gaming Cube Case</a></div>
-                    <div class="rating">★★★★☆</div>
-                    <div class="mini-price sale-price">$150.00 <span class="old-price">$180.00</span></div>
-                </div>
-            </div>
-
-            <div class="mini-product">
-                <div class="mini-img"><img src="images/iphone15.jpg" alt="Notebook"></div>
-                <div class="mini-info">
-                    <div class="mini-name"><a href="#">Notebook Black Spire V Nitro VN7-591G</a></div>
-                    <div class="rating">★★★★★</div>
-                    <div class="mini-price sale-price">$1,999.00 <span class="old-price">$2,299.00</span></div>
-                </div>
-            </div>
+            }
         </div>
 
         <div class="smart-banner">
             <div class="sb-header">
                 <div class="sb-title">
-                    smart<strong>G3</strong>
-                    <div class="sb-subtitle">Now with 4G</div>
+                    iPhone<strong>17</strong>
+                    <div class="sb-subtitle">Sức mạnh từ Titan</div>
                 </div>
                 <div class="sb-price-group">
-                    <div class="sb-label">Starting at</div>
-                    <div class="sb-price">$129<sup>99</sup></div>
+                    <div class="sb-label">Giá độc quyền từ</div>
+                    <div class="sb-price">45.000.000<sup>đ</sup></div>
                 </div>
             </div>
             <div class="sb-image">
-                <img src="images/iphone15.jpg" alt="Smart G3 Camera">
+                <img src="/images/iphone17prm.png" alt="Promo" onerror="this.src='/images/no-image.png'">
             </div>
         </div>
-
     </div>
 
     <!-- Newsletter -->
@@ -576,7 +545,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
     <script>
         $(document).ready(function(){
-            // Thay ".hero-slider-owl" bằng class chuẩn của slider trong template của ông
+            // Thay ".hero-slider-owl" bằng class chuẩn của slider trong template
             $(".hero-slider-owl").owlCarousel({
                 items: 1,
                 loop: true,
