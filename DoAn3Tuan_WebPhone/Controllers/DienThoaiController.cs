@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DoAn3Tuan_WebPhone.Controllers
 {
-  
+    [Route("Search")]
     public class DienThoaiController : Controller
     {
         private readonly DBBanDienThoaiContext _context;
@@ -13,6 +13,7 @@ namespace DoAn3Tuan_WebPhone.Controllers
         {
             _context = context;
         }
+        [HttpGet("")]
         public async Task<IActionResult> Index(string keyword, string brandId, decimal? minPrice, decimal? maxPrice, int page = 1)
         {
             int pageSize = 9; // Số sản phẩm trên mỗi trang
@@ -23,7 +24,7 @@ namespace DoAn3Tuan_WebPhone.Controllers
             // 1. Tìm theo từ khóa (Tên hoặc Mô tả)
             if (!string.IsNullOrEmpty(keyword))
             {
-                query = query.Where(p => p.TenDienThoai.Contains(keyword) || p.MoTa.Contains(keyword));
+                query = query.Where(p => p.TenDienThoai.StartsWith(keyword) || p.MoTa.Contains(keyword));
             }
 
             // 2. Tìm theo danh mục (Hãng điện thoại)
