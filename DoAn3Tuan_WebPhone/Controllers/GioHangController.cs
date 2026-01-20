@@ -61,37 +61,61 @@ public class GioHangController : Controller
         if (ct == null)
             return Json(new { success = false, message = "Không tìm thấy sản phẩm" });
 
-        int tonKho = ct.MaDienThoaiNavigation!.SoLuongTon ?? 0;
+        var sanPham = ct.MaDienThoaiNavigation!;
+        int tonKho = sanPham.SoLuongTon ?? 0;
 
-        if (qty > tonKho)
+        int soLuongCu = ct.SoLuong ?? 0;
+        int chenhLech = qty - soLuongCu; // 🔥 quan trọng
+
+        // Nếu tăng số lượng
+        if (chenhLech > 0)
         {
-            ct.SoLuong = tonKho;
-            ct.ThanhTien = tonKho * ct.MaDienThoaiNavigation.DonGia;
-            _context.SaveChanges();
-
-            return Json(new
+            if (chenhLech > tonKho)
             {
-                success = false,
-                message = $" Chỉ còn {tonKho} sản phẩm trong kho. Đã đặt số lượng tối đa."
-            });
+                return Json(new
+                {
+                    success = false,
+                    message = $"Chỉ còn {tonKho} sản phẩm trong kho"
+                });
+            }
+
+            sanPham.SoLuongTon -= chenhLech;
+        }
+        // Nếu giảm số lượng
+        else if (chenhLech < 0)
+        {
+            sanPham.SoLuongTon += Math.Abs(chenhLech);
         }
 
         ct.SoLuong = qty;
-        ct.ThanhTien = qty * ct.MaDienThoaiNavigation.DonGia;
+        ct.ThanhTien = qty * sanPham.DonGia;
+
         _context.SaveChanges();
 
-        return Json(new { success = true });
+        return Json(new
+        {
+            success = true,
+            newStock = sanPham.SoLuongTon
+        });
     }
+
 
     // XÓA 1 SẢN PHẨM
     public IActionResult Delete(int id, int page = 1)
     {
-        var ct = _context.ChiTietGioHangs.Find(id);
+        var ct = _context.ChiTietGioHangs
+            .Include(x => x.MaDienThoaiNavigation)
+            .FirstOrDefault(x => x.MaCtgh == id);
+
         if (ct != null)
         {
+            var sanPham = ct.MaDienThoaiNavigation!;
+            sanPham.SoLuongTon += ct.SoLuong ?? 0; //  HOÀN TỒN
+
             _context.ChiTietGioHangs.Remove(ct);
             _context.SaveChanges();
         }
+
         return RedirectToAction("Index", new { page });
     }
 
@@ -102,16 +126,23 @@ public class GioHangController : Controller
 
         var gioHang = _context.GioHangs
             .Include(g => g.ChiTietGioHangs)
+                .ThenInclude(ct => ct.MaDienThoaiNavigation)
             .FirstOrDefault(g => g.MaKhachHang == maKH);
 
         if (gioHang != null)
         {
+            foreach (var ct in gioHang.ChiTietGioHangs)
+            {
+                ct.MaDienThoaiNavigation!.SoLuongTon += ct.SoLuong ?? 0;
+            }
+
             _context.ChiTietGioHangs.RemoveRange(gioHang.ChiTietGioHangs);
             _context.SaveChanges();
         }
 
         return RedirectToAction("Index");
     }
+
 
     // THÊM SẢN PHẨM
     [HttpPost]
@@ -167,7 +198,7 @@ public class GioHangController : Controller
         {
             success = true,
             message = "Đã thêm vào giỏ hàng",
-            newStock = sanPham.SoLuongTon // 🔥 trả tồn kho mới
+            newStock = sanPham.SoLuongTon //  trả tồn kho mới
         });
     }
 
