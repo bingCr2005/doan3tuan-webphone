@@ -112,37 +112,89 @@
             {
                 @foreach (var sp in Model)
                 {
+                    //giảm giá và hot
+                    bool isSale = sp.DonGia < 10000000;
+                    bool isSuperHot = sp.LuotXem > 2000;
+
                     <div class="product-card">
+                        @* 1. Hiển thị Badge *@
+                        @if (isSuperHot)
+                        {
+                            <div class="badge-status hot">HOT</div>
+                        }
+                        else if (isSale)
+                        {
+                            <div class="badge-status sale">GIẢM GIÁ</div>
+                        }
+
                         <div class="product-category">@sp.HangDienThoaiNavigation?.TenHangDienThoai</div>
+
                         <h3 class="product-name">
                             <a href="/ChiTietSanPham/Index/@sp.MaDienThoai">@sp.TenDienThoai</a>
                         </h3>
+
                         <div class="product-image">
                             <a href="/ChiTietSanPham/Index/@sp.MaDienThoai">
                                 <img src="@sp.Thumbnail" alt="@sp.TenDienThoai" onerror="this.src='/images/no-image.png'">
                             </a>
                         </div>
+
                         <div class="price-action-row">
                             <div class="price-box">
-                                <span class="product-price">@sp.DonGia.ToString("N0")đ</span>
+                                @* 2. Hiển thị giá và giá cũ gạch đi *@
+                                <span class="product-price @(isSale ? "sale-text" : "normal-text")">
+                                    @sp.DonGia.ToString("N0")đ
+                                </span>
+
+                                @if (isSale)
+                                {
+                                    <span class="old-price" style="color: #999; text-decoration: line-through; margin-left: 8px; font-size: 0.9em;">
+                                        @((sp.DonGia * 1.15m).ToString("N0"))đ
+                                    </span>
+                                }
                             </div>
                             <button class="btn-cart-round"><i class="fas fa-shopping-cart"></i></button>
+                        </div>
+
+                        @* 3. Thêm Footer Hover cho đồng bộ *@
+                        <div class="hover-footer">
+                            <div class="footer-action"><i class="far fa-heart"></i> Wishlist</div>
+                            <div class="footer-action"><i class="fas fa-sync-alt"></i> Compare</div>
                         </div>
                     </div>
                 }
             }
             else
             {
-                <p>Không tìm thấy sản phẩm nào phù hợp.</p>
+                <div class="no-data-msg" style="grid-column: 1/-1; text-align: center; padding: 50px; color: #999;">
+                    <i class="fas fa-search" style="font-size: 40px; margin-bottom: 15px;"></i>
+                    <p>Không tìm thấy sản phẩm nào phù hợp với yêu cầu của bạn.</p>
+                </div>
             }
         </div>
 
-        <div class="pagination mt-5 text-center" style="display:flex; justify-content:center; gap:10px;">
+        <div class="pagination-modern" style="display:flex; justify-content:center; gap:8px; margin-top: 30px;">
+            @* Nút Quay lại *@
+            @if (ViewBag.CurrentPage > 1)
+            {
+                <a href="@Url.Action("Index", new { page = ViewBag.CurrentPage - 1, hangId = ViewBag.CurrentHang, searchString = ViewBag.CurrentSearch })" class="page-btn">
+                    <i class="fas fa-chevron-left"></i>
+                </a>
+            }
+
+            @* Các con số trang *@
             @for (int i = 1; i <= ViewBag.TotalPages; i++)
             {
                 <a href="@Url.Action("Index", new { page = i, hangId = ViewBag.CurrentHang, searchString = ViewBag.CurrentSearch })"
-                   class="page-btn @(i == ViewBag.CurrentPage ? "active" : "")"
-                   style="padding: 10px 15px; border: 1px solid #ddd; text-decoration:none;">@i</a>
+                   class="page-btn @(i == ViewBag.CurrentPage ? "active" : "")">@i</a>
+            }
+
+            @* Nút Tiếp theo *@
+            @if (ViewBag.CurrentPage < ViewBag.TotalPages)
+            {
+                <a href="@Url.Action("Index", new { page = ViewBag.CurrentPage + 1, hangId = ViewBag.CurrentHang, searchString = ViewBag.CurrentSearch })" class="page-btn">
+                    <i class="fas fa-chevron-right"></i>
+                </a>
             }
         </div>
     </div>
