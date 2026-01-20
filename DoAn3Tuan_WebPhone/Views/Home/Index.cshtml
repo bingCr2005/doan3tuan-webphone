@@ -30,54 +30,80 @@
     <header>
         <div class="container">
             <div class="header-content">
-                <a href="#" class="logo">electro<span>.</span></a>
+
+                <!-- LOGO -->
+                <a href="/" class="logo">electro<span>.</span></a>
+
+                <!-- MENU -->
                 <div class="burger-menu">
                     <i class="fas fa-bars"></i>
                 </div>
-                <div class="search-container">
-                    <input type="text" placeholder="Tìm kiếm sản phẩm...">
-                    <select>
-                        <option>Tất Cả Danh Mục</option>
-                        <option>iPhone</option>
-                        <option>Samsung</option>
-                        <option>Xiaomi</option>
-                    </select>
-                    <button><i class="fas fa-search"></i></button>
-                </div>
+
+                <!-- SEARCH FORM -->
+                <form class="search-container"
+                      asp-controller="DienThoai"
+                      asp-action="Search"
+                      method="get">
+
+                    <input type="text"
+                           name="keyword"
+                           placeholder="Tìm kiếm sản phẩm..." />
+                    <button type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
+
+                <!-- ICONS -->
                 <div class="header-icons">
+
                     <a href="#" class="icon-btn">
                         <i class="fas fa-sync-alt"></i>
                         <span class="icon-badge">0</span>
                     </a>
+
                     <a href="#" class="icon-btn">
                         <i class="far fa-heart"></i>
                     </a>
-                    <div class="icon-btn user-dropdown-container">
-                        <a href="#" class="icon-btn">
+
+                    <!-- USER DROPDOWN -->
+                    <div class="user-dropdown-container">
+                        <a href="#" class="icon-btn user-icon">
                             <i class="far fa-user"></i>
                         </a>
 
                         <div class="user-dropdown-content">
-                            <div class="dropdown-header">Returning Customer?</div>
+                            <h4 class="dropdown-title">Đăng nhập</h4>
 
-                            <a href="login.html" class="btn-signin">Sign in</a>
+                            <input type="text"
+                                   class="dropdown-input"
+                                   placeholder="Email hoặc tên đăng nhập" />
+
+                            <input type="password"
+                                   class="dropdown-input"
+                                   placeholder="Mật khẩu" />
+
+                            <button class="btn-login">Đăng nhập</button>
 
                             <div class="dropdown-divider"></div>
 
                             <div class="dropdown-footer">
-                                <span>Don't have an account?</span>
-                                <a href="register.html" class="link-register">Register</a>
+                                <span>Chưa có tài khoản?</span>
+                                <a href="/Account/Register" class="link-register">
+                                    Đăng ký
+                                </a>
                             </div>
                         </div>
                     </div>
-
+                    <!-- END USER DROPDOWN -->
+                    <!-- CART -->
                     <div class="cart-info">
                         <a href="#" class="icon-btn">
                             <i class="fas fa-shopping-cart"></i>
                             <span class="icon-badge">0</span>
                         </a>
-                        <span class="cart-price">$0.00</span>
+                        <span class="cart-price">0 ₫</span>
                     </div>
+
                 </div>
             </div>
         </div>

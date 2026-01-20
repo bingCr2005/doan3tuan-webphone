@@ -1,0 +1,108 @@
+﻿@model DoAn3Tuan_WebPhone.Models.SearchViewModel
+
+<div class="search-page">
+
+    <!-- FILTER -->
+    <aside class="search-filter">
+        <form method="get" asp-action="Search">
+
+            <h3>Bộ lọc sản phẩm</h3>
+
+            <div class="filter-group">
+                <label>Từ khóa</label>
+                <input type="text"
+                       name="keyword"
+                       placeholder="Nhập tên, dung lượng, RAM (VD: iphone 15 256GB)"
+                       value="@Model.Keyword" />
+            </div>
+
+            <div class="filter-group">
+                <label>Hãng</label>
+                <select name="hang">
+                    <option value="">-- Tất cả --</option>
+                    <option value="HANG001" selected="@(Model.Hang == "HANG001")">Apple</option>
+                    <option value="HANG002" selected="@(Model.Hang == "HANG002")">Samsung</option>
+                    <option value="HANG003" selected="@(Model.Hang == "HANG003")">Xiaomi</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label>Giá từ</label>
+                <input type="number"
+                       name="giaMin"
+                       placeholder="₫"
+                       value="@Model.GiaMin" />
+            </div>
+
+            <div class="filter-group">
+                <label>Giá đến</label>
+                <input type="number"
+                       name="giaMax"
+                       placeholder="₫"
+                       value="@Model.GiaMax" />
+            </div>
+
+            <button type="submit" class="btn-filter">
+                Tìm kiếm
+            </button>
+
+        </form>
+    </aside>
+
+    <!-- RESULT -->
+    <section class="search-result">
+
+        <h2>Kết quả tìm kiếm</h2>
+
+        @if (Model.DienThoais != null && Model.DienThoais.Count > 0)
+        {
+            <div class="product-grid">
+                @foreach (var p in Model.DienThoais)
+                {
+                    <div class="product-card">
+                        <img src="@p.Thumbnail"
+                             alt="@p.TenDienThoai" />
+
+                        <h4>@p.TenDienThoai</h4>
+
+                        <div class="product-price">
+                            @p.DonGia.ToString("N0") ₫
+                        </div>
+
+                        <div class="product-meta">
+                            <span>@p.Ram</span> |
+                            <span>@p.DungLuong</span>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <p class="no-result">
+                Không tìm thấy sản phẩm phù hợp.
+            </p>
+        }
+
+        <!-- PAGINATION -->
+        @if (Model.TotalPages > 1)
+        {
+            <div class="pagination">
+                @for (int i = 1; i <= Model.TotalPages; i++)
+                {
+                    <a asp-action="Search"
+                       asp-route-page="@i"
+                       asp-route-keyword="@Model.Keyword"
+                       asp-route-hang="@Model.Hang"
+                       asp-route-giaMin="@Model.GiaMin"
+                       asp-route-giaMax="@Model.GiaMax"
+                       class="@(i == Model.CurrentPage ? "active" : "")">
+                        @i
+                    </a>
+                }
+            </div>
+        }
+
+    </section>
+
+</div>
