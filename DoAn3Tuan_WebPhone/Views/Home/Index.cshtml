@@ -1,4 +1,5 @@
-﻿@{
+﻿@model DoAn3Tuan_WebPhone.ViewModels.HomePageViewModel
+@{
     Layout = null;
 }
 <!DOCTYPE html>
@@ -8,6 +9,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cửa Hàng Điện Thoại Toàn Cầu</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
     <link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
 </head>
 <body>
@@ -103,74 +106,107 @@
         </div>
     </nav>
 
-    <!-- Hero Slider -->
-    <section class="hero-slider">
-        <div class="container">
-            <div class="hero-content-wrapper">
-                <div class="hero-left">
-                    <div class="hero-badge">MUA SẮM ĐỂ NHẬN NHỮNG GÌ BẠN YÊU THÍCH</div>
-                    <h1 class="hero-title">
-                        ĐIỆN THOẠI TẠO NÊN<br>
-                        PHONG CÁCH<br>
-                        GIẢM ĐẾN <span class="hero-discount">40% OFF</span>
-                    </h1>
-                    <button class="hero-btn">Bắt Đầu Mua Sắm</button>
-                </div>
-                <div class="hero-right">
-                    <div class="hero-images">
-                        <div class="hero-phone">
-                            <img src="images/iphone15.jpg" alt="iPhone 15 Pink">
+    <section class="hero-clean-v4">
+        <div class="hero-slider-owl owl-carousel owl-theme">
+            @foreach (var sp in Model.SanPhamNoiBat)
+            {
+                string label; string slogan; string color;
+
+                // Logic phân loại 3 nhóm nội dung
+                if (sp.TenDienThoai.Contains("17") || sp.MaDienThoai == "DT041")
+                {
+                    label = "QUẢNG CÁO ĐẶC BIỆT";
+                    slogan = "Khám phá tương lai công nghệ cùng siêu phẩm thế hệ mới";
+                    color = "#0066cc"; // Xanh công nghệ
+                }
+                else if (sp.DonGia < 10000000)
+                { //dưới 10tr là khuyến mãi
+                    label = "KHUYẾN MÃI LỚN";
+                    slogan = "Ưu đãi cực sốc - Giá tốt nhất thị trường hôm nay";
+                    color = "#D10024"; // Đỏ giảm giá
+                }
+                else
+                {
+                    label = "SẢN PHẨM NỔI BẬT";
+                    slogan = "Thiết kế đẳng cấp, hiệu năng dẫn đầu phân khúc";
+                    color = "#1d1d1f"; // Đen sang trọng
+                }
+
+                <div class="clean-slide">
+                    <div class="clean-container">
+                        <div class="clean-info">
+                            <span class="c-badge" style="background: @color">@label</span>
+                            <h1 class="c-title">@sp.TenDienThoai</h1>
+                            <p class="c-slogan">@slogan</p>
+
+                            <div class="c-price-wrapper">
+                                <span class="c-price-label">Giá độc quyền:</span>
+                                <span class="c-price-val">@sp.DonGia.ToString("N0")</span>
+                                <span class="c-price-unit">đ</span>
+                            </div>
+
+                            <p class="c-brand">Phân phối chính hãng: <strong>@sp.HangDienThoaiNavigation?.TenHangDienThoai</strong></p>
+
+                            <div class="c-cta">
+                                <a href="/ChiTietSanPham/Index/@sp.MaDienThoai" class="c-btn-main">SĂN NGAY <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+
+                        <div class="clean-image">
+                            <img src="@sp.Thumbnail" alt="@sp.TenDienThoai" class="c-img-static">
                         </div>
                     </div>
                 </div>
-                <div class="slider-dots">
-                    <div class="dot active"></div>
-                    <div class="dot"></div>
-                    <div class="dot"></div>
-                </div>
-            </div>
+            }
+        </div>
     </section>
 
-    <!-- Sidebar Promos -->
     <div class="sidebar-promos" id="adsWidget">
         <div class="close-ads" onclick="document.getElementById('adsWidget').style.display='none'">
-            &times;
+            <i class="fas fa-times-circle"></i>
         </div>
 
-        <div class="promo-box">
-            <h3>BẮT ƯU ĐÃI LỚN <span class="deals">DEALS</span> TRÊN<br>PHỤ KIỆN ĐIỆN THOẠI</h3>
-            <div class="promo-img">
-                <i class="fas fa-gamepad" style="font-size: 60px; color: #fff;"></i>
-            </div>
-            <button class="btn">Mua Ngay <i class="fas fa-arrow-right"></i></button>
-        </div>
+        @foreach (var hang in Model.DanhSachHang.Take(2))
+        {
+            // lấy ảnh sản phẩm mới nhất của hãng đó trong toàn bộ DB
+            var spShow = Model.SanPhamMoi.FirstOrDefault(s => s.HangDienThoai == hang.MaHangDienThoai);
 
-        <div class="promo-box">
-            <h3>BẮT ƯU ĐÃI LỚN <span class="deals">DEALS</span> TRÊN<br>TAI NGHE KHÔNG DÂY</h3>
-            <div class="promo-img">
-                <i class="fas fa-headphones" style="font-size: 60px; color: #fff;"></i>
+            <div class="pro-promo-card @(hang.TenHangDienThoai == "Apple" ? "apple-theme" : "samsung-theme")">
+                <div class="promo-badge">HOT DEAL</div>
+                <div class="promo-body">
+                    <div class="text-section">
+                        <h4 class="brand-name">@hang.TenHangDienThoai</h4>
+                        <p class="promo-desc">Giá ưu đãi cuối tuần</p>
+                    </div>
+                    <div class="image-section">
+                        @if (spShow != null)
+                        {
+                            <img src="@spShow.Thumbnail" class="floating-img" alt="promo">
+                        }
+                        else
+                        {
+                            <i class="fas fa-mobile-alt placeholder-icon"></i>
+                        }
+                    </div>
+                </div>
+                <a href="/Product/Index?hangId=@hang.MaHangDienThoai" class="pro-btn">
+                    Săn Ngay <i class="fas fa-bolt"></i>
+                </a>
             </div>
-            <button class="btn">Mua Ngay <i class="fas fa-arrow-right"></i></button>
-        </div>
+        }
     </div>
-
     <!-- Main Content -->
     <div class="main-content">
         <div class="container">
             <div class="content-layout">
-                <!-- Sidebar -->
                 <aside class="sidebar">
                     <h3 class="sidebar-title">Danh Mục Sản Phẩm</h3>
                     <ul class="sidebar-menu">
-                        <li><a href="#">Giá Trong Ngày <i class="fas fa-chevron-right"></i></a></li>
-                        <li><a href="#">Top 100 Ưu Đãi <i class="fas fa-chevron-right"></i></a></li>
-                        <li><a href="#">Hàng Mới Về <i class="fas fa-chevron-right"></i></a></li>
-                        <li><a href="#">iPhone <i class="fas fa-chevron-right"></i></a></li>
-                        <li><a href="#">Samsung <i class="fas fa-chevron-right"></i></a></li>
-                        <li><a href="#">Xiaomi <i class="fas fa-chevron-right"></i></a></li>
-                        <li><a href="#">OPPO <i class="fas fa-chevron-right"></i></a></li>
-                        <li><a href="#">Realme <i class="fas fa-chevron-right"></i></a></li>
-                        <li><a href="#">Vivo <i class="fas fa-chevron-right"></i></a></li>
+                        @* Nên dùng foreach đổ data từ Model.DanhSachHang ở đây để Sidebar chạy động *@
+                        @foreach (var hang in Model.DanhSachHang)
+                        {
+                            <li><a href="/Product/Index?hangId=@hang.MaHangDienThoai">@hang.TenHangDienThoai <i class="fas fa-chevron-right"></i></a></li>
+                        }
                         <li><a href="#">Phụ Kiện <i class="fas fa-chevron-right"></i></a></li>
                     </ul>
                     <div class="sidebar-banner">
@@ -181,326 +217,82 @@
                     </div>
                 </aside>
 
-                <!-- Products Grid -->
                 <div class="products-section">
-                    <div class="section-header">
-                        <h2>Sản Phẩm Nổi Bật</h2>
+                    @* 1. Tiêu đề chuẩn Clean Style *@
+                    <div class="section-header-modern">
+                        <h2 class="modern-grid-title">Sản Phẩm Hot Trong Ngày</h2>
                     </div>
 
+                    @* 2. Lưới sản phẩm (5 cột) *@
                     <div class="products-grid">
-                        <div class="product-card">
-                            <div class="product-category">iPhone, Điện Thoại</div>
-                            <h3 class="product-name"><a href="/chitietsanpham/index">iPhone 15 Pro Max 256GB</a></h3>
-                            <div class="product-image">
-                                <a href="/chitietsanpham/index">
-                                    <img src="images/iphone15.jpg" alt="iPhone 15">
-                                </a>
-                            </div>
-                            <div class="price-action-row">
-                                <div class="price-box">
-                                    <span class="product-price sale-text">$1,100.00</span>
-                                    <span class="old-price">$1,215.00</span>
-                                </div>
-                                <button class="btn-cart-round"><i class="fas fa-shopping-cart"></i></button>
-                            </div>
-                            <div class="hover-footer">
-                                <div class="footer-action"><i class="far fa-heart"></i> Wishlist</div>
-                                <div class="footer-action"><i class="fas fa-sync-alt"></i> Compare</div>
-                            </div>
-                        </div>
+                        @foreach (var sp in Model.SanPhamMoi)
+                        {
+                            bool isSale = (sp.DonGia < 10000000 || sp.MaDienThoai == "DT008");
 
-                        <div class="product-card">
-                            <div class="product-category">Samsung, Tablet</div>
-                            <h3 class="product-name"><a href="/chitietsanpham/index">Samsung Galaxy Tab S9</a></h3>
-                            <div class="product-image">
-                                <a href="/chitietsanpham/index">
-                                    <img src="images/iphone15.jpg" alt="Samsung Tab">
-                                </a>
-                            </div>
-                            <div class="price-action-row">
-                                <div class="price-box">
-                                    <span class="product-price">$629.00</span>
-                                </div>
-                                <button class="btn-cart-round"><i class="fas fa-shopping-cart"></i></button>
-                            </div>
-                            <div class="hover-footer">
-                                <div class="footer-action"><i class="far fa-heart"></i> Wishlist</div>
-                                <div class="footer-action"><i class="fas fa-sync-alt"></i> Compare</div>
-                            </div>
-                        </div>
+                            <div class="product-card">
+                                @if (isSale)
+                                {
+                                    <div class="badge-hot-deal">GIẢM GIÁ</div>
+                                }
 
-                        <div class="product-card">
-                            <div class="product-category">Phụ Kiện, VR</div>
-                            <h3 class="product-name"><a href="/chitietsanpham/index">Meta Quest 3</a></h3>
-                            <div class="product-image">
-                                <a href="/chitietsanpham/index">
-                                    <img src="images/iphone15.jpg" alt="Meta Quest">
-                                </a>
-                            </div>
-                            <div class="price-action-row">
-                                <div class="price-box">
-                                    <span class="product-price">$799.00</span>
-                                </div>
-                                <button class="btn-cart-round"><i class="fas fa-shopping-cart"></i></button>
-                            </div>
-                            <div class="hover-footer">
-                                <div class="footer-action"><i class="far fa-heart"></i> Wishlist</div>
-                                <div class="footer-action"><i class="fas fa-sync-alt"></i> Compare</div>
-                            </div>
-                        </div>
+                                <div class="product-category">@sp.HangDienThoaiNavigation?.TenHangDienThoai</div>
 
-                        <div class="product-card">
-                            <div class="product-category">Phụ Kiện, USB</div>
-                            <h3 class="product-name"><a href="/chitietsanpham/index">USB Flash 64GB</a></h3>
-                            <div class="product-image">
-                                <a href="/chitietsanpham/index">
-                                    <img src="images/iphone15.jpg" alt="USB">
-                                </a>
-                            </div>
-                            <div class="price-action-row">
-                                <div class="price-box">
-                                    <span class="product-price">$110.00</span>
-                                </div>
-                                <button class="btn-cart-round"><i class="fas fa-shopping-cart"></i></button>
-                            </div>
-                            <div class="hover-footer">
-                                <div class="footer-action"><i class="far fa-heart"></i> Wishlist</div>
-                                <div class="footer-action"><i class="fas fa-sync-alt"></i> Compare</div>
-                            </div>
-                        </div>
+                                <h3 class="product-name">
+                                    <a href="/ChiTietSanPham/Index/@sp.MaDienThoai">@sp.TenDienThoai</a>
+                                </h3>
 
-                        <div class="product-card">
-                            <div class="product-category">Phụ Kiện, SSD</div>
-                            <h3 class="product-name"><a href="/chitietsanpham/index">SSD Portable 1TB</a></h3>
-                            <div class="product-image">
-                                <a href="/chitietsanpham/index">
-                                    <img src="images/iphone15.jpg" alt="SSD">
-                                </a>
-                            </div>
-                            <div class="price-action-row">
-                                <div class="price-box">
-                                    <span class="product-price">$385.00</span>
+                                <div class="product-image">
+                                    <a href="/ChiTietSanPham/Index/@sp.MaDienThoai">
+                                        <img src="@sp.Thumbnail" alt="@sp.TenDienThoai" onerror="this.src='/images/no-image.png'">
+                                    </a>
                                 </div>
-                                <button class="btn-cart-round"><i class="fas fa-shopping-cart"></i></button>
-                            </div>
-                            <div class="hover-footer">
-                                <div class="footer-action"><i class="far fa-heart"></i> Wishlist</div>
-                                <div class="footer-action"><i class="fas fa-sync-alt"></i> Compare</div>
-                            </div>
-                        </div>
 
-                        <div class="product-card">
-                            <div class="product-category">Camera</div>
-                            <h3 class="product-name"><a href="/chitietsanpham/index">GoPro Hero 12</a></h3>
-                            <div class="product-image">
-                                <a href="/chitietsanpham/index">
-                                    <img src="images/iphone15.jpg" alt="GoPro">
-                                </a>
-                            </div>
-                            <div class="price-action-row">
-                                <div class="price-box">
-                                    <span class="product-price">$590.00</span>
-                                </div>
-                                <button class="btn-cart-round"><i class="fas fa-shopping-cart"></i></button>
-                            </div>
-                            <div class="hover-footer">
-                                <div class="footer-action"><i class="far fa-heart"></i> Wishlist</div>
-                                <div class="footer-action"><i class="fas fa-sync-alt"></i> Compare</div>
-                            </div>
-                        </div>
+                                <div class="price-action-row">
+                                    <div class="price-box">
+                                        <span class="product-price @(isSale ? "sale-text" : "normal-text")">
+                                            @sp.DonGia.ToString("N0")đ
+                                        </span>
 
-                        <div class="product-card">
-                            <div class="product-category">Gaming</div>
-                            <h3 class="product-name"><a href="/chitietsanpham/index">PlayStation 5 Slim</a></h3>
-                            <div class="product-image">
-                                <a href="/chitietsanpham/index">
-                                    <img src="images/iphone15.jpg" alt="PS5">
-                                </a>
-                            </div>
-                            <div class="price-action-row">
-                                <div class="price-box">
-                                    <span class="product-price sale-text">$700.00</span>
-                                    <span class="old-price">$789.00</span>
+                                        @if (isSale)
+                                        {
+                                            <span class="old-price">@((sp.DonGia * 1.15m).ToString("N0"))đ</span>
+                                        }
+                                    </div>
+                                    <button class="btn-cart-round"><i class="fas fa-shopping-cart"></i></button>
                                 </div>
-                                <button class="btn-cart-round"><i class="fas fa-shopping-cart"></i></button>
-                            </div>
-                            <div class="hover-footer">
-                                <div class="footer-action"><i class="far fa-heart"></i> Wishlist</div>
-                                <div class="footer-action"><i class="fas fa-sync-alt"></i> Compare</div>
-                            </div>
-                        </div>
 
-                        <div class="product-card">
-                            <div class="product-category">Laptop</div>
-                            <h3 class="product-name"><a href="/chitietsanpham/index">MacBook Pro M3 Max</a></h3>
-                            <div class="product-image">
-                                <a href="/chitietsanpham/index">
-                                    <img src="images/iphone15.jpg" alt="MacBook">
-                                </a>
-                            </div>
-                            <div class="price-action-row">
-                                <div class="price-box">
-                                    <span class="product-price sale-text">$2,100.00</span>
-                                    <span class="old-price">$2,299.00</span>
+                                <div class="hover-footer">
+                                    <div class="footer-action"><i class="far fa-heart"></i> Wishlist</div>
+                                    <div class="footer-action"><i class="fas fa-sync-alt"></i> Compare</div>
                                 </div>
-                                <button class="btn-cart-round"><i class="fas fa-shopping-cart"></i></button>
                             </div>
-                            <div class="hover-footer">
-                                <div class="footer-action"><i class="far fa-heart"></i> Wishlist</div>
-                                <div class="footer-action"><i class="fas fa-sync-alt"></i> Compare</div>
-                            </div>
-                        </div>
+                        }
 
-                        <div class="product-card">
-                            <div class="product-category">Tai Nghe</div>
-                            <h3 class="product-name"><a href="/chitietsanpham/index">AirPods Max</a></h3>
-                            <div class="product-image">
-                                <a href="/chitietsanpham/index">
-                                    <img src="images/iphone15.jpg" alt="AirPods">
-                                </a>
-                            </div>
-                            <div class="price-action-row">
-                                <div class="price-box">
-                                    <span class="product-price">$248.99</span>
-                                </div>
-                                <button class="btn-cart-round"><i class="fas fa-shopping-cart"></i></button>
-                            </div>
-                            <div class="hover-footer">
-                                <div class="footer-action"><i class="far fa-heart"></i> Wishlist</div>
-                                <div class="footer-action"><i class="fas fa-sync-alt"></i> Compare</div>
-                            </div>
-                        </div>
+                    </div> 
 
-                        <div class="product-card">
-                            <div class="product-category">Camera</div>
-                            <h3 class="product-name"><a href="/chitietsanpham/index">Sony Alpha A7 IV</a></h3>
-                            <div class="product-image">
-                                <a href="/chitietsanpham/index">
-                                    <img src="images/iphone15.jpg" alt="Sony Alpha">
-                                </a>
-                            </div>
-                            <div class="price-action-row">
-                                <div class="price-box">
-                                    <span class="product-price">$559.00</span>
-                                </div>
-                                <button class="btn-cart-round"><i class="fas fa-shopping-cart"></i></button>
-                            </div>
-                            <div class="hover-footer">
-                                <div class="footer-action"><i class="far fa-heart"></i> Wishlist</div>
-                                <div class="footer-action"><i class="fas fa-sync-alt"></i> Compare</div>
-                            </div>
-                        </div>
+                    @* 3. Phân trang *@
+                    <div class="pagination">
+                        @if (ViewBag.CurrentPage > 1)
+                        {
+                            <a href="?page=@(ViewBag.CurrentPage - 1)" class="page-btn"><i class="fas fa-chevron-left"></i></a>
+                        }
 
-                        <div class="product-card">
-                            <div class="product-category">Gaming</div>
-                            <h3 class="product-name"><a href="/chitietsanpham/index">Xbox Series X</a></h3>
-                            <div class="product-image">
-                                <a href="/chitietsanpham/index">
-                                    <img src="images/iphone15.jpg" alt="Xbox">
-                                </a>
-                            </div>
-                            <div class="price-action-row">
-                                <div class="price-box">
-                                    <span class="product-price">$150.00</span>
-                                </div>
-                                <button class="btn-cart-round"><i class="fas fa-shopping-cart"></i></button>
-                            </div>
-                            <div class="hover-footer">
-                                <div class="footer-action"><i class="far fa-heart"></i> Wishlist</div>
-                                <div class="footer-action"><i class="fas fa-sync-alt"></i> Compare</div>
-                            </div>
-                        </div>
+                        @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                        {
+                            <a href="?page=@i" class="page-btn @(i == ViewBag.CurrentPage ? "active" : "")">@i</a>
+                        }
 
-                        <div class="product-card">
-                            <div class="product-category">SSD</div>
-                            <h3 class="product-name"><a href="/chitietsanpham/index">Samsung SSD 2TB</a></h3>
-                            <div class="product-image">
-                                <a href="/chitietsanpham/index">
-                                    <img src="images/iphone15.jpg" alt="SSD">
-                                </a>
-                            </div>
-                            <div class="price-action-row">
-                                <div class="price-box">
-                                    <span class="product-price">$385.00</span>
-                                </div>
-                                <button class="btn-cart-round"><i class="fas fa-shopping-cart"></i></button>
-                            </div>
-                            <div class="hover-footer">
-                                <div class="footer-action"><i class="far fa-heart"></i> Wishlist</div>
-                                <div class="footer-action"><i class="fas fa-sync-alt"></i> Compare</div>
-                            </div>
-                        </div>
-
-                        <div class="product-card">
-                            <div class="product-category">Smartwatch</div>
-                            <h3 class="product-name"><a href="/chitietsanpham/index">Apple Watch Series 9</a></h3>
-                            <div class="product-image">
-                                <a href="/chitietsanpham/index">
-                                    <img src="images/iphone15.jpg" alt="Apple Watch">
-                                </a>
-                            </div>
-                            <div class="price-action-row">
-                                <div class="price-box">
-                                    <span class="product-price">$725.00</span>
-                                </div>
-                                <button class="btn-cart-round"><i class="fas fa-shopping-cart"></i></button>
-                            </div>
-                            <div class="hover-footer">
-                                <div class="footer-action"><i class="far fa-heart"></i> Wishlist</div>
-                                <div class="footer-action"><i class="fas fa-sync-alt"></i> Compare</div>
-                            </div>
-                        </div>
-
-                        <div class="product-card">
-                            <div class="product-category">Phụ Kiện</div>
-                            <h3 class="product-name"><a href="/chitietsanpham/index">Gói Bảo Vệ MacBook</a></h3>
-                            <div class="product-image">
-                                <a href="/chitietsanpham/index">
-                                    <img src="images/iphone15.jpg" alt="Case">
-                                </a>
-                            </div>
-                            <div class="price-action-row">
-                                <div class="price-box">
-                                    <span class="product-price">$250.00</span>
-                                </div>
-                                <button class="btn-cart-round"><i class="fas fa-shopping-cart"></i></button>
-                            </div>
-                            <div class="hover-footer">
-                                <div class="footer-action"><i class="far fa-heart"></i> Wishlist</div>
-                                <div class="footer-action"><i class="fas fa-sync-alt"></i> Compare</div>
-                            </div>
-                        </div>
-
-                        <div class="product-card">
-                            <div class="product-category">Laptop</div>
-                            <h3 class="product-name"><a href="/chitietsanpham/index">MacBook Pro M3 Pro</a></h3>
-                            <div class="product-image">
-                                <a href="/chitietsanpham/index">
-                                    <img src="images/iphone15.jpg" alt="MacBook">
-                                </a>
-                            </div>
-                            <div class="price-action-row">
-                                <div class="price-box">
-                                    <span class="product-price sale-text">$1,500.00</span>
-                                    <span class="old-price">$1,800.00</span>
-                                </div>
-                                <button class="btn-cart-round"><i class="fas fa-shopping-cart"></i></button>
-                            </div>
-                            <div class="hover-footer">
-                                <div class="footer-action"><i class="far fa-heart"></i> Wishlist</div>
-                                <div class="footer-action"><i class="fas fa-sync-alt"></i> Compare</div>
-                            </div>
-                        </div>
-                    </div> <div class="pagination">
-                        <button class="page-btn">1</button>
-                        <button class="page-btn">2</button>
-                        <button class="page-btn active">3</button>
-                        <button class="page-btn">4</button>
+                        @if (ViewBag.CurrentPage < ViewBag.TotalPages)
+                        {
+                            <a href="?page=@(ViewBag.CurrentPage + 1)" class="page-btn"><i class="fas fa-chevron-right"></i></a>
+                        }
                     </div>
-                </div>
-            </div>
+                </div> 
+            </div> 
         </div>
     </div>
+
+
     <!-- Brands Section -->
     <section class="brands-section">
         <div class="container">
@@ -753,7 +545,20 @@
             <i class="fas fa-comment-dots" style="font-size: 24px;"></i>
         </div>
     </div>
-
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            // Thay ".hero-slider-owl" bằng class chuẩn của slider trong template của ông
+            $(".hero-slider-owl").owlCarousel({
+                items: 1,
+                loop: true,
+                autoplay: true,
+                dots: true, // Đây là những cái nút nhỏ nhỏ để bấm chuyển sản phẩm
+                nav: false
+            });
+        });
+    </script>
 </body>
 </html>
+

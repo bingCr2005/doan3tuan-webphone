@@ -190,172 +190,304 @@ header {
     font-weight: 600;
     font-size: 14px;
 }
+/* Container chính - Trắng tinh khôi chuyên nghiệp */
+/* Container Full Width */
+.hero-clean-v4 {
+    background: #ffffff;
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    padding: 60px 0;
+    overflow: hidden;
+    border-bottom: 1px solid #eee;
+}
 
-/* Hero Slider */
-.hero-slider {
-    background: linear-gradient(to bottom, #f5f5f5 0%, #e8e8e8 100%);
-    padding: 50px 0;
+.clean-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 480px;
+}
+
+.clean-container {
+    width: 85%;
+    max-width: 1140px;
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    align-items: center;
+    gap: 40px;
+}
+
+/* Badge nhỏ gọn */
+.c-badge {
+    font-size: 11px;
+    font-weight: 700;
+    color: #fff;
+    padding: 5px 14px;
+    border-radius: 3px;
+    display: inline-block;
+    margin-bottom: 20px;
+    letter-spacing: 0.5px;
+}
+
+/* Tiêu đề đã thu nhỏ - Không bị to thô */
+.c-title {
+    font-size: 36px;
+    font-weight: 700;
+    color: #1d1d1f;
+    line-height: 1.2;
+    margin-bottom: 12px;
+}
+
+.c-slogan {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 30px;
+    font-weight: 400;
+}
+
+/* Box giá thanh lịch */
+.c-price-wrapper {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #f0f0f0;
+    width: fit-content;
+}
+
+.c-price-label {
+    font-size: 14px;
+    color: #888;
+}
+
+.c-price-val {
+    font-size: 32px;
+    font-weight: 700;
+    color: #d10024;
+}
+
+.c-price-unit {
+    font-size: 18px;
+    color: #d10024;
+    text-decoration: underline;
+    font-weight: 600;
+}
+
+.c-brand {
+    font-size: 14px;
+    color: #999;
+    margin-bottom: 35px;
+}
+
+/* Nút bấm Apple Style */
+/* Nút bấm mặc định: Nền đen chữ trắng */
+.c-btn-main {
+    background: #1d1d1f; /* Màu đen sang trọng */
+    color: #ffffff; /* Chữ màu trắng */
+    padding: 14px 45px;
+    border-radius: 50px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1); /* Hiệu ứng chuyển màu mượt mà */
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    border: 2px solid #1d1d1f; /* Thêm viền để khi hover không bị nhảy kích thước */
+}
+
+    /* Hiệu ứng khi di chuột vào (Hover): Nền vàng chữ đen */
+    .c-btn-main:hover {
+        background: #fed700; /* Chuyển sang màu vàng thương hiệu */
+        color: #1d1d1f; /* Chữ chuyển sang màu đen để nổi bật trên nền vàng */
+        border-color: #fed700;
+        transform: translateY(-3px); /* Nhích nhẹ lên trên tạo cảm giác 3D */
+        box-shadow: 0 10px 20px rgba(254, 215, 0, 0.3); /* Đổ bóng màu vàng nhẹ nhàng */
+    }
+
+    /* Chỉnh icon bên trong nút */
+    .c-btn-main i {
+        font-size: 14px;
+        transition: transform 0.3s ease;
+    }
+
+    /* Hiệu ứng icon dịch chuyển nhẹ khi hover */
+    .c-btn-main:hover i {
+        transform: translateX(5px);
+    }
+
+/* Ảnh sản phẩm - Tĩnh & Sang trọng */
+.clean-image {
+    display: flex;
+    justify-content: center;
     position: relative;
 }
 
-.hero-content-wrapper {
+.c-img-static {
+    max-height: 400px; /* Thu nhỏ ảnh cho vừa vặn */
+    width: auto;
+    filter: drop-shadow(0 20px 40px rgba(0,0,0,0.08));
+    /* Chỉ sử dụng hiệu ứng trượt nhẹ lên xuống, KHÔNG XOAY */
+    animation: smoothSlide 6s ease-in-out infinite;
+}
+
+@keyframes smoothSlide {
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-15px);
+    }
+}
+
+/* Owl Dots thanh mảnh */
+.owl-theme .owl-dots .owl-dot span {
+    width: 20px !important;
+    height: 3px !important;
+    background: #e0e0e0 !important;
+}
+
+.owl-theme .owl-dots .owl-dot.active span {
+    background: #1d1d1f !important;
+    width: 40px !important;
+}
+
+
+/* Container chính */
+.sidebar-promos {
+    position: fixed;
+    right: 25px;
+    top: 250px;
+    width: 280px;
+    z-index: 1000;
+}
+
+/* Nút tắt Premium */
+.close-ads {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    color: #D10024;
+    font-size: 24px;
+    cursor: pointer;
+    background: #fff;
+    border-radius: 50%;
+    line-height: 1;
+}
+
+/* Card thiết kế theo phong cách hiện đại */
+.pro-promo-card {
+    position: relative;
+    padding: 20px;
+    margin-bottom: 25px;
+    border-radius: 20px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+    .pro-promo-card:hover {
+        transform: scale(1.05) translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    }
+
+.promo-badge {
+    position: absolute;
+    top: 15px;
+    left: -30px;
+    background: #D10024;
+    color: #fff;
+    padding: 5px 35px;
+    font-size: 10px;
+    font-weight: bold;
+    transform: rotate(-45deg);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+/* Layout nội dung */
+.promo-body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 50px;
-}
-
-.hero-left {
-    flex: 1;
-}
-
-.hero-badge {
-    color: #00bcd4;
-    font-size: 14px;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 1px;
     margin-bottom: 15px;
 }
 
-.hero-title {
-    font-size: 56px;
-    font-weight: 300;
-    line-height: 1.1;
-    margin-bottom: 20px;
+.brand-name {
+    font-size: 20px;
+    font-weight: 800;
+    margin: 0;
     color: #333;
+    letter-spacing: -1px;
 }
 
-.hero-discount {
-    font-size: 64px;
+.promo-desc {
+    font-size: 12px;
+    color: #666;
+    margin: 0;
+}
+
+/* Hiệu ứng ảnh bay bổng */
+.image-section {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.floating-img {
+    max-width: 100%;
+    filter: drop-shadow(5px 10px 15px rgba(0,0,0,0.2));
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+/* Nút bấm Premium */
+.pro-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: #333;
+    color: #fff;
+    padding: 12px;
+    border-radius: 12px;
+    text-decoration: none;
     font-weight: bold;
-    color: #333;
+    font-size: 14px;
+    transition: 0.3s;
 }
 
-.hero-btn {
-    background: #fed700;
-    color: #333;
-    border: none;
-    padding: 15px 35px;
-    font-size: 15px;
-    font-weight: bold;
-    border-radius: 3px;
-    cursor: pointer;
-    margin-top: 25px;
-}
-
-.hero-right {
-    flex: 1;
-    position: relative;
-}
-
-.hero-images {
-    display: flex;
-    gap: 20px;
-    justify-content: center;
-    align-items: center;
-}
-
-.hero-phone {
-    width: 160px;
-    height: 180px;
-    background: #fff;
-    border-radius: 20px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-}
-
-    .hero-phone img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-
-.slider-dots {
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 8px;
-}
-
-.dot {
-    width: 30px;
-    height: 3px;
-    background: #ccc;
-    border-radius: 2px;
-    cursor: pointer;
-}
-
-    .dot.active {
+    .pro-btn:hover {
         background: #fed700;
+        color: #333;
     }
 
-/* Sidebar Promos */
-.sidebar-promos {
-    position: fixed;
-    right: 20px;
-    top: 280px;
-    width: 250px;
-    z-index: 100;
+/* Theme màu sắc cho từng hãng */
+.samsung-theme {
+    border-bottom: 5px solid #003d82;
 }
 
-.promo-box {
-    background: #fff;
-    padding: 20px;
-    margin-bottom: 20px;
-    border-radius: 5px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    text-align: center;
+.apple-theme {
+    border-bottom: 5px solid #555;
 }
-
-    .promo-box h3 {
-        font-size: 15px;
-        margin-bottom: 10px;
-        line-height: 1.4;
-    }
-
-    .promo-box .deals {
-        font-weight: bold;
-        color: #003d82;
-    }
-
-    .promo-box .btn {
-        background: #fed700;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 3px;
-        cursor: pointer;
-        font-weight: bold;
-        margin-top: 10px;
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 5px;
-    }
-
-.promo-img {
-    width: 100%;
-    height: 120px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-radius: 5px;
-    margin: 10px 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-}
-
-    .promo-img img {
-        width: 80%;
-        height: 80%;
-        object-fit: contain;
-    }
 
 /* Main Content */
 .main-content {
@@ -643,28 +775,60 @@ a.product-link {
     .products-grid .product-card {
         border-radius: 0;
     }
-
-/* Pagination */
+/* Pagination - Phong cách hiện đại, tinh tế */
 .pagination {
     display: flex;
     justify-content: center;
-    gap: 10px;
-    margin: 40px 0;
+    align-items: center;
+    gap: 8px; /* Khoảng cách giữa các nút vừa phải */
+    margin: 50px 0;
+    padding: 20px 0;
+    border-top: 1px solid #f0f0f0; /* Thêm đường kẻ mờ phía trên để tách biệt với sản phẩm */
 }
 
 .page-btn {
-    width: 40px;
-    height: 40px;
-    border: 1px solid #ddd;
-    background: #fff;
-    border-radius: 3px;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #e0e0e0;
+    background: #ffffff;
+    color: #666;
+    border-radius: 4px; /* Bo góc nhẹ nhìn đứng dáng hơn */
     cursor: pointer;
-    font-weight: 500;
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none; /* Dành cho trường hợp dùng thẻ <a> */
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-    .page-btn.active {
-        background: #fed700;
+    /* Hiệu ứng khi di chuột vào nút thường */
+    .page-btn:hover {
         border-color: #fed700;
+        color: #333;
+        background-color: #fff9db; /* Màu vàng cực nhẹ khi hover */
+        transform: translateY(-2px); /* Nhích nhẹ lên tạo cảm giác tương tác */
+    }
+
+    /* Nút trạng thái Active (Trang hiện tại) */
+    .page-btn.active {
+        background: #fed700; /* Màu vàng thương hiệu của ông */
+        border-color: #fed700;
+        color: #333;
+        box-shadow: 0 4px 10px rgba(254, 215, 0, 0.4); /* Đổ bóng vàng nhẹ cho nút active */
+    }
+
+    /* Icon mũi tên (nếu có) */
+    .page-btn i {
+        font-size: 12px;
+    }
+
+    /* Vô hiệu hóa nút khi không bấm được (ví dụ nút Back ở trang 1) */
+    .page-btn.disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        background: #f5f5f5;
     }
 
 /* Product Sections */
