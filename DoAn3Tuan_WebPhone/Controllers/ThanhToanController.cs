@@ -28,7 +28,7 @@ public class ThanhToanController : Controller
         return View(gioHang.ChiTietGioHangs.ToList());
     }
 
-    // ===================== CONFIRM =====================
+    //  CONFIRM 
     [HttpPost]
     public IActionResult Confirm(
     List<int> ctghIds,
@@ -39,6 +39,9 @@ public class ThanhToanController : Controller
     string maGiamGia)
     {
         string maKH = "KH003";
+        if (ctghIds == null || !ctghIds.Any())
+            return Content("KHÔNG NHẬN ĐƯỢC ctghIds");
+
 
         if (string.IsNullOrWhiteSpace(tenNguoiNhan) ||
             string.IsNullOrWhiteSpace(sdt) ||
