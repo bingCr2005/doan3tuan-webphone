@@ -49,7 +49,12 @@
                                 <div class="card-body text-center">
                                     <h6 class="card-title fw-bold">@item.TenDienThoai</h6>
                                     <p class="text-danger fw-bold fs-5">@item.DonGia.ToString("N0")₫</p>
-                                    <a href="/Product/Details/@item.MaDienThoai" class="btn btn-outline-dark btn-sm shadow-none">Xem chi tiết</a>
+                                    <a asp-controller="ChiTietSanPham"
+                                       asp-action="Index"
+                                       asp-route-id="@item.MaDienThoai"
+                                       class="btn btn-outline-warning">
+                                        Xem chi tiết
+                                    </a>
                                 </div>
                             </div>
                         </div>

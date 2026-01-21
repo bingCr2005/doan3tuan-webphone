@@ -61,5 +61,22 @@ namespace DoAn3Tuan_WebPhone.Controllers
 
             return View("Search",model);
         }
+        // Đường dẫn sẽ là: /Search/Details/DT040
+        [HttpGet("Details/{id}")]
+        public async Task<IActionResult> Details(string id)
+        {
+            if (id == null) return NotFound();
+
+            // Lấy thông tin điện thoại và các hình ảnh đi kèm [cite: 3, 5]
+            var product = await _context.DienThoais
+                .Include(p => p.HinhAnhs)
+                .FirstOrDefaultAsync(m => m.MaDienThoai == id);
+
+            if (product == null) return NotFound();
+
+            // Bạn phải đảm bảo bạn của mình đã tạo file: Views/DienThoai/Details.cshtml
+            // Nếu tên file là ChiTiet.cshtml thì sửa "Details" thành "ChiTiet"
+            return View(product);
+        }
     }
 }
