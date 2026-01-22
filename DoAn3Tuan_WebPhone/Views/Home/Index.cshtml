@@ -139,7 +139,14 @@
         <div class="container">
             <div class="nav-content">
                 <ul class="nav-menu">
-                    <li><a href="/">Trang Chủ</a></li>
+                   
+                    <li><a asp-controller="Home" asp-action="Index">Trang Chủ</a></li>
+
+                    <li><a asp-controller="Product" asp-action="Index">Sản Phẩm</a></li>
+
+                    <li><a asp-controller="Home" asp-action="About">Giới Thiệu</a></li>
+
+                    <li><a asp-controller="Contact" asp-action="Index">Liên Hệ</a></li>
 
                     @if (Context.Session.GetString("Role") == "Admin")
                     {
