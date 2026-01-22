@@ -1,7 +1,7 @@
 ﻿using DoAn3Tuan_WebPhone.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
+[Area("Admin")]
 public class AdminCommentController : Controller
 {
     private readonly DBBanDienThoaiContext _context;
