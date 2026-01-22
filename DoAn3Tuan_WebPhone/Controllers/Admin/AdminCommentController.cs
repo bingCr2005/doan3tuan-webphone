@@ -2,7 +2,7 @@
 using DoAn3Tuan_WebPhone.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
+[Area("Admin")]
 public class AdminCommentController : Controller
 {
     private readonly DBBanDienThoaiContext _context;
@@ -35,6 +35,7 @@ public class AdminCommentController : Controller
     }
 
     // 2. Xử lý xóa bình luận: bằng ajax
+    [IgnoreAntiforgeryToken]
     [HttpPost]
     public async Task<IActionResult> Delete(string id)
     {

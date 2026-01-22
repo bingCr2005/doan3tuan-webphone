@@ -14,7 +14,9 @@ public class DonHangController : Controller
     //  DANH SÁCH ĐƠN HÀNG 
     public IActionResult Index(int page = 1, int? trangThai = null)
     {
-        string maKH = "KH003";
+        string maKH = HttpContext.Session.GetString("MaKH");
+        if (string.IsNullOrEmpty(maKH))
+            return RedirectToAction("Login", "Account");
         int pageSize = 15;
 
         var query = _context.HoaDons
@@ -43,7 +45,7 @@ public class DonHangController : Controller
     //  CHI TIẾT ĐƠN HÀNG 
     public IActionResult Detail(string id)
     {
-        string maKH = "KH003";// HttpContext.Session.GetString("MaKH");
+        string maKH =HttpContext.Session.GetString("MaKH");
         if (maKH == null)
             return RedirectToAction("Login", "Account");
 
@@ -64,7 +66,9 @@ public class DonHangController : Controller
     [HttpPost]
     public IActionResult Cancel(string id, int page = 1, int? trangThai = null)
     {
-        string maKH = "KH003";
+        string maKH = HttpContext.Session.GetString("MaKH");
+        if (string.IsNullOrEmpty(maKH))
+            return RedirectToAction("Login", "Account");
 
         var don = _context.HoaDons.FirstOrDefault(x =>
             x.MaHoaDon == id &&
