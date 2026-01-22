@@ -323,12 +323,16 @@
                                             <span class="old-price">@((sp.DonGia * 1.15m).ToString("N0"))đ</span>
                                         }
                                     </div>
-                                    <button class="btn-cart-round"><i class="fas fa-shopping-cart"></i></button>
+                                    <button class="btn-cart-round" onclick="addToCart('@sp.MaDienThoai')">
+                                        <i class="fas fa-shopping-cart"></i>
+                                    </button>
                                 </div>
 
                                 <div class="hover-footer">
                                     <div class="footer-action"><i class="far fa-heart"></i> Wishlist</div>
-                                    <div class="footer-action"><i class="fas fa-sync-alt"></i> Compare</div>
+                                    <div class="footer-action" onclick="addToCompare('@sp.MaDienThoai', '@sp.TenDienThoai', '@sp.Thumbnail', '@sp.DonGia', '@sp.Ram', '@sp.DungLuongPin')">
+                                        <i class="fas fa-sync-alt"></i> Compare
+                                    </div>
                                 </div>
                             </div>
                         }
@@ -457,20 +461,69 @@
         </div>
     </div>
 
+    <section class="premium-service-section">
+        <div class="container">
+            <div class="bento-container">
+
+                <div class="bento-card card-shipping" onclick="location.href='/Home/About#shipping'">
+                    <div class="card-text">
+                        <div class="bento-icon"><i class="fas fa-bolt"></i></div>
+                        <h3 style="font-size: 28px;">Giao hàng hỏa tốc<br>trong 2 giờ</h3>
+                        <p>Hệ thống vận chuyển chuyên nghiệp nội thành HCM & Hà Nội. Miễn phí đơn từ 5tr.</p>
+                    </div>
+                    <img src="https://cdn-icons-png.flaticon.com/512/726/726455.png" alt="Shipping Fast">
+                </div>
+
+                <div class="bento-card" onclick="location.href='/Home/About#warranty'">
+                    <div class="bento-icon"><i class="fas fa-check-circle"></i></div>
+                    <div class="card-text">
+                        <h3>1 Đổi 1<br>Trong 30 ngày</h3>
+                        <p>Yên tâm tuyệt đối với chính sách đặc quyền bảo hành lỗi là đổi máy mới.</p>
+                    </div>
+                </div>
+
+                <div class="bento-card" onclick="location.href='/Home/About#installment'">
+                    <div class="bento-icon"><i class="fas fa-credit-card"></i></div>
+                    <div class="card-text">
+                        <h3>Trả góp 0%<br>Lãi suất</h3>
+                        <p>Duyệt hồ sơ nhanh qua thẻ tín dụng hoặc CCCD trong 5 phút.</p>
+                    </div>
+                </div>
+
+                <div class="bento-card" onclick="location.href='/Contact/Index'">
+                    <div class="bento-icon"><i class="fas fa-user-shield"></i></div>
+                    <div class="card-text">
+                        <h3>Hỗ trợ 24/7<br>Tech Expert</h3>
+                        <p>Đội ngũ chuyên gia công nghệ luôn sẵn sàng tư vấn tận tâm.</p>
+                    </div>
+                </div>
+
+                <div class="bento-item bento-card" onclick="location.href='/Home/About#trade-in'">
+                    <div class="bento-icon"><i class="fas fa-sync-alt"></i></div>
+                    <div class="card-text">
+                        <h3>Thu cũ đổi mới<br>Trợ giá 2 Triệu</h3>
+                        <p>Lên đời siêu phẩm tiết kiệm tối đa chi phí cho khách hàng thân thiết.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
     <!-- Newsletter -->
     <section class="newsletter">
         <div class="container">
-            <div class="newsletter-content">
+            <div class="newsletter-content" id="newsletter-area">
                 <div class="newsletter-left">
                     <div class="newsletter-icon"><i class="far fa-envelope"></i></div>
                     <div class="newsletter-text">
                         <h3>Đăng Ký Nhận Bản Tin</h3>
-                        <p>...và nhận phiếu giảm giá <strong>$20</strong> cho lần mua hàng đầu tiên</p>
+                        <p>...và nhận phiếu giảm giá <strong>500.000đ</strong> cho lần mua hàng đầu tiên</p>
                     </div>
                 </div>
                 <div class="newsletter-form">
-                    <input type="email" class="newsletter-input" placeholder="Nhập địa chỉ email của bạn">
-                    <button class="newsletter-btn">Đăng Ký</button>
+                    <input type="email" id="newsletterEmail" class="newsletter-input" placeholder="Nhập địa chỉ email của bạn">
+                    <button class="newsletter-btn" onclick="subscribeNewsletter()">Đăng Ký</button>
                 </div>
             </div>
         </div>
@@ -571,19 +624,232 @@
             <i class="fas fa-comment-dots" style="font-size: 24px;"></i>
         </div>
     </div>
+<div id="quick-compare-bar" class="compare-bar">
+        <div class="container">
+            <div class="compare-left-group">
+                <div class="compare-guide-text">Chọn ít nhất 2 sản phẩm để so sánh</div>
+                <div id="compare-list-items"></div>
+            </div>
+            <div class="compare-right-group">
+                <button class="btn-view-compare shadow-sm" onclick="showCompareModal()">Xem so sánh</button>
+                <a href="javascript:void(0)" onclick="clearAllCompare()" style="color: #999; text-decoration: none; font-size: 13px; margin-left:15px;">Clear all</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="compareModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen"> 
+            <div class="modal-content border-0">
+                <div class="modal-header container-fluid px-5 pt-4">
+                    <h2 class="modal-title fw-bold" style="color: #333e48; font-size: 28px;">Compare Products</h2>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" style="font-size: 20px;"></button>
+                </div>
+                <div class="modal-body p-0">
+                    <div class="compare-table-wrapper">
+                        <table class="table compare-list-table mb-0" id="compare-table-content">
+                            </table>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 p-4 shadow-sm">
+                    <button type="button" class="btn btn-dark px-5 py-2 rounded-pill" data-bs-dismiss="modal">Đóng bảng so sánh</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
     <script>
         $(document).ready(function(){
-            // Thay ".hero-slider-owl" bằng class chuẩn của slider trong template
+            // Khởi tạo slider
             $(".hero-slider-owl").owlCarousel({
-                items: 1,
-                loop: true,
-                autoplay: true,
-                dots: true, // Đây là những cái nút nhỏ nhỏ để bấm chuyển sản phẩm
-                nav: false
+                items: 1, loop: true, autoplay: true, dots: true, nav: false
             });
         });
+
+        // 1. CHỨC NĂNG GIỎ HÀNG (GIỮ NGUYÊN)
+        function addToCart(maDT) {
+            $.ajax({
+                url: '/GioHang/AddToCart',
+                type: 'POST',
+                data: { maDT: maDT, qty: 1 },
+                success: function (response) {
+                    if (response.success) {
+                        alert(response.message);
+                        var currentBadge = parseInt($('.icon-badge').first().text()) || 0;
+                        $('.icon-badge').text(currentBadge + 1);
+                    } else {
+                        alert("Lỗi: " + response.message);
+                    }
+                },
+                error: function () {
+                    alert("Không thể kết nối đến hệ thống giỏ hàng.");
+                }
+            });
+        }
+
+        //CHỨC NĂNG NEWSLETTER (HIỂN THỊ THÔNG BÁO TẠI CHỖ)
+        function subscribeNewsletter() {
+            var email = $('#newsletterEmail').val();
+
+            // Sử dụng @@ để tránh gạch đỏ
+            if (!email || !email.includes('@@')) {
+                alert("Vui lòng nhập email hợp lệ!");
+                return;
+            }
+
+            $.ajax({
+                url: '/Home/SubscribeNewsletter',
+                type: 'POST',
+                data: { email: email },
+                success: function (response) {
+                    if (response.success) {
+                        // thong bao chữ cảm ơn
+                        $('#newsletter-area').html(`
+                            <div style="background: #e6ffed; color: #155724; padding: 15px 30px; border-radius: 5px; width: 100%; border: 1px solid #c3e6cb; text-align: left;">
+                                Cảm ơn bạn đã liên hệ với chúng tôi! Chúng tôi sẽ liên lạc lại với bạn trong thời gian ngắn nhất.
+                            </div>
+                        `);
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function () {
+                    alert("Lỗi kết nối máy chủ");
+                }
+            });
+        }
+    </script>
+    <script>
+        // 1. Khởi tạo danh sách lưu trữ
+        let compareList = [];
+
+        // 2. Hàm thêm sản phẩm (Đã sửa để nhận đủ dữ liệu từ View)
+        function addToCompare(id, name, img, price, ram, pin) {
+            if (compareList.find(x => x.id === id)) {
+                alert("Sản phẩm đã có trong danh sách so sánh!");
+                return;
+            }
+            if (compareList.length >= 4) {
+                alert("Bạn chỉ có thể so sánh tối đa 4 sản phẩm!");
+                return;
+            }
+
+            // Xử lý làm sạch dữ liệu trước khi lưu (loại bỏ chữ 'đ', dấu chấm, v.v.)
+            let cleanPrice = typeof price === 'string' ? price.replace(/[^0-9]/g, '') : price;
+
+            compareList.push({
+                id: id,
+                name: name,
+                img: img,
+                price: parseFloat(cleanPrice) || 0,
+                ram: parseInt(ram) || 0,
+                pin: parseInt(pin) || 0
+            });
+
+            renderCompareBar();
+        }
+
+        // 3. Hàm xóa sản phẩm
+        function removeFromCompare(id) {
+            compareList = compareList.filter(x => x.id !== id);
+            renderCompareBar();
+        }
+
+        // 4. Hàm xóa tất cả
+        function clearAllCompare() {
+            compareList = [];
+            renderCompareBar();
+        }
+
+        // 5. Hàm vẽ thanh so sánh (Dàn hàng ngang chuẩn mẫu)
+        function renderCompareBar() {
+            const bar = $('#quick-compare-bar');
+            const list = $('#compare-list-items');
+            list.empty();
+
+            if (compareList.length > 0) {
+                bar.fadeIn(300);
+                compareList.forEach(item => {
+                    list.append(`
+                        <div class="mini-compare-item">
+                            <img src="${item.img}" onerror="this.src='/images/no-image.png'">
+                            <button class="remove-mini-item" onclick="removeFromCompare('${item.id}')">×</button>
+                        </div>
+                    `);
+                });
+                // Vẽ các ô trống nét đứt còn lại
+                for(let i = compareList.length; i < 4; i++) {
+                    list.append('<div class="mini-compare-placeholder"></div>');
+                }
+            } else {
+                bar.fadeOut(300);
+            }
+        }
+
+        // 6. Hàm hiển thị bảng so sánh NỔI LÊN MÀN HÌNH (Sửa lỗi toLocaleString)
+        function showCompareModal() {
+            if (compareList.length < 2) {
+                alert("Vui lòng chọn ít nhất 2 sản phẩm để so sánh!");
+                return;
+            }
+
+            const table = $('#compare-table-content');
+            table.empty();
+
+            // --- Hàng 1: Ảnh và Tên ---
+            let headerRow = `<tr><td class="attr-name border-0">Sản phẩm</td>`;
+            compareList.forEach(item => {
+                headerRow += `
+                    <td class="text-center border-0 px-4 py-4">
+                        <img src="${item.img}" class="compare-img d-block mx-auto" onerror="this.src='/images/no-image.png'">
+                        <div class="fw-bold text-dark small mt-2">${item.name || 'N/A'}</div>
+                    </td>`;
+            });
+            table.append(headerRow + `</tr>`);
+
+            // --- Các hàng thông số: Giá, RAM, Pin ---
+            const specs = [
+                { label: "Giá bán (đ)", key: "price", better: "min" },
+                { label: "RAM (GB)", key: "ram", better: "max" },
+                { label: "Pin (mAh)", key: "pin", better: "max" }
+            ];
+
+            specs.forEach(s => {
+                let row = `<tr><td class="attr-name">${s.label}</td>`;
+
+                // Lấy danh sách các giá trị an toàn để so sánh
+                let vals = compareList.map(item => item[s.key] || 0);
+                let best = s.better === "max" ? Math.max(...vals) : Math.min(...vals.filter(v => v > 0));
+
+                compareList.forEach(item => {
+                    let currentVal = item[s.key] || 0;
+
+                    // Logic tô màu xanh (Highlight)
+                    let isBest = (currentVal === best && new Set(vals).size > 1 && best !== 0);
+
+                    // Hiển thị giá tiền hoặc thông số (Chống lỗi undefined toLocaleString)
+                    let displayVal = "Liên hệ";
+                    if (currentVal > 0) {
+                        displayVal = (s.key === "price") ? currentVal.toLocaleString('vi-VN') : currentVal;
+                    }
+
+                    row += `<td class="text-center py-3 ${isBest ? 'highlight-best' : ''}">${displayVal}</td>`;
+                });
+                table.append(row + `</tr>`);
+            });
+
+            // Kích hoạt Modal (Sử dụng try-catch để tránh lỗi Promise của Bootstrap)
+            try {
+                var myModal = new bootstrap.Modal(document.getElementById('compareModal'));
+                myModal.show();
+            } catch (err) {
+                console.error("Bootstrap Modal chưa sẵn sàng:", err);
+                // Fallback nếu Bootstrap Modal bị lỗi
+                $('#compareModal').modal('show');
+            }
+        }
     </script>
     <script>
         function toggleAuth(type) {

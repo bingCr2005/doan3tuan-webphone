@@ -12,7 +12,7 @@ public class ThanhToanController : Controller
         _context = context;
     }
 
-    // ===================== CHECKOUT =====================
+    //  CHECKOUT 
     public IActionResult Checkout()
     {
         string maKH = "KH003";
@@ -28,17 +28,22 @@ public class ThanhToanController : Controller
         return View(gioHang.ChiTietGioHangs.ToList());
     }
 
-    // ===================== CONFIRM =====================
     [HttpPost]
     public IActionResult Confirm(
-    List<int> ctghIds,
-    string tenNguoiNhan,
-    string sdt,
-    string diaChi,
-    string phuongThuc,
-    string maGiamGia)
+        List<int> ctghIds,
+        string tenNguoiNhan,
+        string sdt,
+        string diaChi,
+        string phuongThuc,
+        string maGiamGia)
     {
         string maKH = "KH003";
+        if (ctghIds == null || !ctghIds.Any())
+            return Content("KHÔNG NHẬN ĐƯỢC ctghIds");
+
+
+        if (ctghIds == null || !ctghIds.Any())
+            return RedirectToAction("Index", "GioHang");
 
         if (string.IsNullOrWhiteSpace(tenNguoiNhan) ||
             string.IsNullOrWhiteSpace(sdt) ||
@@ -48,104 +53,121 @@ public class ThanhToanController : Controller
         if (!Regex.IsMatch(sdt, @"^[0-9]{10}$"))
             return RedirectToAction("Checkout");
 
-        var chiTiet = _context.ChiTietGioHangs
-            .Include(x => x.MaDienThoaiNavigation)
-            .Where(x => ctghIds.Contains(x.MaCtgh))
-            .ToList();
+        IActionResult? result = null;
 
-        if (!chiTiet.Any())
-            return RedirectToAction("Index", "GioHang");
+        var strategy = _context.Database.CreateExecutionStrategy();
 
-        using var tran = _context.Database.BeginTransaction();
-
-        try
+        strategy.Execute(() =>
         {
-            // ===== KHUYẾN MÃI =====
-            KhuyenMai? km = null;
-            decimal tienGiam = 0;
+            using var tran = _context.Database.BeginTransaction();
 
-            if (!string.IsNullOrWhiteSpace(maGiamGia))
+            try
             {
-                km = _context.KhuyenMais.FirstOrDefault(x =>
-                    x.MaKhuyenMai == maGiamGia &&
-                    x.TrangThai == 1 &&
-                    x.NgayBatDau <= DateOnly.FromDateTime(DateTime.Now) &&
-                    x.NgayHetHan >= DateOnly.FromDateTime(DateTime.Now));
+                // ===== LẤY GIỎ HÀNG =====
+                var gioHang = _context.GioHangs
+                    .Include(g => g.ChiTietGioHangs)
+                        .ThenInclude(ct => ct.MaDienThoaiNavigation)
+                    .FirstOrDefault(g => g.MaKhachHang == maKH);
 
-                if (km != null)
-                    tienGiam = km.MucGiamGia ?? 0;
-            }
+                if (gioHang == null || !gioHang.ChiTietGioHangs.Any())
+                {
+                    result = RedirectToAction("Index", "GioHang");
+                    return;
+                }
 
-            decimal tongGoc = chiTiet.Sum(x => x.ThanhTien ?? 0);
-            decimal tongSauGiam = Math.Max(0, tongGoc - tienGiam);
+                var chiTiet = gioHang.ChiTietGioHangs
+                    .Where(x => ctghIds.Contains(x.MaCtgh))
+                    .ToList();
 
-            // ===== SINH MÃ HÓA ĐƠN =====
-            int lastHD = _context.HoaDons
-                .AsEnumerable()
-                .Select(x => int.Parse(x.MaHoaDon.Replace("HD", "")))
-                .DefaultIfEmpty(0)
-                .Max();
+                if (!chiTiet.Any())
+                {
+                    result = RedirectToAction("Index", "GioHang");
+                    return;
+                }
 
-            string maHoaDon = "HD" + (lastHD + 1).ToString("D3");
+                // ===== KHUYẾN MÃI =====
+                KhuyenMai? km = null;
+                decimal tienGiam = 0;
 
-            var hoaDon = new HoaDon
-            {
-                MaHoaDon = maHoaDon,
-                MaKhachHang = maKH,
-                MaAdmin = "AD001",
-                NgayLap = DateOnly.FromDateTime(DateTime.Now),
-                TongTien = tongSauGiam,
-                TrangThai = 0,
-                PhuongThucThanhToan = phuongThuc,
-                TenNguoiNhan = tenNguoiNhan,
-                SoDienThoai = sdt,
-                DiaChiGiaoHang = diaChi,
-                MaKhuyenMai = km?.MaKhuyenMai
-            };
+                if (!string.IsNullOrWhiteSpace(maGiamGia))
+                {
+                    km = _context.KhuyenMais.FirstOrDefault(x =>
+                        x.MaKhuyenMai == maGiamGia &&
+                        x.TrangThai == 1 &&
+                        x.NgayBatDau <= DateOnly.FromDateTime(DateTime.Now) &&
+                        x.NgayHetHan >= DateOnly.FromDateTime(DateTime.Now));
 
-            _context.HoaDons.Add(hoaDon);
-            _context.SaveChanges();
+                    if (km != null)
+                        tienGiam = km.MucGiamGia ?? 0;
+                }
 
-            // ===== CHI TIẾT + TRỪ TỒN =====
-            foreach (var item in chiTiet)
-            {
-                decimal tiLe = tongGoc == 0 ? 0 : (item.ThanhTien ?? 0) / tongGoc;
-                decimal thanhTienMoi = (item.ThanhTien ?? 0) - Math.Round(tienGiam * tiLe);
+                decimal tongGoc = chiTiet.Sum(x => x.ThanhTien ?? 0);
+                decimal tongSauGiam = Math.Max(0, tongGoc - tienGiam);
 
-                _context.ChiTietHoaDons.Add(new ChiTietHoaDon
+                // ===== TẠO HÓA ĐƠN =====
+                int lastHD = _context.HoaDons
+                    .AsEnumerable()
+                    .Select(x => int.Parse(x.MaHoaDon.Replace("HD", "")))
+                    .DefaultIfEmpty(0)
+                    .Max();
+
+                string maHoaDon = "HD" + (lastHD + 1).ToString("D3");
+
+                var hoaDon = new HoaDon
                 {
                     MaHoaDon = maHoaDon,
-                    MaDienThoai = item.MaDienThoai,
-                    SoLuong = item.SoLuong,
-                    DonGia = item.MaDienThoaiNavigation.DonGia,
-                    ThanhTien = thanhTienMoi,
-
-                   
-                    DiaChi = diaChi,
-                    PhuongThucThanhToan = phuongThuc,
+                    MaKhachHang = maKH,
+                    MaAdmin = "AD001",
+                    NgayLap = DateOnly.FromDateTime(DateTime.Now),
+                    TongTien = tongSauGiam,
                     TrangThai = 0,
-
+                    PhuongThucThanhToan = phuongThuc,
+                    TenNguoiNhan = tenNguoiNhan,
+                    SoDienThoai = sdt,
+                    DiaChiGiaoHang = diaChi,
                     MaKhuyenMai = km?.MaKhuyenMai
-                });
+                };
 
-                item.MaDienThoaiNavigation.SoLuongTon -= item.SoLuong;
+                _context.HoaDons.Add(hoaDon);
+                _context.SaveChanges();
+
+                // ===== CHI TIẾT HÓA ĐƠN =====
+                foreach (var item in chiTiet)
+                {
+                    _context.ChiTietHoaDons.Add(new ChiTietHoaDon
+                    {
+                        MaHoaDon = maHoaDon,
+                        MaDienThoai = item.MaDienThoai,
+                        SoLuong = item.SoLuong,
+                        DonGia = item.MaDienThoaiNavigation!.DonGia,
+                        ThanhTien = item.ThanhTien,
+                        TrangThai = 0,
+                        MaKhuyenMai = km?.MaKhuyenMai
+                    });
+                }
+
+                if (km != null)
+                    km.SoLuongMaKhuyenMaiDaDung++;
+
+                _context.ChiTietGioHangs.RemoveRange(chiTiet);
+
+                _context.SaveChanges();
+                tran.Commit();
+
+                result = RedirectToAction("Success");
             }
+            catch (Exception ex)
+            {
+                tran.Rollback();
+                result = Content("LỖI THANH TOÁN: " + ex.Message);
+            }
+        });
 
-            if (km != null)
-                km.SoLuongMaKhuyenMaiDaDung++;
-
-            _context.ChiTietGioHangs.RemoveRange(chiTiet);
-            _context.SaveChanges();
-
-            tran.Commit();
-            return RedirectToAction("Success");
-        }
-        catch
-        {
-            tran.Rollback();
-            return RedirectToAction("Checkout");
-        }
+        return result ?? RedirectToAction("Checkout");
     }
+
+
+
     public IActionResult Success()
     {
         return View();

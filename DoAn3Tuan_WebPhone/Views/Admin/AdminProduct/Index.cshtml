@@ -2,22 +2,23 @@
 @{
     ViewData["Title"] = "Quản lý điện thoại";
 }
+<link rel="stylesheet" href="~/Css/style.css">
 
 <div class="container-fluid">
     <div class="row">
         <div class="col-2 sidebar bg-dark text-white p-3" style="min-height: 100vh;">
             <h4 class="text-center mb-4">ADMIN</h4>
             <a href="#" class="d-block text-white text-decoration-none p-2">🏠 Dashboard</a>
-            <a href="/AdminProduct/Index" class="d-block text-white text-decoration-none p-2 active bg-primary rounded">📱 Điện thoại</a>
-            <a href="/HangDienThoai/Index" class="d-block text-white text-decoration-none p-2">🏷️ Hãng điện thoại</a>
-            <a href="/KhachHang/Index" class="d-block text-white text-decoration-none p-2">👥 Khách hàng</a>
-            <a href="/NhaCungCap/Index" class="d-block text-white text-decoration-none p-2">🏭 Nhà cung cấp</a>
-            <a href="/KhuyenMai/Index" class="d-block text-white text-decoration-none p-2">🎁 Khuyến mãi</a>
-            <a href="/DonHang/Index" class="d-block text-white text-decoration-none p-2">🛒 Đơn hàng</a>
-            <a href="/ThongKe/Index" class="d-block text-white text-decoration-none p-2">📈 Thống kê</a>
-            <a href="/BinhLuan/Index" class="d-block text-white text-decoration-none p-2">💬 Bình luận</a>
-            <a href="/LienHe/Index" class="d-block text-white text-decoration-none p-2">📞 Liên hệ</a>
-            <a href="/Home/Index" class="d-block text-white text-decoration-none p-2">🚪 Đăng xuất</a>
+            <a asp-controller="AdminProduct" asp-action="Index" class="d-block text-white text-decoration-none p-2 active bg-primary rounded">📱 Điện thoại</a>
+            <a asp-controller="AdminHang" asp-action="Index" class="d-block text-white text-decoration-none p-2">🏷️ Hãng điện thoại</a>
+            <a asp-controller="AdminKhachHang" asp-action="Index" class="d-block text-white text-decoration-none p-2">👥 Khách hàng</a>
+            <a asp-controller="AdminNCC" asp-action="Index" class="d-block text-white text-decoration-none p-2">🏭 Nhà cung cấp</a>
+            <a asp-controller="AdminKhuyenMai" asp-action="Index" class="d-block text-white text-decoration-none p-2">🎁 Khuyến mãi</a>
+            <a asp-controller="AdminDonHang" asp-action="Index" class="d-block text-white text-decoration-none p-2">🛒 Đơn hàng</a>
+            <a asp-controller="AdminThongKe" asp-action="Index" class="d-block text-white text-decoration-none p-2">📈 Thống kê</a>
+            <a asp-controller="AdminComment" asp-action="Index" class="d-block text-white text-decoration-none p-2 ">💬 Bình luận</a>
+            <a asp-controller="AdminLienHe" asp-action="Index" class="d-block text-white text-decoration-none p-2">📞 Liên hệ</a>
+            <a asp-controller="AdminAccount" asp-action="Logout" class="d-block text-white text-decoration-none p-2">🚪 Đăng xuất</a>
         </div>
 
         <div class="col-10 p-4">

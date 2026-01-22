@@ -404,7 +404,9 @@ public partial class DBBanDienThoaiContext : DbContext
             entity.Property(e => e.SoDienThoai)
                 .HasMaxLength(15)
                 .IsUnicode(false);
-            entity.Property(e => e.TrangThai).HasDefaultValue(0);
+            entity.Property(e => e.TrangThai)
+                .HasColumnType("int") 
+                .HasDefaultValue(0);
         });
 
         modelBuilder.Entity<NhaCungCap>(entity =>
