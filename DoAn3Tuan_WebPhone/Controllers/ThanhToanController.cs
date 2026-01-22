@@ -28,10 +28,9 @@ public class ThanhToanController : Controller
         return View(gioHang.ChiTietGioHangs.ToList());
     }
 
-<<<<<<< HEAD
+
     //  CONFIRM 
-=======
->>>>>>> feature/bao-giohang-thanhtoan-canhan
+
     [HttpPost]
     public IActionResult Confirm(
         List<int> ctghIds,
