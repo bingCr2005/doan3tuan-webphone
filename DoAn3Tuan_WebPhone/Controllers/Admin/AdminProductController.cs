@@ -3,7 +3,7 @@ using DoAn3Tuan_WebPhone.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-[Area("Admin")]
+
 public class AdminProductController : Controller
 {
     private readonly DBBanDienThoaiContext _context;
@@ -17,29 +17,34 @@ public class AdminProductController : Controller
     //Tìm kiếm & Phân trang: Đọc dữ liệu từ SQL
     public async Task<IActionResult> Index(string searchString, int page = 1)
     {
-        var query = _context.DienThoais
-            .Include(d => d.HangDienThoaiNavigation)
-            .Include(d => d.MaNhaCungCapNavigation)
-            .AsNoTracking()
-            .AsQueryable();
+        var hangList = _context.HangDienThoais.Select(h => new SelectListItem
+        { Value = h.MaHangDienThoai, Text = h.TenHangDienThoai }).ToList();
+        var nccList = _context.NhaCungCaps.Select(n => new SelectListItem
+        { Value = n.MaNhaCungCap, Text = n.TenNhaCungCap }).ToList();
 
-        if (!string.IsNullOrEmpty(searchString))
+        if (vm != null)
         {
-            query = query.Where(s => s.TenDienThoai.Contains(searchString) || s.MaDienThoai.Contains(searchString));
+            vm.HangList = hangList;
+            vm.NccList = nccList;
         }
+    }
 
-        var data = await query.Skip((page - 1) * _pageSize).Take(_pageSize).ToListAsync();
+    // 2. Bảo mật: Kiểm tra quyền Admin cho toàn bộ Controller
+    private bool IsAdmin() => HttpContext.Session.GetString("Role") == "Admin";
+
+    public async Task<IActionResult> Index(string searchString, int page = 1)
+    {
 
         // Truyền dữ liệu phân trang ra View
         ViewBag.TotalPages = (int)Math.Ceiling(await query.CountAsync() / (double)_pageSize);
-        ViewBag.CurrentPage = page;
-        ViewBag.Search = searchString;
-
-        return View("~/Views/Admin/AdminProduct/Index.cshtml", data);
-    }
+          .Include(d => d.HangDienThoaiNavigation)
+          .Include(d => d.MaNhaCungCapNavigation)
+          .AsNoTracking()
+          .AsQueryable();
+        // Kiểm tra quyền Admin từ Session
     // GET Hiển thị Form Thêm mới
     public IActionResult Create()
-    {
+            return RedirectToAction("Index", "AdminLogin");
         var vm = new AdminProductViewModel
         {
             // Chuyển dữ liệu từ DB sang danh sách hiển thị Dropdown
@@ -54,29 +59,29 @@ public class AdminProductController : Controller
                 Text = n.TenNhaCungCap
             })
         };
-        return View("~/Views/Admin/AdminProduct/CreateProduct.cshtml", vm);
-    }
+            query = query.Where(s => s.TenDienThoai.Contains(searchString) || s.MaDienThoai.Contains(searchString));
+        }
 
     //Thêm sản phẩm: Ghi mới vào SQL
     [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(AdminProductViewModel vm)
-    {
+        ViewBag.TotalPages = (int)Math.Ceiling(await query.CountAsync() / (double)_pageSize);
+        ViewBag.CurrentPage = page;
+        ViewBag.Search = searchString;
         // Lưu Product trong ViewModel xuống Database
         if (ModelState.IsValid)
-        {
-            _context.DienThoais.Add(vm.Product);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-        return View("~/Views/Admin/AdminProduct/CreateProduct.cshtml", vm);
+        return View("~/Views/Admin/AdminProduct/Index.cshtml", data);
     }
+
+    public IActionResult Create()
+    {
+        if (!IsAdmin()) return RedirectToAction("Index", "Home");
+
     //Hiển thị Form Sửa
     public async Task<IActionResult> Edit(string id)
-    {
-        var sp = await _context.DienThoais.FindAsync(id);
-        if (sp == null) return NotFound();
+        return View("~/Views/Admin/AdminProduct/CreateProduct.cshtml", vm);
+    }
 
+    [HttpPost]
         var vm = new AdminProductViewModel
         {
             Product = sp, // Đổ dữ liệu sp cần chỉnh sửa vào Form
@@ -93,14 +98,32 @@ public class AdminProductController : Controller
                 Selected = n.MaNhaCungCap == sp.MaNhaCungCap
             })
         };
+    {
+        if (ModelState.IsValid)
+        {
+    //Cập nhật sản phẩm
+    [HttpPost]
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+        return View("~/Views/Admin/AdminProduct/CreateProduct.cshtml", vm);
+    }
+
+    public async Task<IActionResult> Edit(string id)
+    {
+        var sp = await _context.DienThoais.FindAsync(id);
+        if (sp == null) return NotFound();
+
+        var vm = new AdminProductViewModel { Product = sp };
+    // Xóa sản phẩm: Xóa bản ghi khỏi SQL
+    [HttpPost]
         return View("~/Views/Admin/AdminProduct/EditProduct.cshtml", vm);
     }
 
-    //Cập nhật sản phẩm
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(AdminProductViewModel vm)
-    {
+            _context.DienThoais.Remove(sp); // Lệnh DELETE trong SQL
+            await _context.SaveChangesAsync();
         if (ModelState.IsValid)
         {
             _context.DienThoais.Update(vm.Product);
@@ -110,14 +133,13 @@ public class AdminProductController : Controller
         return View("~/Views/Admin/AdminProduct/EditProduct.cshtml", vm);
     }
 
-    // Xóa sản phẩm: Xóa bản ghi khỏi SQL
     [HttpPost]
     public async Task<IActionResult> DeleteConfirmed(string id)
     {
         var sp = await _context.DienThoais.FindAsync(id);
         if (sp != null)
         {
-            _context.DienThoais.Remove(sp); // Lệnh DELETE trong SQL
+            _context.DienThoais.Remove(sp);
             await _context.SaveChangesAsync();
         }
         return RedirectToAction(nameof(Index));
