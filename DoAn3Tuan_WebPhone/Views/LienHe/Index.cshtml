@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<DoAn3Tuan_WebPhone.Models.LienHe>
 @{
     ViewData["Title"] = "Quản lý liên hệ";
+    int stt = ((int)ViewBag.CurrentPage - 1) * 5 + 1;
 }
 <!DOCTYPE html>
 <html lang="vi">
@@ -57,7 +58,7 @@
                         @foreach (var item in Model)
                         {
                             <tr>
-                                <td>@item.MaLienHe</td>
+                                <td>@stt</td>
                                 <td>@item.HoTen</td>
                                 <td>@item.Email</td>
                                 <td>@item.SoDienThoai</td>
@@ -92,8 +93,8 @@
                                         </button>
                                     </form>
                                 </td>
-
                             </tr>
+                            stt++;
                         }
                     </tbody>
                 </table>

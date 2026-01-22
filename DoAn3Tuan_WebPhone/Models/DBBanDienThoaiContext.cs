@@ -50,8 +50,8 @@ public partial class DBBanDienThoaiContext : DbContext
     public virtual DbSet<TaiKhoanKhachHang> TaiKhoanKhachHangs { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //=> optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=DBBanDienThoai;Trusted_Connection=True;TrustServerCertificate=True;");
-    => optionsBuilder.UseSqlServer("Server=BINGCR2005;Database=DBBanDienThoai;Trusted_Connection=True;TrustServerCertificate=True");
+        => optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=DBBanDienThoai;Trusted_Connection=True;TrustServerCertificate=True;");
+    //=> optionsBuilder.UseSqlServer("Server=BINGCR2005;Database=DBBanDienThoai;Trusted_Connection=True;TrustServerCertificate=True");
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<BaiViet>(entity =>
@@ -404,7 +404,9 @@ public partial class DBBanDienThoaiContext : DbContext
             entity.Property(e => e.SoDienThoai)
                 .HasMaxLength(15)
                 .IsUnicode(false);
-            entity.Property(e => e.TrangThai).HasDefaultValue(0);
+            entity.Property(e => e.TrangThai)
+                .HasColumnType("int") 
+                .HasDefaultValue(0);
         });
 
         modelBuilder.Entity<NhaCungCap>(entity =>

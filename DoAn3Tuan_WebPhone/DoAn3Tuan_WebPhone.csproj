@@ -24,8 +24,4 @@
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="wwwroot\images\team\" />
-	</ItemGroup>
-
 </Project>

@@ -15,7 +15,7 @@
                 </div>
 
                 <div class="card-body">
-                    <form asp-action="Edit" method="post">
+                    <form asp-controller="LienHe"  asp-action="Edit" method="post">
                         @Html.AntiForgeryToken()
                         <input type="hidden" asp-for="MaLienHe" />
 
@@ -46,8 +46,8 @@
                         <div class="mb-4">
                             <label class="form-label fw-semibold">Trạng thái xử lý</label>
                             <select asp-for="TrangThai" class="form-select">
-                                <option value="false">🟡 Chưa phản hồi</option>
-                                <option value="true">🟢 Đã phản hồi</option>
+                                <option value="0">🟡 Chưa phản hồi</option>
+                                <option value="1">🟢 Đã phản hồi</option>
                             </select>
                         </div>
 
