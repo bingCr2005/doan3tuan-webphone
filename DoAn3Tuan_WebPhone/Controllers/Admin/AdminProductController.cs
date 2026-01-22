@@ -120,4 +120,5 @@ public class AdminProductController : Controller
         }
         return RedirectToAction(nameof(Index));
     }
+    
 }
