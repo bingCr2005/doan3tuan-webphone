@@ -17,6 +17,10 @@ public class AdminProductController : Controller
     //Tìm kiếm & Phân trang: Đọc dữ liệu từ SQL
     public async Task<IActionResult> Index(string searchString, int page = 1)
     {
+        if (HttpContext.Session.GetString("Role") != "Admin")
+        {
+           return RedirectToAction("Index", "AdminLogin");
+        }
         var query = _context.DienThoais
           .Include(d => d.HangDienThoaiNavigation)
           .Include(d => d.MaNhaCungCapNavigation)
