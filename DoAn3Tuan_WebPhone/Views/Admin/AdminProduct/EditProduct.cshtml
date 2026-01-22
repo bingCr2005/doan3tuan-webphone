@@ -21,80 +21,110 @@
             <a asp-controller="AdminAccount" asp-action="Logout" class="d-block text-white text-decoration-none p-2">🚪 Đăng xuất</a>
         </div>
 
-        <div class="col-10 p-4">
-            <h3 class="mb-4">✏️ Hiệu chỉnh: @Model.Product.TenDienThoai</h3>
+        <div class="col-10 p-4 bg-light">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h3 class="fw-bold text-dark mb-0">Hiệu chỉnh sản phẩm</h3>
+                    <small class="text-muted">Mã sản phẩm: <strong class="text-primary">@Model.Product.MaDienThoai</strong></small>
+                </div>
+                <a asp-action="Index" class="btn btn-outline-secondary btn-sm rounded-pill px-3">
+                    <i class="fas fa-chevron-left"></i> Quay lại
+                </a>
+            </div>
 
             <form asp-action="Edit" method="post">
                 @Html.AntiForgeryToken()
-
-                @* KHÓA CHÍNH UPDATE DB - Quan trọng để EF xác định đúng bản ghi *@
                 <input type="hidden" asp-for="Product.MaDienThoai" />
 
                 <div class="row">
-                    <div class="col-md-7">
-                        <div class="card shadow-sm mb-4 border-primary">
-                            <div class="card-header bg-primary text-white">📦 Sửa thông tin chính</div>
-                            <div class="card-body">
-                                <div class="mb-3">
-                                    <label class="fw-bold">Tên điện thoại</label>
-                                    <input asp-for="Product.TenDienThoai" class="form-control" />
+                    <div class="col-md-8">
+                        <div class="card border-0 shadow-sm rounded-3 mb-4">
+                            <div class="card-body p-4">
+                                <h5 class="fw-bold mb-4 text-primary"><i class="fas fa-edit me-2"></i>Thông tin cơ bản</h5>
+
+                                <div class="mb-4">
+                                    <label class="form-label small fw-bold text-muted">Tên điện thoại</label>
+                                    <input asp-for="Product.TenDienThoai" class="form-control form-control-lg bg-light border-0 fw-bold" />
                                 </div>
-                                <div class="row">
-                                    <div class="col-6 mb-3">
-                                        <label>Hãng</label>
-                                        @* Sử dụng danh sách từ ViewModel thay vì ViewBag *@
-                                        <select asp-for="Product.HangDienThoai" class="form-select" asp-items="Model.HangList"></select>
+
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label small fw-bold text-muted">Hãng sản xuất</label>
+                                        <select asp-for="Product.HangDienThoai" class="form-select bg-light border-0" asp-items="Model.HangList"></select>
                                     </div>
-                                    <div class="col-6 mb-3">
-                                        <label>Nhà cung cấp</label>
-                                        <select asp-for="Product.MaNhaCungCap" class="form-select" asp-items="Model.NccList"></select>
+                                    <div class="col-md-6">
+                                        <label class="form-label small fw-bold text-muted">Nhà cung cấp</label>
+                                        <select asp-for="Product.MaNhaCungCap" class="form-select bg-light border-0" asp-items="Model.NccList"></select>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6 mb-3">
-                                        <label>Giá bán</label>
-                                        <input asp-for="Product.DonGia" class="form-control text-danger fw-bold" />
+                                    <div class="col-md-6">
+                                        <label class="form-label small fw-bold text-muted">Giá bán (VNĐ)</label>
+                                        <input asp-for="Product.DonGia" class="form-control bg-light border-0 fw-bold text-danger" />
                                     </div>
-                                    <div class="col-6 mb-3">
-                                        <label>Số lượng tồn</label>
-                                        <input asp-for="Product.SoLuongTon" class="form-control" />
+                                    <div class="col-md-6">
+                                        <label class="form-label small fw-bold text-muted">Số lượng tồn kho</label>
+                                        <input asp-for="Product.SoLuongTon" class="form-control bg-light border-0" />
                                     </div>
                                 </div>
-                                <div class="mb-3 text-center border p-2">
-                                    <label class="d-block small mb-2">Ảnh hiện tại</label>
-                                    <img src="@Model.Product.Thumbnail" width="100" class="rounded mb-2" onerror="this.src='/images/no-image.png'" />
-                                    <input asp-for="Product.Thumbnail" class="form-control" placeholder="Đổi đường dẫn ảnh..." />
+
+                                <div class="mt-4">
+                                    <label class="form-label small fw-bold text-muted">Mô tả sản phẩm</label>
+                                    <textarea asp-for="Product.MoTa" class="form-control bg-light border-0" rows="6"></textarea>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-md-5">
-                        <div class="card shadow-sm border-info">
-                            <div class="card-header bg-info text-white fw-bold">⚙️ Sửa cấu hình chi tiết</div>
-                            <div class="card-body">
-                                <div class="row g-2">
-                                    @* Đảm bảo tên thuộc tính khớp với Model Scaffold (Ram, DungLuongPin) *@
-                                    <div class="col-6 mb-2"><label class="small">RAM</label><input asp-for="Product.Ram" class="form-control" /></div>
-                                    <div class="col-6 mb-2"><label class="small">Bộ nhớ</label><input asp-for="Product.DungLuong" class="form-control" /></div>
-                                    <div class="col-6 mb-2"><label class="small">Pin</label><input asp-for="Product.DungLuongPin" class="form-control" /></div>
-                                    <div class="col-6 mb-2"><label class="small">Màn hình</label><input asp-for="Product.KichThuocManHinh" class="form-control" /></div>
+                    <div class="col-md-4">
+                        <div class="card border-0 shadow-sm rounded-3 mb-4">
+                            <div class="card-body p-4 text-center">
+                                <h6 class="fw-bold text-start mb-3">Hình ảnh hiện tại</h6>
+                                <div class="bg-white border rounded mb-3 d-flex align-items-center justify-content-center p-2" style="height: 200px;">
+                                    <img id="previewImg" src="@Model.Product.Thumbnail" style="max-height: 100%; max-width: 100%; object-fit: contain;" onerror="this.src='/images/no-image.png'" />
                                 </div>
-                                <div class="mb-3">
-                                    <label>Trạng thái</label>
-                                    <select asp-for="Product.TrangThai" class="form-select">
-                                        <option value="1">Hiển thị (Đang bán)</option>
-                                        <option value="0">Tạm ẩn</option>
-                                    </select>
-                                </div>
-                                <hr />
-                                <div class="d-grid">
-                                    <button type="submit" class="btn btn-warning fw-bold">✔️ Cập nhật thay đổi</button>
-                                </div>
-                                <div class="text-center mt-2">
-                                    <a asp-action="Index" class="text-decoration-none small">❌ Hủy bỏ</a>
+                                <div class="text-start">
+                                    <label class="form-label small fw-bold text-muted">Đổi đường dẫn ảnh</label>
+                                    <input asp-for="Product.Thumbnail" class="form-control form-control-sm bg-light border-0" oninput="document.getElementById('previewImg').src=this.value" />
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="card border-0 shadow-sm rounded-3 mb-4">
+                            <div class="card-body p-4">
+                                <h6 class="fw-bold mb-3 text-info">Cấu hình & Trạng thái</h6>
+                                <div class="row g-2 mb-3">
+                                    <div class="col-6">
+                                        <label class="x-small fw-bold text-muted">RAM</label>
+                                        <input asp-for="Product.Ram" class="form-control bg-light border-0" />
+                                    </div>
+                                    <div class="col-6">
+                                        <label class="x-small fw-bold text-muted">Bộ nhớ</label>
+                                        <input asp-for="Product.DungLuong" class="form-control bg-light border-0" />
+                                    </div>
+                                    <div class="col-6">
+                                        <label class="x-small fw-bold text-muted">Pin</label>
+                                        <input asp-for="Product.DungLuongPin" class="form-control bg-light border-0" />
+                                    </div>
+                                    <div class="col-6">
+                                        <label class="x-small fw-bold text-muted">Màn hình</label>
+                                        <input asp-for="Product.KichThuocManHinh" class="form-control bg-light border-0" />
+                                    </div>
+                                </div>
+
+                                <div class="mb-0">
+                                    <label class="form-label small fw-bold text-muted">Trạng thái kinh doanh</label>
+                                    <select asp-for="Product.TrangThai" class="form-select border-0 bg-primary bg-opacity-10 text-primary fw-bold">
+                                        <option value="1">● Hiển thị (Đang bán)</option>
+                                        <option value="0">○ Tạm ẩn (Ngừng bán)</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-warning w-100 py-3 fw-bold shadow-sm rounded-3">
+                            <i class="fas fa-check-circle me-2"></i> LƯU THAY ĐỔI
+                        </button>
+                        <div class="text-center mt-3">
+                            <a asp-action="Index" class="text-muted small text-decoration-none">Hủy bỏ và quay lại</a>
                         </div>
                     </div>
                 </div>
@@ -102,3 +132,16 @@
         </div>
     </div>
 </div>
+
+<style>
+    .x-small {
+        font-size: 11px;
+        text-transform: uppercase;
+    }
+
+    input:focus, select:focus, textarea:focus {
+        background-color: #fff !important;
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.1) !important;
+        border: 1px solid #86b7fe !important;
+    }
+</style>

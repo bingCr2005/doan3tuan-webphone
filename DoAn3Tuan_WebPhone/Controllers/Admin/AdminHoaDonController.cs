@@ -1,8 +1,9 @@
-﻿using DoAn3Tuan_WebPhone.Models;
+﻿using DoAn3Tuan_WebPhone.Controllers.Admin;
+using DoAn3Tuan_WebPhone.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-[Area("Admin")]
-public class AdminHoaDonController : Controller
+
+public class AdminHoaDonController : AdminBaseController
 {
     private readonly DBBanDienThoaiContext _context;
 
