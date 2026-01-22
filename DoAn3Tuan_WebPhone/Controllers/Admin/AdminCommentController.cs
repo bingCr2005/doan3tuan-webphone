@@ -34,6 +34,7 @@ public class AdminCommentController : Controller
     }
 
     // 2. Xử lý xóa bình luận: bằng ajax
+    [IgnoreAntiforgeryToken]
     [HttpPost]
     public async Task<IActionResult> Delete(string id)
     {

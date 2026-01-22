@@ -30,7 +30,9 @@ public class ThanhToanController : Controller
 
 
 
+
     //  CONFIRM 
+
 
 
     [HttpPost]

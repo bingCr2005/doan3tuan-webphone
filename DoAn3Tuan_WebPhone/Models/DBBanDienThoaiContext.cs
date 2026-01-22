@@ -50,8 +50,13 @@ public partial class DBBanDienThoaiContext : DbContext
     public virtual DbSet<TaiKhoanKhachHang> TaiKhoanKhachHangs { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+
        // => optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=DBBanDienThoai;Trusted_Connection=True;TrustServerCertificate=True;");
     => optionsBuilder.UseSqlServer("Server=BINGCR2005;Database=DBBanDienThoai;Trusted_Connection=True;TrustServerCertificate=True");
+        //=> optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=DBBanDienThoai;Trusted_Connection=True;TrustServerCertificate=True;");
+   // => optionsBuilder.UseSqlServer("Server=BINGCR2005;Database=DBBanDienThoai;Trusted_Connection=True;TrustServerCertificate=True");
+
+ 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<BaiViet>(entity =>
