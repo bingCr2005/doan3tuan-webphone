@@ -139,6 +139,7 @@
         <div class="container">
             <div class="nav-content">
                 <ul class="nav-menu">
+                   
                     <li><a asp-controller="Home" asp-action="Index">Trang Chủ</a></li>
 
                     <li><a asp-controller="Product" asp-action="Index">Sản Phẩm</a></li>
@@ -146,6 +147,17 @@
                     <li><a asp-controller="Home" asp-action="About">Giới Thiệu</a></li>
 
                     <li><a asp-controller="Contact" asp-action="Index">Liên Hệ</a></li>
+
+                    @if (Context.Session.GetString("Role") == "Admin")
+                    {
+                        <li><a asp-controller="AdminProduct" asp-action="Index" class="text-danger">QUẢN LÝ SẢN PHẨM</a></li>
+                    }
+
+                    @if (Context.Session.GetString("Role") == "Customer")
+                    {
+                        <li><a asp-action="Profile" asp-controller="Account">Thông Tin Cá Nhân</a></li>
+                        <li><a href="/GioHang">Giỏ Hàng</a></li>
+                    }
                 </ul>
                 <div class="shipping-banner">
                     Miễn Phí Vận Chuyển Đơn Hàng Từ $50+

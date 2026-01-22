@@ -17,21 +17,39 @@ public class AccountController : Controller
     [HttpPost]
     public IActionResult Login(string username, string password)
     {
+        // 1. Tìm tài khoản khớp User/Pass và nạp bảng Khách hàng nếu có
         var tk = _context.TaiKhoans
             .Include(x => x.TaiKhoanKhachHang)
             .FirstOrDefault(x => x.TenDangNhap == username && x.MatKhau == password);
 
-        if (tk == null || tk.TaiKhoanKhachHang == null)
+        if (tk == null)
         {
             ViewBag.Error = "Sai tài khoản hoặc mật khẩu";
             return View();
         }
 
-        // Lưu thông tin vào Session để dùng cho toàn hệ thống
-        HttpContext.Session.SetString("MaKH", tk.TaiKhoanKhachHang.MaKhachHang);
+        // 2. Lưu thông tin cơ bản vào Session
+        HttpContext.Session.SetString("MaTK", tk.MaTaiKhoan);
         HttpContext.Session.SetString("TenUser", tk.HoVaTen);
 
-        return RedirectToAction("Index", "Home");
+        // 3. Phân quyền dựa trên mã ID hoặc thuộc tính LoaiTaiKhoan
+        if (tk.MaTaiKhoan.StartsWith("AD") || tk.LoaiTaiKhoan == "Admin")
+        {
+            // TRƯỜNG HỢP: ADMIN / NHÂN VIÊN
+            HttpContext.Session.SetString("Role", "Admin");
+            // Chuyển hướng đến trang quản trị (Area Admin nếu có)
+            return RedirectToAction("Index", "AdminProduct", new { area = "Admin" });
+        }
+        else
+        {
+            // TRƯỜNG HỢP: KHÁCH HÀNG
+            HttpContext.Session.SetString("Role", "Customer");
+            if (tk.TaiKhoanKhachHang != null)
+            {
+                HttpContext.Session.SetString("MaKH", tk.TaiKhoanKhachHang.MaKhachHang);
+            }
+            return RedirectToAction("Index", "Home");
+        }
     }
 
     // REGISTER - Thêm tài khoản mới vào Database

@@ -28,9 +28,12 @@ public class ThanhToanController : Controller
         return View(gioHang.ChiTietGioHangs.ToList());
     }
 
+<<<<<<< HEAD
 
     //  CONFIRM 
 
+=======
+>>>>>>> e800f2be3acae866ddc92db88177fb0425086393
     [HttpPost]
     public IActionResult Confirm(
         List<int> ctghIds,

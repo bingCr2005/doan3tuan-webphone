@@ -24,48 +24,6 @@ builder.Services.AddDbContext<DBBanDienThoaiContext>(options =>
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddDbContext<DBBanDienThoaiContext>(options =>
-    options.UseSqlServer(
-        builder.Configuration.GetConnectionString("DefaultConnection")
-    ));
-
-
-
-builder.Services.AddControllersWithViews();
-
-builder.Services.AddDbContext<DBBanDienThoaiContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DBBanDienThoai")));
-
-
-
-
-builder.Services.AddDbContext<DBBanDienThoaiContext>(options =>
-    options.UseSqlServer(
-        builder.Configuration.GetConnectionString("DefaultConnection")
-    ));
-
-
-
-builder.Services.AddControllersWithViews();
-
-builder.Services.AddDbContext<DBBanDienThoaiContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DBBanDienThoai")));
-
-
-
-
-builder.Services.AddDbContext<DBBanDienThoaiContext>(options =>
-    options.UseSqlServer(
-        builder.Configuration.GetConnectionString("DefaultConnection")
-    ));
-
-
-
-builder.Services.AddControllersWithViews();
-
-builder.Services.AddDbContext<DBBanDienThoaiContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DBBanDienThoai")));
-
 
 
 builder.Services.AddSession(options =>
@@ -107,6 +65,9 @@ app.MapControllerRoute(
     name: "gio-hang",
     pattern: "gio-hang",
     defaults: new { controller = "Cart", action = "Index" });
+app.MapControllerRoute(
+    name: "areas",
+    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
 app.MapControllerRoute(
     name: "default",
