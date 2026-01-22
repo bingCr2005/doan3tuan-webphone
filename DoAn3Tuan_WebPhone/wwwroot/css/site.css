@@ -1,4 +1,4 @@
-html {
+﻿html {
   font-size: 14px;
 }
 
@@ -158,3 +158,45 @@ body {
             border-color: #fed700;
             font-weight: bold;
         }
+/* Mô tả trang web */
+.footer-description {
+    font-size: 14px;
+    color: #8d8d8d;
+    line-height: 1.6;
+    margin: 15px 0;
+    max-width: 320px;
+}
+
+/* Menu mạng xã hội dọc trong cột Brand */
+.social-vertical {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+}
+
+    .social-vertical li {
+        margin-bottom: 8px;
+    }
+
+        .social-vertical li a {
+            font-size: 14px;
+            color: #8d8d8d;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: 0.3s;
+        }
+
+            .social-vertical li a i {
+                width: 18px;
+                text-align: center;
+                color: #FFD333; /* Màu vàng Electro */
+            }
+
+            .social-vertical li a:hover {
+                color: #FFD333;
+                padding-left: 5px;
+            }
+
+

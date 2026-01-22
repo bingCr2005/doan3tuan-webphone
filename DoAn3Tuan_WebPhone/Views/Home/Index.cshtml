@@ -318,7 +318,9 @@
 
                                 <div class="hover-footer">
                                     <div class="footer-action"><i class="far fa-heart"></i> Wishlist</div>
-                                    <div class="footer-action"><i class="fas fa-sync-alt"></i> Compare</div>
+                                    <div class="footer-action" onclick="addToCompare('@sp.MaDienThoai', '@sp.TenDienThoai', '@sp.Thumbnail', '@sp.DonGia', '@sp.Ram', '@sp.DungLuongPin')">
+                                        <i class="fas fa-sync-alt"></i> Compare
+                                    </div>
                                 </div>
                             </div>
                         }
@@ -515,75 +517,69 @@
         </div>
     </section>
 
-    <!-- Footer -->
     <footer>
         <div class="container">
             <div class="footer-content">
-                <!-- Brand Column -->
                 <div class="footer-brand">
                     <div class="footer-logo"><i class="fas fa-phone-volume"></i></div>
                     <div class="footer-info">
                         <h3>Có Câu Hỏi? Gọi Cho Chúng Tôi 24/7!</h3>
                         <div class="footer-phone">(800) 8001-8588, (0600) 874 548</div>
+
+                        <p class="footer-description">
+                            Electro Mobile là hệ thống bán lẻ điện thoại hiện đại, mang đến trải nghiệm
+                            mua sắm trực tuyến mượt mà và là điểm đến tin cậy cho các tín đồ công nghệ.
+                        </p>
+
                         <div class="footer-address">
                             <strong>Thông Tin Liên Hệ</strong><br>
-                            17 Princess Road, London, Greater London NW1 8JR, UK
+                            17 Princess Road, London, NW1 8JR, UK
                         </div>
-                        <div class="social-icons">
-                            <div class="social-icon"><i class="fab fa-facebook-f"></i></div>
-                            <div class="social-icon"><i class="fab fa-whatsapp"></i></div>
-                            <div class="social-icon"><i class="fab fa-pinterest"></i></div>
-                            <div class="social-icon"><i class="fab fa-linkedin-in"></i></div>
-                            <div class="social-icon"><i class="fab fa-instagram"></i></div>
-                            <div class="social-icon"><i class="fab fa-youtube"></i></div>
-                            <div class="social-icon"><i class="fas fa-rss"></i></div>
-                        </div>
+
+                        <ul class="social-vertical">
+                            <li><a href="#"><i class="fab fa-facebook-f"></i> Facebook</a></li>
+                            <li><a href="#"><i class="fab fa-instagram"></i> Instagram</a></li>
+                            <li><a href="#"><i class="fab fa-youtube"></i> Youtube</a></li>
+                            <li><a href="#"><i class="fab fa-linkedin-in"></i> LinkedIn</a></li>
+                            <li><a href="#"><i class="fab fa-pinterest"></i> Pinterest</a></li>
+                        </ul>
                     </div>
                 </div>
 
-                <!-- Find It Fast -->
                 <div class="footer-column">
                     <h4>Tìm Nhanh</h4>
                     <ul>
                         <li><a href="#">Laptop & Máy Tính</a></li>
                         <li><a href="#">Camera & Nhiếp Ảnh</a></li>
                         <li><a href="#">Điện Thoại & Máy Tính Bảng</a></li>
-                        <li><a href="#">Trò Chơi Video & Console</a></li>
                         <li><a href="#">TV & Âm Thanh</a></li>
                         <li><a href="#">Thiết Bị Đeo</a></li>
-                        <li><a href="#">Tai Nghe Không Dây</a></li>
                     </ul>
                 </div>
 
-                <!-- Customer Care -->
                 <div class="footer-column">
                     <h4>Chăm Sóc Khách Hàng</h4>
                     <ul>
                         <li><a href="#">Tài Khoản Của Tôi</a></li>
                         <li><a href="#">Theo Dõi Đơn Hàng</a></li>
-                        <li><a href="#">Dịch Vụ Khách Hàng</a></li>
                         <li><a href="#">Hoàn Trả / Đổi Hàng</a></li>
                         <li><a href="#">Câu Hỏi Thường Gặp</a></li>
                         <li><a href="#">Hỗ Trợ Sản Phẩm</a></li>
                     </ul>
                 </div>
 
-                <!-- About -->
                 <div class="footer-column">
                     <h4>Về Chúng Tôi</h4>
                     <ul>
                         <li><a href="#">Giới Thiệu</a></li>
                         <li><a href="#">Liên Hệ</a></li>
                         <li><a href="#">Danh Sách Yêu Thích</a></li>
-                        <li><a href="#">So Sánh</a></li>
-                        <li><a href="#">Câu Hỏi Thường Gặp</a></li>
-                        <li><a href="#">Danh Mục Cửa Hàng</a></li>
+                        <li><a href="#">Chính Sách Bảo Mật</a></li>
                     </ul>
                 </div>
             </div>
         </div>
 
-        <!-- Footer Bottom -->
         <div class="footer-bottom">
             <div class="container">
                 <div class="footer-bottom-content">
@@ -591,11 +587,9 @@
                         © Electro - Bản Quyền Đã Được Bảo Lưu
                     </div>
                     <div class="payment-methods">
-                        <div class="payment-icon">DISCOVER</div>
-                        <div class="payment-icon">●●</div>
-                        <div class="payment-icon">PayPal</div>
-                        <div class="payment-icon">Skrill</div>
                         <div class="payment-icon">VISA</div>
+                        <div class="payment-icon">PayPal</div>
+                        <div class="payment-icon">MasterCard</div>
                     </div>
                 </div>
             </div>
@@ -618,8 +612,42 @@
             <i class="fas fa-comment-dots" style="font-size: 24px;"></i>
         </div>
     </div>
+<div id="quick-compare-bar" class="compare-bar">
+        <div class="container">
+            <div class="compare-left-group">
+                <div class="compare-guide-text">Chọn ít nhất 2 sản phẩm để so sánh</div>
+                <div id="compare-list-items"></div>
+            </div>
+            <div class="compare-right-group">
+                <button class="btn-view-compare shadow-sm" onclick="showCompareModal()">Xem so sánh</button>
+                <a href="javascript:void(0)" onclick="clearAllCompare()" style="color: #999; text-decoration: none; font-size: 13px; margin-left:15px;">Clear all</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="compareModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen"> 
+            <div class="modal-content border-0">
+                <div class="modal-header container-fluid px-5 pt-4">
+                    <h2 class="modal-title fw-bold" style="color: #333e48; font-size: 28px;">Compare Products</h2>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" style="font-size: 20px;"></button>
+                </div>
+                <div class="modal-body p-0">
+                    <div class="compare-table-wrapper">
+                        <table class="table compare-list-table mb-0" id="compare-table-content">
+                            </table>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 p-4 shadow-sm">
+                    <button type="button" class="btn btn-dark px-5 py-2 rounded-pill" data-bs-dismiss="modal">Đóng bảng so sánh</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
     <script>
         $(document).ready(function(){
             // Khởi tạo slider
@@ -679,6 +707,136 @@
                     alert("Lỗi kết nối máy chủ");
                 }
             });
+        }
+    </script>
+    <script>
+        // 1. Khởi tạo danh sách lưu trữ
+        let compareList = [];
+
+        // 2. Hàm thêm sản phẩm (Đã sửa để nhận đủ dữ liệu từ View)
+        function addToCompare(id, name, img, price, ram, pin) {
+            if (compareList.find(x => x.id === id)) {
+                alert("Sản phẩm đã có trong danh sách so sánh!");
+                return;
+            }
+            if (compareList.length >= 4) {
+                alert("Bạn chỉ có thể so sánh tối đa 4 sản phẩm!");
+                return;
+            }
+
+            // Xử lý làm sạch dữ liệu trước khi lưu (loại bỏ chữ 'đ', dấu chấm, v.v.)
+            let cleanPrice = typeof price === 'string' ? price.replace(/[^0-9]/g, '') : price;
+
+            compareList.push({
+                id: id,
+                name: name,
+                img: img,
+                price: parseFloat(cleanPrice) || 0,
+                ram: parseInt(ram) || 0,
+                pin: parseInt(pin) || 0
+            });
+
+            renderCompareBar();
+        }
+
+        // 3. Hàm xóa sản phẩm
+        function removeFromCompare(id) {
+            compareList = compareList.filter(x => x.id !== id);
+            renderCompareBar();
+        }
+
+        // 4. Hàm xóa tất cả
+        function clearAllCompare() {
+            compareList = [];
+            renderCompareBar();
+        }
+
+        // 5. Hàm vẽ thanh so sánh (Dàn hàng ngang chuẩn mẫu)
+        function renderCompareBar() {
+            const bar = $('#quick-compare-bar');
+            const list = $('#compare-list-items');
+            list.empty();
+
+            if (compareList.length > 0) {
+                bar.fadeIn(300);
+                compareList.forEach(item => {
+                    list.append(`
+                        <div class="mini-compare-item">
+                            <img src="${item.img}" onerror="this.src='/images/no-image.png'">
+                            <button class="remove-mini-item" onclick="removeFromCompare('${item.id}')">×</button>
+                        </div>
+                    `);
+                });
+                // Vẽ các ô trống nét đứt còn lại
+                for(let i = compareList.length; i < 4; i++) {
+                    list.append('<div class="mini-compare-placeholder"></div>');
+                }
+            } else {
+                bar.fadeOut(300);
+            }
+        }
+
+        // 6. Hàm hiển thị bảng so sánh NỔI LÊN MÀN HÌNH (Sửa lỗi toLocaleString)
+        function showCompareModal() {
+            if (compareList.length < 2) {
+                alert("Vui lòng chọn ít nhất 2 sản phẩm để so sánh!");
+                return;
+            }
+
+            const table = $('#compare-table-content');
+            table.empty();
+
+            // --- Hàng 1: Ảnh và Tên ---
+            let headerRow = `<tr><td class="attr-name border-0">Sản phẩm</td>`;
+            compareList.forEach(item => {
+                headerRow += `
+                    <td class="text-center border-0 px-4 py-4">
+                        <img src="${item.img}" class="compare-img d-block mx-auto" onerror="this.src='/images/no-image.png'">
+                        <div class="fw-bold text-dark small mt-2">${item.name || 'N/A'}</div>
+                    </td>`;
+            });
+            table.append(headerRow + `</tr>`);
+
+            // --- Các hàng thông số: Giá, RAM, Pin ---
+            const specs = [
+                { label: "Giá bán (đ)", key: "price", better: "min" },
+                { label: "RAM (GB)", key: "ram", better: "max" },
+                { label: "Pin (mAh)", key: "pin", better: "max" }
+            ];
+
+            specs.forEach(s => {
+                let row = `<tr><td class="attr-name">${s.label}</td>`;
+
+                // Lấy danh sách các giá trị an toàn để so sánh
+                let vals = compareList.map(item => item[s.key] || 0);
+                let best = s.better === "max" ? Math.max(...vals) : Math.min(...vals.filter(v => v > 0));
+
+                compareList.forEach(item => {
+                    let currentVal = item[s.key] || 0;
+
+                    // Logic tô màu xanh (Highlight)
+                    let isBest = (currentVal === best && new Set(vals).size > 1 && best !== 0);
+
+                    // Hiển thị giá tiền hoặc thông số (Chống lỗi undefined toLocaleString)
+                    let displayVal = "Liên hệ";
+                    if (currentVal > 0) {
+                        displayVal = (s.key === "price") ? currentVal.toLocaleString('vi-VN') : currentVal;
+                    }
+
+                    row += `<td class="text-center py-3 ${isBest ? 'highlight-best' : ''}">${displayVal}</td>`;
+                });
+                table.append(row + `</tr>`);
+            });
+
+            // Kích hoạt Modal (Sử dụng try-catch để tránh lỗi Promise của Bootstrap)
+            try {
+                var myModal = new bootstrap.Modal(document.getElementById('compareModal'));
+                myModal.show();
+            } catch (err) {
+                console.error("Bootstrap Modal chưa sẵn sàng:", err);
+                // Fallback nếu Bootstrap Modal bị lỗi
+                $('#compareModal').modal('show');
+            }
         }
     </script>
     <script>
