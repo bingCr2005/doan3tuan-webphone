@@ -1,3 +1,4 @@
+﻿using DoAn3Tuan_WebPhone.Hubs;
 using DoAn3Tuan_WebPhone.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,7 +7,7 @@ builder.Services.AddDistributedMemoryCache();
 
 
 
-// ??ng k� DbContext v?i chu?i k?t n?i
+// ??ng ký DbContext v?i chu?i k?t n?i
 builder.Services.AddDbContext<DBBanDienThoaiContext>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("DBBanDienThoai"),
@@ -24,6 +25,8 @@ builder.Services.AddDbContext<DBBanDienThoaiContext>(options =>
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+// Thêm SignalR vào dịch vụ
+builder.Services.AddSignalR();
 
 
 builder.Services.AddSession(options =>
@@ -54,13 +57,15 @@ app.UseAuthorization();
 
 app.MapStaticAssets();
 
-// Route cho Trang cá nhân (ví d?: domain.com/ca-nhan)
+app.MapHub<ChatHub>("/chatHub");
+
+// Route cho Trang cÃ¡ nhÃ¢n (vÃ­ d?: domain.com/ca-nhan)
 app.MapControllerRoute(
     name: "trang-ca-nhan",
     pattern: "ca-nhan",
     defaults: new { controller = "Profile", action = "Index" });
 
-// Route cho Gi? hàng (ví d?: domain.com/gio-hang)
+// Route cho Gi? hÃ ng (vÃ­ d?: domain.com/gio-hang)
 app.MapControllerRoute(
     name: "gio-hang",
     pattern: "gio-hang",

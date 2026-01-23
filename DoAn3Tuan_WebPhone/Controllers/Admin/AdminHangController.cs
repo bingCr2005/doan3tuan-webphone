@@ -2,96 +2,102 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace DoAn3Tuan_WebPhone.Controllers
+namespace DoAn3Tuan_WebPhone.Controllers.Admin
 {
-    public class HangDienThoaiController : Controller
+    // 1. Kế thừa AdminBaseController để dùng chung cấu hình bảo mật/layout
+    public class AdminHangController : AdminBaseController
     {
         private readonly DBBanDienThoaiContext _context;
 
-        public HangDienThoaiController(DBBanDienThoaiContext context)
+        public AdminHangController(DBBanDienThoaiContext context)
         {
             _context = context;
         }
 
-        // 39. Tìm kiếm và Liệt kê hãng
+        // --- 1. LIỆT KÊ & TÌM KIẾM ---
         public async Task<IActionResult> Index(string search, int page = 1)
         {
             int pageSize = 10;
-            var query = _context.HangDienThoais.AsQueryable();
+            var query = _context.HangDienThoais.AsNoTracking(); // Dùng AsNoTracking để tăng tốc độ load
 
-            // 1. Kiểm tra từ khóa tìm kiếm
             if (!string.IsNullOrEmpty(search))
             {
-                query = query.Where(h => h.TenHangDienThoai.StartsWith(search));
+                query = query.Where(h => h.TenHangDienThoai.Contains(search));
             }
 
-            // 2. Tính toán phân trang đồng bộ với giao diện bạn
             int totalItems = await query.CountAsync();
             ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
             ViewBag.CurrentPage = page;
-            ViewBag.Search = search; // Giữ lại từ khóa trên ô tìm kiếm
+            ViewBag.Search = search;
 
             var result = await query
+                .OrderBy(h => h.MaHangDienThoai)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
 
-            return View(result);
+            // Chỉ định đường dẫn View thủ công vào folder con
+            return View("~/Views/Admin/AdminHang/Index.cshtml", result);
         }
 
-        // 36. Hiển thị trang Thêm hãng mới
-        public IActionResult Create() => View();
+        // --- 2. THÊM MỚI ---
+        public IActionResult Create() => View("~/Views/Admin/AdminHang/Create.cshtml");
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(HangDienThoai hang)
         {
+            // Loại bỏ kiểm tra danh sách điện thoại liên quan để ModelState hợp lệ
+            ModelState.Remove("DienThoais");
+
             if (ModelState.IsValid)
             {
                 _context.Add(hang);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(hang);
+            return View("~/Views/Admin/AdminHang/Create.cshtml", hang);
         }
 
-        // 37. Hiển thị trang Cập nhật hãng
+        // --- 3. CHỈNH SỬA ---
         public async Task<IActionResult> Edit(string id)
         {
-            var hang = await _context.HangDienThoais.FindAsync(id);
+            if (id == null) return NotFound();
+
+            // Trim ID vì kiểu dữ liệu CHAR(10) trong SQL
+            var hang = await _context.HangDienThoais.FindAsync(id.Trim());
             if (hang == null) return NotFound();
-            return View(hang);
+
+            return View("~/Views/Admin/AdminHang/Edit.cshtml", hang);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(HangDienThoai hang)
         {
+            ModelState.Remove("DienThoais");
+
             if (ModelState.IsValid)
             {
+                hang.MaHangDienThoai = hang.MaHangDienThoai.Trim();
                 _context.Update(hang);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(hang);
+            return View("~/Views/Admin/AdminHang/Edit.cshtml", hang);
         }
 
-        // 38. Xóa hãng
-        // Hàm POST để thực hiện xóa
+        // --- 4. XÓA ---
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            if (id == null) return NotFound();
-
-            // Tìm và xóa hãng điện thoại
             var hangDienThoai = await _context.HangDienThoais.FindAsync(id.Trim());
             if (hangDienThoai != null)
             {
                 _context.HangDienThoais.Remove(hangDienThoai);
                 await _context.SaveChangesAsync();
             }
-
             return RedirectToAction(nameof(Index));
         }
     }
