@@ -38,6 +38,7 @@
                         <a asp-action="Index" asp-route-trangThai="0" class="btn btn-outline-warning @(ViewBag.TrangThai == 0 ? "active" : "")">Chờ xử lý</a>
                         <a asp-action="Index" asp-route-trangThai="1" class="btn btn-outline-success @(ViewBag.TrangThai == 1 ? "active" : "")">Đã giao</a>
                         <a asp-action="Index" asp-route-trangThai="-1" class="btn btn-outline-danger @(ViewBag.TrangThai == -1 ? "active" : "")">Đã hủy</a>
+                        <a asp-action="Index" asp-route-trangThai="2" class="btn btn-outline-primary @(ViewBag.TrangThai == 2 ? "active" : "")">Đã hoàn thành</a>
                     </div>
                 </div>
 
@@ -71,6 +72,9 @@
 
                                                     <span class="badge bg-success">Đã giao</span>
                                                     break;
+                                                case 2:
+                                                    <span class="badge bg-primary">Đã hoàn thành</span>
+                                                    break;
                                                 case -1:
 
                                                     <span class="badge bg-danger">Đã hủy</span>
@@ -79,10 +83,13 @@
                                         </td>
                                         <td>
                                             <a asp-action="Edit" asp-route-id="@item.MaHoaDon" class="btn btn-sm btn-warning">✏️ Cập nhật</a>
-                                            <form asp-action="Delete" asp-route-id="@item.MaHoaDon" method="post" style="display:inline" onsubmit="return confirm('Xóa đơn hàng này?');">
-                                                @Html.AntiForgeryToken()
-                                                <button type="submit" class="btn btn-sm btn-danger">🗑️ Xóa</button>
-                                            </form>
+                                            @if (item.TrangThai != 2)
+                                            {
+                                                <form asp-action="Delete" asp-route-id="@item.MaHoaDon" method="post" style="display:inline">
+                                                    @Html.AntiForgeryToken()
+                                                    <button type="submit" class="btn btn-sm btn-danger">🗑️ Xóa</button>
+                                                </form>
+                                            }
                                         </td>
                                     </tr>
                                 }

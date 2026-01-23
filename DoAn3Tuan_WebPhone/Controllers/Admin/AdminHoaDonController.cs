@@ -79,7 +79,7 @@ public class AdminHoaDonController : AdminBaseController
         var hoaDon = _context.HoaDons.FirstOrDefault(h => h.MaHoaDon == id);
         if (hoaDon == null) return NotFound();
 
-        _context.HoaDons.Remove(hoaDon);
+        hoaDon.TrangThai = -1;
         _context.SaveChanges();
 
         return RedirectToAction("Index");

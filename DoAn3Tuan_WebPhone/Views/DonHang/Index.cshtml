@@ -11,6 +11,8 @@
     <a asp-action="Index" asp-route-trangThai="0" asp-route-page="1" class="btn btn-outline-primary">Chờ xử lý</a>
     <a asp-action="Index" asp-route-trangThai="1" asp-route-page="1" class="btn btn-outline-success">Đã giao</a>
     <a asp-action="Index" asp-route-trangThai="-1" asp-route-page="1" class="btn btn-outline-danger">Đã hủy</a>
+    <a asp-action="Index" asp-route-trangThai="2" asp-route-page="1"class="btn btn-outline-success">Đã hoàn thành
+    </a>
 </div>
 
 
@@ -41,6 +43,9 @@
                         case 1:
 
                             <span class="text-success">Đã giao</span>
+                            ; break;
+                         case 2:
+                            <span class="text-success">Đã hoàn thành</span>
                             ; break;
                         case -1:
 
