@@ -657,8 +657,26 @@
             });
         });
 
-        // 1. CHỨC NĂNG GIỎ HÀNG (GIỮ NGUYÊN)
+        // 1. CHỨC NĂNG GIỎ HÀNG 
         function addToCart(maDT) {
+        var userName = $('.user-name-label').text();
+
+            if (!userName || userName.trim() === "") {
+                alert("Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng!");
+
+                // Cuộn lên đầu để đăng nhập
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+
+                // Ép popup hiện ra bằng class mới
+                $('.user-dropdown-container').addClass('is-open');
+
+                // Tự động đóng popup sau 5 giây để
+                setTimeout(function() {
+                    $('.user-dropdown-container').removeClass('is-open');
+                }, 5000);
+
+                return;
+            }
             $.ajax({
                 url: '/GioHang/AddToCart',
                 type: 'POST',

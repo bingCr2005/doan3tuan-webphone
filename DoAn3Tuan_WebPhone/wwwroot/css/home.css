@@ -1806,4 +1806,9 @@ footer {
     border-top: 1px solid #f0f0f0;
     justify-content: center;
 }
+
+.user-dropdown-container:hover .user-dropdown-content,
+.user-dropdown-container.is-open .user-dropdown-content { /* Thêm class is-open */
+    display: block !important;
+}
 </style >
