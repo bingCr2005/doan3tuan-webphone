@@ -1,0 +1,351 @@
+﻿@model List<DoAn3Tuan_WebPhone.Models.DienThoai>
+@{
+    ViewData["Title"] = "Danh sách sp yêu thích của tôi";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cửa Hàng Điện Thoại Toàn Cầu</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+    <link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/wishlist.css" asp-append-version="true" />
+</head>
+<body>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="container">
+            <div class="top-bar-left">
+                Chào mừng đến với Cửa Hàng Điện Thoại Toàn Cầu
+            </div>
+            <div class="top-bar-right">
+                <a href="#"><i class="fas fa-map-marker-alt"></i> Tìm Cửa Hàng</a>
+                <a href="#"><i class="fas fa-truck"></i> Theo Dõi Đơn Hàng</a>
+                <a href="#"><i class="fas fa-shopping-bag"></i> Cửa Hàng</a>
+                <a href="#"><i class="fas fa-user"></i> Tài Khoản Của Tôi</a>
+            </div>
+        </div>
+    </div>
+  
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+
+                <!-- LOGO -->
+                <a href="/" class="logo">electro<span>.</span></a>
+
+                <!-- MENU -->
+                <div class="burger-menu">
+                    <i class="fas fa-bars"></i>
+                </div>
+
+                <!-- SEARCH FORM -->
+                <div class="search-container">
+                    <form action="/Search" method="get" style="display: flex; width: 100%;">
+
+                        <input type="text" name="keyword" placeholder="Tìm kiếm sản phẩm..." value="@Context.Request.Query["keyword"]">
+
+                        <button type="submit"><i class="fas fa-search"></i></button>
+                    </form>
+                </div>
+
+                <!-- ICONS -->
+                <div class="header-icons">
+
+                    <a href="#" class="icon-btn">
+                        <i class="fas fa-sync-alt"></i>
+                        <span class="icon-badge" id="compare-count">0</span>
+                    </a>
+                    <a href="/Home/Wishlist" class="icon-btn">
+                        <i class="far fa-heart"></i>
+                        <span class="icon-badge wishlist-badge">@(ViewBag.WishlistCount ?? 0)</span>
+                    </a>
+
+                    <!-- USER DROPDOWN -->
+                    <div class="user-dropdown-container">
+                        @if (Context.Session.GetString("MaKH") != null)
+                        {
+                            <a href="#" class="icon-btn user-icon">
+                                <i class="fas fa-user"></i>
+                                <span class="user-name-label">@Context.Session.GetString("TenUser")</span>
+                            </a>
+                            <div class="user-dropdown-content logged-in">
+                                <h4 class="dropdown-title">Tài khoản của tôi</h4>
+                                <a href="/Account/Profile"><i class="fas fa-id-card me-2"></i> Trang cá nhân</a>
+                                <a href="/DonHang"><i class="fas fa-shopping-bag me-2"></i> Đơn hàng đã mua</a>
+                                <div class="dropdown-divider"></div>
+                                <a href="/Account/Logout" class="text-danger"><i class="fas fa-sign-out-alt me-2"></i> Đăng xuất</a>
+                            </div>
+                        }
+                        else
+                        {
+                            <a href="#" class="icon-btn user-icon">
+                                <i class="far fa-user"></i>
+                            </a>
+
+                            <div class="user-dropdown-content" id="authDropdown">
+                                <div id="loginSection">
+                                    <h4 class="dropdown-title">Đăng nhập</h4>
+                                    <form action="/Account/Login" method="post">
+                                        <input type="text" name="username" class="dropdown-input" placeholder="Tên đăng nhập" required />
+                                        <input type="password" name="password" class="dropdown-input" placeholder="Mật khẩu" required />
+                                        <button type="submit" class="btn-login">Đăng nhập</button>
+                                    </form>
+                                    <div class="dropdown-footer">
+                                        <span>Chưa có tài khoản?</span>
+                                        <a href="javascript:void(0)" onclick="toggleAuth('register')" class="link-register">Đăng ký ngay</a>
+                                    </div>
+                                </div>
+
+                                <div id="registerSection" style="display: none;">
+                                    <h4 class="dropdown-title">Đăng ký</h4>
+                                    <form action="/Account/Register" method="post">
+                                        <input type="text" name="hoten" class="dropdown-input" placeholder="Họ và tên" required />
+                                        <input type="text" name="username" class="dropdown-input" placeholder="Tên đăng nhập" required />
+                                        <input type="email" name="email" class="dropdown-input" placeholder="Email" required />
+                                        <input type="password" name="password" class="dropdown-input" placeholder="Mật khẩu" required />
+                                        <button type="submit" class="btn-login btn-register-submit">Tạo tài khoản</button>
+                                    </form>
+                                    <div class="dropdown-footer text-center mt-2">
+                                        <a href="javascript:void(0)" onclick="toggleAuth('login')" class="link-register small">Quay lại Đăng nhập</a>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <!-- END USER DROPDOWN -->
+                    <!-- CART -->
+                    <div class="cart-info">
+                        <a href="#" class="icon-btn">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="icon-badge">0</span>
+                        </a>
+                        <span class="cart-price">0 ₫</span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <div class="container">
+            <div class="nav-content">
+                <ul class="nav-menu">
+                   
+                    <li><a asp-controller="Home" asp-action="Index">Trang Chủ</a></li>
+
+                    <li><a asp-controller="Product" asp-action="Index">Sản Phẩm</a></li>
+
+                    <li><a asp-controller="Home" asp-action="About">Giới Thiệu</a></li>
+
+                    <li><a asp-controller="Contact" asp-action="Index">Liên Hệ</a></li>
+                </ul>
+                <div class="shipping-banner">
+                    Miễn Phí Vận Chuyển Đơn Hàng Từ $50+
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container wishlist-container">
+        <h1 class="text-center wishlist-title">Sản phẩm tôi yêu thích</h1>
+
+        @if (Model == null || !Model.Any())
+        {
+            <div style="text-align: center; padding: 50px; border: 1px solid #ebebeb; border-radius: 10px;">
+                <i class="far fa-heart" style="font-size: 50px; color: #ccc; margin-bottom: 20px; display: block;"></i>
+                <p>Danh sách yêu thích của bạn đang trống.</p>
+                <a href="/" class="btn-add-cart" style="text-decoration: none; display: inline-block;">Tiếp tục mua sắm</a>
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="wishlist-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 50px;"></th>
+                            <th style="width: 100px;">Hình ảnh</th>
+                            <th>Tên sản phẩm</th>
+                            <th>Giá bán</th>
+                            <th>Tình trạng</th>
+                            <th style="text-align: right;">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td style="text-align: center;">
+                                    <span class="btn-remove" onclick="removeFromWishlist('@item.MaDienThoai')">&times;</span>
+                                </td>
+                                <td>
+                                    <img src="@item.Thumbnail" style="width: 80px;" onerror="this.src='/images/no-image.png'">
+                                </td>
+                                <td>
+                                    <a href="/ChiTietSanPham/Index/@item.MaDienThoai" class="product-name-link">@item.TenDienThoai</a>
+                                </td>
+                                <td><span class="product-price-val">@item.DonGia.ToString("N0")đ</span></td>
+                                <td>
+                                    @if (item.SoLuongTon > 0)
+                                    {
+                                        <span class="stock-status in-stock"><i class="fas fa-check"></i> Còn hàng</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="stock-status out-of-stock"><i class="fas fa-times"></i> Hết hàng</span>
+                                    }
+                                </td>
+                                <td style="text-align: right;">
+                                    <button class="btn-add-cart" onclick="addToCart('@item.MaDienThoai')">
+                                        Thêm vào giỏ
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="footer-logo"><i class="fas fa-phone-volume"></i></div>
+                    <div class="footer-info">
+                        <h3>Có Câu Hỏi? Gọi Cho Chúng Tôi 24/7!</h3>
+                        <div class="footer-phone">(800) 8001-8588, (0600) 874 548</div>
+
+                        <p class="footer-description">
+                            Electro Mobile là hệ thống bán lẻ điện thoại hiện đại, mang đến trải nghiệm
+                            mua sắm trực tuyến mượt mà và là điểm đến tin cậy cho các tín đồ công nghệ.
+                        </p>
+
+                        <div class="footer-address">
+                            <strong>Thông Tin Liên Hệ</strong><br>
+                            17 Princess Road, London, NW1 8JR, UK
+                        </div>
+
+                        <ul class="social-vertical">
+                            <li><a href="#"><i class="fab fa-facebook-f"></i> Facebook</a></li>
+                            <li><a href="#"><i class="fab fa-instagram"></i> Instagram</a></li>
+                            <li><a href="#"><i class="fab fa-youtube"></i> Youtube</a></li>
+                            <li><a href="#"><i class="fab fa-linkedin-in"></i> LinkedIn</a></li>
+                            <li><a href="#"><i class="fab fa-pinterest"></i> Pinterest</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Tìm Nhanh</h4>
+                    <ul>
+                        <li><a href="#">Laptop & Máy Tính</a></li>
+                        <li><a href="#">Camera & Nhiếp Ảnh</a></li>
+                        <li><a href="#">Điện Thoại & Máy Tính Bảng</a></li>
+                        <li><a href="#">TV & Âm Thanh</a></li>
+                        <li><a href="#">Thiết Bị Đeo</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Chăm Sóc Khách Hàng</h4>
+                    <ul>
+                        <li><a href="#">Tài Khoản Của Tôi</a></li>
+                        <li><a href="#">Theo Dõi Đơn Hàng</a></li>
+                        <li><a href="#">Hoàn Trả / Đổi Hàng</a></li>
+                        <li><a href="#">Câu Hỏi Thường Gặp</a></li>
+                        <li><a href="#">Hỗ Trợ Sản Phẩm</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Về Chúng Tôi</h4>
+                    <ul>
+                        <li><a href="#">Giới Thiệu</a></li>
+                        <li><a href="#">Liên Hệ</a></li>
+                        <li><a href="#">Danh Sách Yêu Thích</a></li>
+                        <li><a href="#">Chính Sách Bảo Mật</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="footer-bottom-content">
+                    <div class="copyright">
+                        © Electro - Bản Quyền Đã Được Bảo Lưu
+                    </div>
+                    <div class="payment-methods">
+                        <div class="payment-icon">VISA</div>
+                        <div class="payment-icon">PayPal</div>
+                        <div class="payment-icon">MasterCard</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function removeFromWishlist(maDT) {
+            if (confirm('Xóa sản phẩm này khỏi danh sách yêu thích?')) {
+                $.ajax({
+                    url: '/Home/RemoveFromWishlist',
+                    type: 'POST',
+                    data: { maDT: maDT },
+                    success: function (rp) {
+                        if (rp.success) {
+                            $(`span[onclick*="${maDT}"]`).closest('tr').fadeOut(300, function() {
+                                $(this).remove();
+
+                                let badge = $('.wishlist-badge');
+                                let count = parseInt(badge.text()) || 0;
+                                badge.text(Math.max(0, count - 1));
+
+                                if ($('.wishlist-table tbody tr').length === 0) {
+                                    location.reload();
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+        }
+
+        function addToCart(maDT) {
+            var userName = $('.user-name-label').text();
+            if (!userName || userName.trim() === "") {
+                alert("Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng!");
+                return;
+            }
+
+            $.ajax({
+                url: '/GioHang/AddToCart',
+                type: 'POST',
+                data: { maDT: maDT, qty: 1 },
+                success: function (response) {
+                    if (response.success) {
+                        alert(response.message);
+                    } else {
+                        alert("Lỗi: " + response.message);
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
+
+
+    

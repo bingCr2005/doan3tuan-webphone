@@ -1,0 +1,88 @@
+﻿/* Tùy chỉnh riêng cho trang Danh sách yêu thích */
+.wishlist-container {
+    margin-top: 180px;
+    margin-bottom: 80px;
+    min-height: 600px;
+}
+
+.wishlist-title {
+    color: #333e48;
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 40px;
+}
+
+.wishlist-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-top: 1px solid #ebebeb;
+}
+
+    .wishlist-table th {
+        padding: 15px 10px;
+        color: #333e48;
+        font-size: 15px;
+        text-transform: uppercase;
+        border-bottom: 1px solid #ebebeb;
+        text-align: left;
+    }
+
+    .wishlist-table td {
+        padding: 20px 10px;
+        border-bottom: 1px solid #ebebeb;
+        vertical-align: middle;
+    }
+
+.btn-remove {
+    color: #999;
+    font-size: 24px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+    .btn-remove:hover {
+        color: #D10024;
+    }
+
+.product-name-link {
+    color: #0062bd;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.product-price-val {
+    color: #333e48;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.stock-status {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.in-stock {
+    color: #7ad03a;
+}
+
+.out-of-stock {
+    color: #D10024;
+}
+
+.btn-add-cart {
+    background-color: #fed700;
+    color: #333e48;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 50px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+    .btn-add-cart:hover {
+        background-color: #333e48;
+        color: #fff;
+    }

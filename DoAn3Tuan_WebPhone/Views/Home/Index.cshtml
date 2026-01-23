@@ -60,11 +60,11 @@
 
                     <a href="#" class="icon-btn">
                         <i class="fas fa-sync-alt"></i>
-                        <span class="icon-badge">0</span>
+                        <span class="icon-badge" id="compare-count">0</span>
                     </a>
-
-                    <a href="#" class="icon-btn">
+                    <a href="/Home/Wishlist" class="icon-btn">
                         <i class="far fa-heart"></i>
+                        <span class="icon-badge wishlist-badge">@(ViewBag.WishlistCount ?? 0)</span>
                     </a>
 
                     <!-- USER DROPDOWN -->
@@ -78,7 +78,7 @@
                             <div class="user-dropdown-content logged-in">
                                 <h4 class="dropdown-title">Tài khoản của tôi</h4>
                                 <a href="/Account/Profile"><i class="fas fa-id-card me-2"></i> Trang cá nhân</a>
-                                <a href="/DonHang/History"><i class="fas fa-shopping-bag me-2"></i> Đơn hàng đã mua</a>
+                                <a href="/DonHang"><i class="fas fa-shopping-bag me-2"></i> Đơn hàng đã mua</a>
                                 <div class="dropdown-divider"></div>
                                 <a href="/Account/Logout" class="text-danger"><i class="fas fa-sign-out-alt me-2"></i> Đăng xuất</a>
                             </div>
@@ -318,7 +318,9 @@
                                 </div>
 
                                 <div class="hover-footer">
-                                    <div class="footer-action"><i class="far fa-heart"></i> Wishlist</div>
+                                    <div class="footer-action" onclick="addToWishlist('@sp.MaDienThoai')">
+                                        <i class="far fa-heart"></i> Wishlist
+                                    </div>
                                     <div class="footer-action" onclick="addToCompare('@sp.MaDienThoai', '@sp.TenDienThoai', '@sp.Thumbnail', '@sp.DonGia', '@sp.Ram', '@sp.DungLuongPin')">
                                         <i class="fas fa-sync-alt"></i> Compare
                                     </div>
@@ -695,6 +697,21 @@
                 }
             });
         }
+        // Xử lý Thêm vào yêu thích (Session)
+        function addToWishlist(maDT) {
+            $.post('/Home/AddToWishlist', { maDT: maDT }, function (rp) {
+                if (rp.success) {
+                    alert(rp.message);
+
+                    // Tìm đến badge yêu thích và tăng số lượng
+                    let badge = $('.wishlist-badge');
+                    let count = parseInt(badge.text()) || 0;
+                    badge.text(count + 1);
+                } else {
+                    alert(rp.message);
+                }
+            });
+        }
 
         //CHỨC NĂNG NEWSLETTER (HIỂN THỊ THÔNG BÁO TẠI CHỖ)
         function subscribeNewsletter() {
@@ -754,6 +771,8 @@
                 ram: parseInt(ram) || 0,
                 pin: parseInt(pin) || 0
             });
+            // Cập nhật số lượng sản phẩm so sánh lên Header
+            $('#compare-count').text(compareList.length);
 
             renderCompareBar();
         }
