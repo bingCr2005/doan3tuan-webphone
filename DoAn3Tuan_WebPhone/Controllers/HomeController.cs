@@ -96,6 +96,78 @@ namespace DoAn3Tuan_WebPhone.Controllers
             return View(viewModel);
         }
 
+        //hiển thị danh sách yêu thích
+        public async Task<IActionResult> Wishlist()
+        {
+            // Đọc danh sách ID từ Session
+            string wishlist = HttpContext.Session.GetString("Wishlist") ?? "";
+            var dsId = wishlist.Split(',', StringSplitOptions.RemoveEmptyEntries)
+                               .Select(id => id.Trim()).ToList();
+
+            // Lấy chi tiết sản phẩm từ database dựa trên danh sách ID
+            var query = _context.DienThoais.AsQueryable();
+            var listSP = await query.Where(p => dsId.Contains(p.MaDienThoai)).ToListAsync();
+
+            // Gửi số lượng ra Header (nếu cần cập nhật lại badge)
+            ViewBag.WishlistCount = dsId.Count;
+
+            return View(listSP);
+        }
+        // phương thức xử lý dùng để lưu Sản phẩm yêu thích
+        [HttpPost]
+        public IActionResult AddToWishlist(string maDT)
+        {
+            try
+            {
+                // Lay danh sach tu Session
+                string wishlist = HttpContext.Session.GetString("Wishlist") ?? "";
+                var dsId = wishlist.Split(',', StringSplitOptions.RemoveEmptyEntries)
+                                   .Select(id => id.Trim()).ToList();
+
+                // Kiem tra ton tai
+                if (dsId.Contains(maDT))
+                {
+                    return Json(new { success = false, message = "Sản phẩm đã có trong danh sách yêu thích!" });
+                }
+
+                // Them moi va luu lai
+                dsId.Add(maDT);
+                HttpContext.Session.SetString("Wishlist", string.Join(",", dsId));
+
+                return Json(new { success = true, message = "Đã thêm vào yêu thích thành công!" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Lỗi: " + ex.Message });
+            }
+        }
+        // Phương thức dùng để xóa sản phẩm khỏi danh sách yêu thích
+        [HttpPost]
+        public IActionResult RemoveFromWishlist(string maDT)
+        {
+            try
+            {
+                // Lấy danh sách ID từ Session, nếu chưa có thì khởi tạo chuỗi rỗng
+                string wishlist = HttpContext.Session.GetString("Wishlist") ?? "";
+
+                // Chuyển chuỗi thành danh sách (List) để thao tác xóa
+                var dsId = wishlist.Split(',', StringSplitOptions.RemoveEmptyEntries).ToList();
+
+                if (dsId.Contains(maDT))
+                {
+                    dsId.Remove(maDT); // Loại bỏ mã sản phẩm tương ứng
+                                       // Cập nhật lại chuỗi mới vào Session sau khi đã xóa
+                    HttpContext.Session.SetString("Wishlist", string.Join(",", dsId));
+                }
+
+                return Json(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
+        }
+
         // phương thức xử lý đăng ký nhận bản tin (Newsletter)
         [HttpPost]
         public async Task<IActionResult> SubscribeNewsletter(string email)
