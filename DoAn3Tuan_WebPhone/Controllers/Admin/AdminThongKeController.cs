@@ -2,13 +2,13 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Globalization;
 
-namespace DoAn3Tuan_WebPhone.Controllers
+namespace DoAn3Tuan_WebPhone.Controllers.Admin
 {
-    public class ThongKeController : Controller
+    public class AdminThongKeController : Controller
     {
         private readonly DBBanDienThoaiContext _context;
 
-        public ThongKeController(DBBanDienThoaiContext context)
+        public AdminThongKeController(DBBanDienThoaiContext context)
         {
             _context = context;
         }
@@ -16,6 +16,10 @@ namespace DoAn3Tuan_WebPhone.Controllers
         // View chính
         public IActionResult Index()
         {
+            if (HttpContext.Session.GetString("Role") != "Admin")
+            {
+                return RedirectToAction("Index", "AdminLogin");
+            }
             var hoaDons = _context.HoaDons
                 .Where(h => h.NgayLap != null)
                 .ToList();
@@ -35,12 +39,12 @@ namespace DoAn3Tuan_WebPhone.Controllers
                 .OrderBy(x => x.thang)
                 .ToList();
 
-            return View();
+            return View("~/Views/Admin/AdminThongKe/Index.cshtml");
         }
 
         // API lấy dữ liệu cho Chart.js
         [HttpGet]
-        public IActionResult GetThongKe(string type = "month")
+        public IActionResult GetAdminThongKe(string type = "month")
         {
             var hoaDons = _context.HoaDons
                 .Where(h => h.NgayLap != null)

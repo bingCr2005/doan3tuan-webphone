@@ -14,6 +14,10 @@ namespace DoAn3Tuan_WebPhone.Controllers.Admin
         // Hiển thị danh sách nhà cung cấp
         public IActionResult Index(string? search, int page = 1)
         {
+            if (HttpContext.Session.GetString("Role") != "Admin")
+            {
+                return RedirectToAction("Index", "AdminLogin");
+            }
             int pageSize = 5;
 
             // Lấy danh sách nhà cung cấp
@@ -55,7 +59,7 @@ namespace DoAn3Tuan_WebPhone.Controllers.Admin
             return View("~/Views/Admin/AdminNhaCungCap/Edit.cshtml",nhaCungCap);
         }
 
-        //Cập nhật liên hệ
+        //Cập nhật nhà cung cấp
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(NhaCungCap model)

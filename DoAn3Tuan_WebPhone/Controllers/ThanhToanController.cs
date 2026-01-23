@@ -28,6 +28,13 @@ public class ThanhToanController : Controller
         return View(gioHang.ChiTietGioHangs.ToList());
     }
 
+
+
+
+    //  CONFIRM 
+
+
+
     [HttpPost]
     public IActionResult Confirm(
         List<int> ctghIds,
@@ -37,7 +44,9 @@ public class ThanhToanController : Controller
         string phuongThuc,
         string maGiamGia)
     {
-        string maKH = "KH003";
+        string maKH = HttpContext.Session.GetString("MaKH");
+        if (string.IsNullOrEmpty(maKH))
+            return RedirectToAction("Login", "Account");
         if (ctghIds == null || !ctghIds.Any())
             return Content("KHÔNG NHẬN ĐƯỢC ctghIds");
 
@@ -63,7 +72,7 @@ public class ThanhToanController : Controller
 
             try
             {
-                // ===== LẤY GIỎ HÀNG =====
+                //  LẤY GIỎ HÀNG 
                 var gioHang = _context.GioHangs
                     .Include(g => g.ChiTietGioHangs)
                         .ThenInclude(ct => ct.MaDienThoaiNavigation)

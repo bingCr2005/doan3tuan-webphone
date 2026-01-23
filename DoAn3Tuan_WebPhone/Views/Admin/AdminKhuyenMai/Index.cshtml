@@ -1,0 +1,123 @@
+﻿@model IEnumerable<DoAn3Tuan_WebPhone.Models.KhuyenMai>
+@{
+    ViewData["Title"] = "Quản lý khuyến mãi";
+    // Chuyển đổi thời gian hệ thống sang định dạng DateOnly để so sánh với dữ liệu SQL
+    var ngayHienTai = DateOnly.FromDateTime(DateTime.Now);
+}
+
+<link rel="stylesheet" href="~/Css/style.css">
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-2 sidebar bg-dark text-white p-3" style="min-height: 100vh;">
+            <h4 class="text-center mb-4">ADMIN</h4>
+            <a href="#" class="d-block text-white text-decoration-none p-2">🏠 Dashboard</a>
+            <a asp-controller="AdminProduct" asp-action="Index" class="d-block text-white text-decoration-none p-2">📱 Điện thoại</a>
+            <a asp-controller="AdminHang" asp-action="Index" class="d-block text-white text-decoration-none p-2">🏷️ Hãng điện thoại</a>
+            <a asp-controller="AdminKhachHang" asp-action="Index" class="d-block text-white text-decoration-none p-2">👥 Khách hàng</a>
+            <a asp-controller="AdminNhaCungCap" asp-action="Index" class="d-block text-white text-decoration-none p-2">🏭 Nhà cung cấp</a>
+            <a asp-controller="AdminKhuyenMai" asp-action="Index" class="d-block text-white text-decoration-none p-2  active bg-primary rounded">🎁 Khuyến mãi</a>
+            <a asp-controller="AdminDonHang" asp-action="Index" class="d-block text-white text-decoration-none p-2">🛒 Đơn hàng</a>
+            <a asp-controller="AdminHoaDon" asp-action="Index" class="d-block text-white text-decoration-none p-2">🧾 Hóa đơn</a>
+            <a asp-controller="AdminThongKe" asp-action="Index" class="d-block text-white text-decoration-none p-2">📈 Thống kê</a>
+            <a asp-controller="AdminComment" asp-action="Index" class="d-block text-white text-decoration-none p-2">💬 Bình luận</a>
+            <a asp-controller="AdminLienHe" asp-action="Index" class="d-block text-white text-decoration-none p-2">📞 Liên hệ</a>
+            <a asp-controller="AdminAccount" asp-action="Logout" class="d-block text-white text-decoration-none p-2">🚪 Đăng xuất</a>
+        </div>
+
+        <div class="col-10 p-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h3>🎁 Quản lý khuyến mãi</h3>
+                <div class="d-flex gap-2">
+                    <a asp-action="Create" class="btn btn-primary">Thêm mã mới</a>
+                    <form class="d-flex gap-2" method="get" asp-action="Index">
+                        <input type="text" name="searchString" value="@ViewBag.Search" class="form-control" placeholder="Tìm chương trình hoặc mã..." style="width: 300px;">
+                        <button type="submit" class="btn btn-success">Tìm</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover text-center align-middle">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Mã KM</th>
+                            <th>Tên chương trình</th>
+                            <th>Mức giảm</th>
+                            <th>Ngày bắt đầu</th>
+                            <th>Ngày hết hạn</th>
+                            <th>Đã dùng</th>
+                            <th>Trạng thái</th>
+                            <th style="width: 160px;">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null)
+                        {
+                            foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td class="fw-bold">@(item.MaKhuyenMai?.Trim() ?? "")</td>
+                                    <td>@(item.TenChuongTrinhKhuyenMai ?? "N/A")</td>
+                                    <td class="text-danger fw-bold">@((item.MucGiamGia ?? 0).ToString("N0"))đ</td>
+
+                                    <td>@(item.NgayBatDau.HasValue? item.NgayBatDau.Value.ToString("dd/MM/yyyy") : "---")</td>
+                                    <td>@(item.NgayHetHan.HasValue? item.NgayHetHan.Value.ToString("dd/MM/yyyy") : "---")</td>
+
+                                    <td><span class="badge bg-info text-dark">@(item.SoLuongMaKhuyenMaiDaDung ?? 0)</span></td>
+
+                                    <td>
+                                        @if (item.TrangThai == 0)
+                                        {
+                                            @* Trường hợp Admin chủ động khóa mã trong CSDL *@
+                                            <span class="badge bg-danger">Bị khóa</span>
+                                        }
+                                        else if (item.NgayHetHan.HasValue && ngayHienTai > item.NgayHetHan.Value)
+                                        {
+                                            @* Trường hợp đã quá ngày kết thúc *@
+                                            <span class="badge bg-secondary">Hết hạn</span>
+                                        }
+                                        else if (item.NgayBatDau.HasValue && ngayHienTai < item.NgayBatDau.Value)
+                                        {
+                                            @* Trường hợp chưa tới ngày bắt đầu *@
+                                            <span class="badge bg-warning text-dark">Chờ ngày chạy</span>
+                                        }
+                                        else
+                                        {
+                                            @* Thỏa mãn tất cả điều kiện: TrangThai = 1 và nằm trong khoảng thời gian *@
+                                            <span class="badge bg-success">Đang chạy</span>
+                                        }
+                                    </td>
+
+                                    <td>
+                                        <div class="d-flex gap-1 justify-content-center">
+                                            <a asp-action="Edit" asp-route-id="@(item.MaKhuyenMai?.Trim())" class="btn btn-sm btn-warning">✏️ Sửa</a>
+                                            <form asp-action="Delete" asp-route-id="@(item.MaKhuyenMai?.Trim())" method="post" onsubmit="return confirm('Bạn chắc chắn muốn xóa khuyến mãi này?');">
+                                                @Html.AntiForgeryToken()
+                                                <button type="submit" class="btn btn-sm btn-danger">🗑️ Xóa</button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            @if (ViewBag.TotalPages > 1)
+            {
+                <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-center mt-3">
+                        @for (int i = 1; i <= (int)ViewBag.TotalPages; i++)
+                        {
+                            <li class="page-item @(i == (int)ViewBag.CurrentPage ? "active" : "")">
+                                <a class="page-link" href="@Url.Action("Index", new { page = i, searchString = ViewBag.Search })">@i</a>
+                            </li>
+                        }
+                    </ul>
+                </nav>
+            }
+        </div>
+    </div>
+</div>

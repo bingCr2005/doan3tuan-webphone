@@ -4,6 +4,8 @@ using DoAn3Tuan_WebPhone.Models;
 using System;
 using System.Linq;
 
+
+
 public class GioHangController : Controller
 {
     private readonly DBBanDienThoaiContext _context;
@@ -16,7 +18,9 @@ public class GioHangController : Controller
     // HIỂN THỊ GIỎ HÀNG
     public IActionResult Index(int page = 1)
     {
-        string maKH = "KH003";
+        string maKH = HttpContext.Session.GetString("MaKH");
+        if (string.IsNullOrEmpty(maKH))
+            return RedirectToAction("Login", "Account");
         int pageSize = 10;
 
         var gioHang = _context.GioHangs
@@ -65,7 +69,7 @@ public class GioHangController : Controller
         int tonKho = sanPham.SoLuongTon ?? 0;
 
         int soLuongCu = ct.SoLuong ?? 0;
-        int chenhLech = qty - soLuongCu; // 🔥 quan trọng
+        int chenhLech = qty - soLuongCu; // quan trọng
 
         // Nếu tăng số lượng
         if (chenhLech > 0)
@@ -122,7 +126,9 @@ public class GioHangController : Controller
     // XÓA HẾT GIỎ
     public IActionResult Clear()
     {
-        string maKH = "KH003";
+        string maKH = HttpContext.Session.GetString("MaKH");
+        if (string.IsNullOrEmpty(maKH))
+            return RedirectToAction("Login", "Account");
 
         var gioHang = _context.GioHangs
             .Include(g => g.ChiTietGioHangs)
@@ -148,7 +154,9 @@ public class GioHangController : Controller
     [HttpPost]
     public IActionResult AddToCart(string maDT, int qty)
     {
-        string maKH = "KH003";
+        string maKH = HttpContext.Session.GetString("MaKH");
+        if (string.IsNullOrEmpty(maKH))
+            return RedirectToAction("Login", "Account");
 
         var gioHang = _context.GioHangs
             .Include(g => g.ChiTietGioHangs)
@@ -186,7 +194,7 @@ public class GioHangController : Controller
             _context.ChiTietGioHangs.Add(ct);
         }
 
-        // 🔥 TRỪ TỒN KHO THẬT
+        // TRỪ TỒN KHO THẬT
         sanPham.SoLuongTon -= qty;
 
         // cập nhật thành tiền

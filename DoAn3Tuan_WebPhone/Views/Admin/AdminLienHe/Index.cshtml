@@ -16,26 +16,27 @@
     <div class="container-fluid">
         <div class="row">
             <!-- Sidebar -->
-            <div class="col-2 sidebar bg-dark text-white p-3">
+            <div class="col-2 sidebar bg-dark text-white p-3" style="min-height: 100vh;">
                 <h4 class="text-center mb-4">ADMIN</h4>
                 <a href="#" class="d-block text-white text-decoration-none p-2">🏠 Dashboard</a>
-                <a href="/DienThoai/Index" class="d-block text-white text-decoration-none p-2">📱 Điện thoại</a>
-                <a href="/HangDienThoai/Index" class="d-block text-white text-decoration-none p-2">🏷️ Hãng điện thoại</a>
-                <a href="/KhachHang/Index" class="d-block text-white text-decoration-none p-2">👥 Khách hàng</a>
-                <a href="/NhaCungCap/Index" class="d-block text-white text-decoration-none p-2">🏭 Nhà cung cấp</a>
-                <a href="/KhuyenMai/Index" class="d-block text-white text-decoration-none p-2">🎁 Khuyến mãi</a>
-                <a href="/DonHang/Index" class="d-block text-white text-decoration-none p-2">🛒 Đơn hàng</a>
-                <a href="/ThongKe/Index" class="d-block text-white text-decoration-none p-2">📈 Thống kê</a>
-                <a href="/BinhLuan/Index" class="d-block text-white text-decoration-none p-2">💬 Bình luận</a>
-                <a href="/LienHe/Index" class="d-block text-white text-decoration-none p-2 active bg-primary rounded">📞 Liên hệ</a>
-                <a href="#" class="d-block text-white text-decoration-none p-2">🚪 Đăng xuất</a>
+                <a asp-controller="AdminProduct" asp-action="Index" class="d-block text-white text-decoration-none p-2">📱 Điện thoại</a>
+                <a asp-controller="AdminHang" asp-action="Index" class="d-block text-white text-decoration-none p-2">🏷️ Hãng điện thoại</a>
+                <a asp-controller="AdminKhachHang" asp-action="Index" class="d-block text-white text-decoration-none p-2">👥 Khách hàng</a>
+                <a asp-controller="AdminNhaCungCap" asp-action="Index" class="d-block text-white text-decoration-none p-2">🏭 Nhà cung cấp</a>
+                <a asp-controller="AdminKhuyenMai" asp-action="Index" class="d-block text-white text-decoration-none p-2">🎁 Khuyến mãi</a>
+                <a asp-controller="AdminDonHang" asp-action="Index" class="d-block text-white text-decoration-none p-2">🛒 Đơn hàng</a>
+                <a asp-controller="AdminHoaDon" asp-action="Index" class="d-block text-white text-decoration-none p-2">🧾 Hóa đơn</a>
+                <a asp-controller="AdminThongKe" asp-action="Index" class="d-block text-white text-decoration-none p-2">📈 Thống kê</a>
+                <a asp-controller="AdminComment" asp-action="Index" class="d-block text-white text-decoration-none p-2">💬 Bình luận</a>
+                <a asp-controller="AdminLienHe" asp-action="Index" class="d-block text-white text-decoration-none p-2  active bg-primary rounded">📞 Liên hệ</a>
+                <a asp-controller="AdminAccount" asp-action="Logout" class="d-block text-white text-decoration-none p-2">🚪 Đăng xuất</a>
             </div>
 
             <!-- Content -->
             <div class="col-10 p-4">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h3>📩 Quản lý liên hệ</h3>
-                    <form class="d-flex gap-2" method="get" action="/LienHe/Index">
+                    <form class="d-flex gap-2" method="get" action="/AdminLienHe/Index">
                         <input type="text" name="search" class="form-control" placeholder="🔍 Tìm kiếm theo tên hoặc email..." style="width: 300px;">
                         <button type="submit" class="btn btn-success">Tìm</button>
                     </form>
@@ -105,7 +106,7 @@
                         {
                             <li class="page-item @(i == (int)ViewBag.CurrentPage ? "active" : "")">
                                 <a class="page-link"
-                                   href="@Url.Action("Index", "LienHe", new { page = i, search = ViewBag.Search })">@i</a>
+                                   href="@Url.Action("Index", "AdminLienHe", new { page = i, search = ViewBag.Search })">@i</a>
                             </li>
                         }
                     </ul>

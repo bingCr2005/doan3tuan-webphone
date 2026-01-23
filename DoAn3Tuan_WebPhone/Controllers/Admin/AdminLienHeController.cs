@@ -2,13 +2,13 @@
 using DoAn3Tuan_WebPhone.Models;
 using System.Linq;
 
-namespace DoAn3Tuan_WebPhone.Controllers
+namespace DoAn3Tuan_WebPhone.Controllers.Admin
 {
-    public class LienHeController : Controller
+    public class AdminLienHeController : Controller
     {
         private readonly DBBanDienThoaiContext _context;
 
-        public LienHeController(DBBanDienThoaiContext context)
+        public AdminLienHeController(DBBanDienThoaiContext context)
         {
             _context = context;
         }
@@ -16,6 +16,10 @@ namespace DoAn3Tuan_WebPhone.Controllers
         // Hiển thị danh sách liên hệ
         public IActionResult Index(string? search, int page = 1)
         {
+            if (HttpContext.Session.GetString("Role") != "Admin")
+            {
+                return RedirectToAction("Index", "AdminLogin");
+            }
             int pageSize = 5;
 
             // Lấy danh sách liên hệ
@@ -40,7 +44,7 @@ namespace DoAn3Tuan_WebPhone.Controllers
                 .Take(pageSize)
                 .ToList();
 
-            return View(dsLienHe);
+            return View("~/Views/Admin/AdminLienHe/Index.cshtml",dsLienHe);
         }
 
         // Hiển thị form sửa
@@ -50,7 +54,7 @@ namespace DoAn3Tuan_WebPhone.Controllers
             if (lienHe == null)
                 return NotFound();
 
-            return View(lienHe);
+            return View("~/Views/Admin/AdminLienHe/Edit.cshtml",lienHe);
         }
 
         //Cập nhật liên hệ
@@ -72,7 +76,7 @@ namespace DoAn3Tuan_WebPhone.Controllers
             lienHe.TrangThai = model.TrangThai;
 
             _context.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
 
 
