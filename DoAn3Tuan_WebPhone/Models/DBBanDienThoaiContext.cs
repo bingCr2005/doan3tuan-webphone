@@ -48,6 +48,7 @@ public partial class DBBanDienThoaiContext : DbContext
     public virtual DbSet<TaiKhoanAdmin> TaiKhoanAdmins { get; set; }
 
     public virtual DbSet<TaiKhoanKhachHang> TaiKhoanKhachHangs { get; set; }
+    public virtual DbSet<TinNhanChat> TinNhanChats { get; set; } = null!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 
@@ -493,6 +494,29 @@ public partial class DBBanDienThoaiContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__TaiKhoanK__MaKha__4CA06362");
         });
+        modelBuilder.Entity<TinNhanChat>(entity =>
+        {
+            entity.HasKey(e => e.MaTinNhan);
+
+            entity.ToTable("TinNhanChat");
+
+            entity.Property(e => e.MaKhachHang)
+                .HasMaxLength(10)
+                .IsUnicode(false)
+                .IsFixedLength(); // Quan trọng vì là CHAR(10) [cite: 1, 8]
+
+            entity.Property(e => e.Email).HasMaxLength(100);
+
+            entity.Property(e => e.NgayGui)
+                .HasColumnType("datetime")
+                .HasDefaultValueSql("(getdate())");
+
+        // Cấu hình mối quan hệ với bảng TaiKhoanKhachHang [cite: 8, 12]
+             entity.HasOne(d => d.MaKhachHangNavigation)
+            .WithMany() // Nếu mày không thêm ICollection bên TaiKhoanKhachHang thì để trống
+            .HasForeignKey(d => d.MaKhachHang)
+            .HasConstraintName("FK__TinNhanCh__MaKha__...");
+    });
 
         OnModelCreatingPartial(modelBuilder);
     }

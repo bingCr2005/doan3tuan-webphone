@@ -1,0 +1,150 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model IEnumerable<DoAn3Tuan_WebPhone.Models.HangDienThoai>
+@{
+    Layout = null;
+    ViewData["Title"] = "Quản lý hãng điện thoại";
+}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Admin</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <style>
+        .sidebar {
+            min-height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            width: 16.666667%;
+        }
+
+        .main-content {
+            margin-left: 16.666667%;
+        }
+
+        .sidebar .nav-link {
+            color: white;
+            padding: 12px;
+            margin-bottom: 5px;
+        }
+
+            .sidebar .nav-link:hover, .sidebar .nav-link.active {
+                background: #0d6efd;
+                border-radius: 5px;
+            }
+    </style>
+</head>
+<body class="bg-light">
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-2 sidebar bg-dark text-white p-3" style="min-height: 100vh;">
+                <h4 class="text-center mb-4">ADMIN</h4>
+                <a href="#" class="d-block text-white text-decoration-none p-2">🏠 Dashboard</a>
+                <a asp-controller="AdminProduct" asp-action="Index" class="d-block text-white text-decoration-none p-2">📱 Điện thoại</a>
+                <a asp-controller="AdminHang" asp-action="Index" class="d-block text-white text-decoration-none p-2 active bg-primary rounded">🏷️ Hãng điện thoại</a>
+                <a asp-controller="AdminKhachHang" asp-action="Index" class="d-block text-white text-decoration-none p-2">👥 Khách hàng</a>
+                <a asp-controller="AdminNhaCungCap" asp-action="Index" class="d-block text-white text-decoration-none p-2">🏭 Nhà cung cấp</a>
+                <a asp-controller="AdminKhuyenMai" asp-action="Index" class="d-block text-white text-decoration-none p-2">🎁 Khuyến mãi</a>
+                <a asp-controller="AdminDonHang" asp-action="Index" class="d-block text-white text-decoration-none p-2">🛒 Đơn hàng</a>
+                <a asp-controller="AdminHoaDon" asp-action="Index" class="d-block text-white text-decoration-none p-2">🧾 Hóa đơn</a>
+                <a asp-controller="AdminThongKe" asp-action="Index" class="d-block text-white text-decoration-none p-2">📈 Thống kê</a>
+                <a asp-controller="AdminComment" asp-action="Index" class="d-block text-white text-decoration-none p-2 ">💬 Bình luận</a>
+                <a asp-controller="AdminLienHe" asp-action="Index" class="d-block text-white text-decoration-none p-2">📞 Liên hệ</a>
+                <a asp-controller="AdminChat" asp-action="Index" class="d-block text-white text-decoration-none p-2">💬 Tin nhắn khách hàng</a>
+                <a asp-controller="AdminLogin" asp-action="Index" class="d-block text-white text-decoration-none p-2">🚪 Đăng xuất</a>
+            </div>
+
+            <div class="col-md-10 main-content p-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h3 class="fw-bold">🏷️ Quản lý hãng điện thoại</h3>
+                    <div class="d-flex gap-2">
+                        <a asp-action="Create" class="btn btn-primary shadow-sm">➕ Thêm hãng mới</a>
+                        <form class="d-flex gap-2" method="get" asp-action="Index">
+                            <input type="text" name="search" class="form-control" placeholder="🔍 Tìm kiếm theo tên hãng..." style="width: 300px;" value="@ViewBag.Search">
+                            <button type="submit" class="btn btn-success">Tìm</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="table-responsive bg-white shadow-sm p-3 rounded">
+                    <table class="table table-bordered table-hover text-center align-middle">
+                        <thead class="table-dark">
+                            <tr>
+                                <th style="width: 150px;">Mã hãng</th>
+                                <th>Tên hãng điện thoại</th>
+                                <th>Mô tả</th>
+                                <th style="width: 150px;">Trạng thái</th>
+                                <th style="width: 180px;">Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null && Model.Any())
+                            {
+                                foreach (var item in Model)
+                                {
+                                    <tr>
+                                        @* Dùng .Trim() vì MaHangDienThoai là CHAR(10) trong SQL *@
+                                        <td class="fw-bold">@item.MaHangDienThoai.Trim()</td>
+                                        <td class="text-start">@item.TenHangDienThoai</td>
+                                        <td class="text-start small text-muted">@item.MoTa</td>
+                                        <td>
+                                            @if (item.TrangThai == 1)
+                                            {
+                                                <span class="badge bg-success">Hoạt động</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-warning text-dark">Đã khóa</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            <div class="d-flex gap-1 justify-content-center">
+                                                <a asp-action="Edit" asp-route-id="@item.MaHangDienThoai.Trim()" class="btn btn-sm btn-warning">
+                                                    <i class="fas fa-edit"></i> Sửa
+                                                </a>
+
+                                                <form asp-action="DeleteConfirmed" asp-route-id="@item.MaHangDienThoai.Trim()"
+                                                      method="post" onsubmit="return confirm('Xóa hãng này sẽ ảnh hưởng đến các điện thoại thuộc hãng. Tiếp tục?');">
+                                                    @Html.AntiForgeryToken()
+                                                    <button type="submit" class="btn btn-sm btn-danger">
+                                                        <i class="fas fa-trash"></i> Xóa
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr><td colspan="5" class="py-4 text-muted">Không có dữ liệu hãng điện thoại.</td></tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                @if (ViewBag.TotalPages != null && (int)ViewBag.TotalPages > 1)
+                {
+                    <nav class="mt-4">
+                        <ul class="pagination justify-content-center">
+                            @for (int i = 1; i <= (int)ViewBag.TotalPages; i++)
+                            {
+                                <li class="page-item @(i == (int)ViewBag.CurrentPage ? "active" : "")">
+                                    <a class="page-link" href="@Url.Action("Index", new { page = i, search = ViewBag.Search })">@i</a>
+                                </li>
+                            }
+                        </ul>
+                    </nav>
+                }
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
