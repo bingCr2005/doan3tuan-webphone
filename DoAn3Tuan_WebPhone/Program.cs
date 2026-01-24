@@ -7,7 +7,7 @@ builder.Services.AddDistributedMemoryCache();
 
 
 
-// ??ng ký DbContext v?i chu?i k?t n?i
+// Đăng Ký chuỗi kết nối
 builder.Services.AddDbContext<DBBanDienThoaiContext>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("DBBanDienThoai"),

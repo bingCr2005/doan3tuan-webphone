@@ -13,9 +13,10 @@ public class ThanhToanController : Controller
     }
 
     //  CHECKOUT 
+    [HttpPost]
     public IActionResult Checkout()
     {
-        string maKH = "KH003";
+        string maKH = HttpContext.Session.GetString("MaKH");
 
         var gioHang = _context.GioHangs
             .Include(g => g.ChiTietGioHangs)

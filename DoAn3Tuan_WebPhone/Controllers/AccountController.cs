@@ -65,7 +65,7 @@ public class AccountController : Controller
     // PROFILE - Sửa lỗi không còn bị cố định KH003
     public IActionResult Profile()
     {
-        string maKH = "KH003";//HttpContext.Session.GetString("MaKH");
+        string maKH = HttpContext.Session.GetString("MaKH");
 
         if (string.IsNullOrEmpty(maKH))
             return RedirectToAction("Index", "Home");

@@ -158,6 +158,9 @@ public class GioHangController : Controller
         if (string.IsNullOrEmpty(maKH))
             return RedirectToAction("Login", "Account");
 
+        if (qty <= 0)
+            return Json(new { success = false, message = "Số lượng không hợp lệ" });
+
         var gioHang = _context.GioHangs
             .Include(g => g.ChiTietGioHangs)
             .FirstOrDefault(g => g.MaKhachHang == maKH);
