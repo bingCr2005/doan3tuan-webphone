@@ -40,11 +40,34 @@
 
     <div class="mb-3">
         <label class="form-label">Phương thức thanh toán</label>
-        <select name="phuongThuc" class="form-select" required>
+        <select name="phuongThuc"
+                id="phuongThuc"
+                class="form-select"
+                required
+                onchange="toggleQR()">
             <option value="">-- Chọn phương thức --</option>
             <option value="COD">Thanh toán khi nhận hàng</option>
-            <option value="Chuyển khoản">Chuyển khoản ngân hàng</option>
+            <option value="BANK">Chuyển khoản ngân hàng</option>
         </select>
+        <div id="qrBank" class="mb-3 text-center" style="display:none;">
+            <h5 class="text-primary">Quét mã QR để chuyển khoản</h5>
+
+            <img src="~/images/qr-nganhang.jpg"
+                 alt="QR ngân hàng"
+                 class="img-thumbnail my-2"
+                 style="max-width:250px;" />
+
+            <p class="mt-2">
+                <strong>Ngân hàng:</strong> Vietcombank <br />
+                <strong>Số tài khoản:</strong> 1040461571<br />
+                <strong>Chủ tài khoản:</strong> NGUYEN PHAN ANh BAO <br />
+                <strong>Nội dung:</strong> Thanh toán đơn hàng
+            </p>
+
+            <small class="text-muted">
+                Vui lòng chuyển khoản đúng nội dung để đơn hàng được xử lý nhanh.
+            </small>
+        </div>
     </div>
     <div class="mb-3">
         <label class="form-label">Mã giảm giá</label>
@@ -59,3 +82,16 @@
         ✔ Xác nhận thanh toán
     </button>
 </form>
+<script>
+    function toggleQR() {
+        const method = document.getElementById("phuongThuc").value;
+        const qr = document.getElementById("qrBank");
+
+        if (method === "BANK") {
+            qr.style.display = "block";
+        } else {
+            qr.style.display = "none";
+        }
+    }
+</script>
+

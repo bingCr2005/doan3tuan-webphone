@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using DoAn3Tuan_WebPhone.Models;
 using Microsoft.EntityFrameworkCore;
-
 public class AccountController : Controller
 {
     private readonly DBBanDienThoaiContext _context;
@@ -62,10 +61,11 @@ public class AccountController : Controller
         return RedirectToAction("Index", "Home");
     }
 
+
     // PROFILE - Sửa lỗi không còn bị cố định KH003
     public IActionResult Profile()
     {
-        string maKH = "KH003";//HttpContext.Session.GetString("MaKH");
+        string maKH = HttpContext.Session.GetString("MaKH");
 
         if (string.IsNullOrEmpty(maKH))
             return RedirectToAction("Index", "Home");
@@ -81,5 +81,45 @@ public class AccountController : Controller
     {
         HttpContext.Session.Clear();
         return RedirectToAction("Index", "Home");
+    }
+    // GET: Account/Edit
+    public IActionResult Edit()
+    {
+        string maKH = HttpContext.Session.GetString("MaKH");
+        if (string.IsNullOrEmpty(maKH))
+            return RedirectToAction("Login");
+
+        var taiKhoan = _context.TaiKhoans
+            .Include(x => x.TaiKhoanKhachHang)
+            .FirstOrDefault(x => x.TaiKhoanKhachHang.MaKhachHang == maKH);
+
+        if (taiKhoan == null)
+            return NotFound();
+
+        return View(taiKhoan);
+    }
+    [HttpPost]
+    public IActionResult Edit(TaiKhoan model)
+    {
+        string maKH = HttpContext.Session.GetString("MaKH");
+        if (string.IsNullOrEmpty(maKH))
+            return RedirectToAction("Login");
+
+        var taiKhoan = _context.TaiKhoans
+            .Include(x => x.TaiKhoanKhachHang)
+            .FirstOrDefault(x => x.MaTaiKhoan == model.MaTaiKhoan);
+
+        if (taiKhoan == null)
+            return NotFound();
+
+        // chỉ update các field cho phép
+        taiKhoan.HoVaTen = model.HoVaTen;
+        taiKhoan.SoDienThoai = model.SoDienThoai;
+        taiKhoan.Email = model.Email;
+        taiKhoan.DiaChi = model.DiaChi;
+
+        _context.SaveChanges();
+
+        return RedirectToAction("Profile");
     }
 }

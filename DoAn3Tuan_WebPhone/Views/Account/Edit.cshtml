@@ -1,0 +1,39 @@
+﻿@model DoAn3Tuan_WebPhone.Models.TaiKhoan
+@{
+    ViewData["Title"] = "Cập nhật thông tin";
+}
+
+<form asp-action="Edit" method="post">
+
+    <input type="hidden" asp-for="MaTaiKhoan" />
+
+    <div class="mb-3">
+        <label class="form-label">Họ và tên</label>
+        <input asp-for="HoVaTen" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Số điện thoại</label>
+        <input asp-for="SoDienThoai" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input asp-for="Email" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Địa chỉ</label>
+        <input asp-for="DiaChi" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">
+        💾 Lưu thay đổi
+    </button>
+
+    <a asp-action="Profile" class="btn btn-secondary">
+        ⬅ Quay lại
+    </a>
+
+</form>
+
