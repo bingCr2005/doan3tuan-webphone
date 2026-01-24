@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
-public class AdminProductController : Controller
+public class AdminProductController : AdminBaseController
 {
     private readonly DBBanDienThoaiContext _context;
     private readonly int _pageSize = 10;
