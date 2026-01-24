@@ -13,20 +13,31 @@ public class ThanhToanController : Controller
     }
 
     //  CHECKOUT 
-    public IActionResult Checkout()
+    [HttpPost]
+    public IActionResult Checkout(List<int> ctghIds)
     {
-        string maKH = "KH003";
+        string maKH = HttpContext.Session.GetString("MaKH");
+        if (string.IsNullOrEmpty(maKH))
+            return RedirectToAction("Login", "Account");
 
-        var gioHang = _context.GioHangs
-            .Include(g => g.ChiTietGioHangs)
-                .ThenInclude(ct => ct.MaDienThoaiNavigation)
-            .FirstOrDefault(g => g.MaKhachHang == maKH);
-
-        if (gioHang == null || !gioHang.ChiTietGioHangs.Any())
+        if (ctghIds == null || !ctghIds.Any())
             return RedirectToAction("Index", "GioHang");
 
-        return View(gioHang.ChiTietGioHangs.ToList());
+        var chiTietDuocChon = _context.ChiTietGioHangs
+            .Include(x => x.MaDienThoaiNavigation)
+            .Where(x => ctghIds.Contains(x.MaCtgh)
+                && _context.GioHangs.Any(g =>
+                    g.MaGioHang == x.MaGioHang &&
+                    g.MaKhachHang == maKH))
+            .ToList();
+
+        if (!chiTietDuocChon.Any())
+            return RedirectToAction("Index", "GioHang");
+
+        return View(chiTietDuocChon);
     }
+
+
 
 
 

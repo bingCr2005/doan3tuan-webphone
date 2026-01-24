@@ -29,10 +29,11 @@ public class DonHangController : Controller
         int totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
 
         var donHangs = query
-            .OrderByDescending(x => x.NgayLap)
-            .Skip((page - 1) * pageSize)
-            .Take(pageSize)
-            .ToList();
+      .OrderByDescending(x => x.NgayLap)      // ngày mới nhất
+      .ThenByDescending(x => x.MaHoaDon)      // HD mới nhất (HD010 > HD009)
+      .Skip((page - 1) * pageSize)
+      .Take(pageSize)
+      .ToList();
 
         ViewBag.CurrentPage = page;
         ViewBag.TotalPages = totalPages;
