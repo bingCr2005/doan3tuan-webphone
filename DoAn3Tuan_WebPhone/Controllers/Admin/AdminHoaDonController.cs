@@ -31,10 +31,11 @@ public class AdminHoaDonController : AdminBaseController
 
         //  PHÂN TRANG
         var hoaDons = query
-            .OrderByDescending(hd => hd.NgayLap)
-            .Skip((page - 1) * pageSize)
-            .Take(pageSize)
-            .ToList();
+       .OrderByDescending(x => x.NgayLap)     // ngày mới nhất
+       .ThenByDescending(x => x.MaHoaDon)     // mã HD mới nhất
+       .Skip((page - 1) * pageSize)
+       .Take(pageSize)
+       .ToList();
 
         // GỬI DỮ LIỆU RA VIEW
         ViewBag.CurrentPage = page;

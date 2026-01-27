@@ -43,7 +43,7 @@
                         <div class="user-dropdown-content logged-in">
                             <h4 class="dropdown-title">Tài khoản của tôi</h4>
                             <a href="/Account/Profile"><i class="fas fa-id-card me-2"></i> Trang cá nhân</a>
-                            <a href="/DonHang/History"><i class="fas fa-shopping-bag me-2"></i> Đơn hàng đã mua</a>
+                            <a href="/DonHang"><i class="fas fa-shopping-bag me-2"></i> Đơn hàng đã mua</a>
                             <div class="dropdown-divider"></div>
                             <a href="/Account/Logout" class="text-danger"><i class="fas fa-sign-out-alt me-2"></i> Đăng xuất</a>
                         </div>
@@ -87,12 +87,14 @@
                 <!-- END USER DROPDOWN -->
                 <!-- CART -->
                 <div class="cart-info">
-                    <a href="#" class="icon-btn">
-                        <i class="fas fa-shopping-cart"></i>
-                        <span class="icon-badge">0</span>
+                  <a asp-controller="GioHang"
+                   asp-action="Index"
+                   class="btn btn-outline-primary">
+                    <i class="fa-solid fa-cart-shopping"></i> Giỏ hàng
                     </a>
-                    <span class="cart-price">0 ₫</span>
+                   
                 </div>
+
 
             </div>
         </div>
