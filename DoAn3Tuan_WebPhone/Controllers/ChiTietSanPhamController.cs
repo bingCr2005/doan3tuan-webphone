@@ -80,13 +80,13 @@ namespace DoAn3Tuan_WebPhone.Controllers
                     d.SetProperty(x => x.LuotXem, x => x.LuotXem + 1)
                 );
 
-            // 6️ LẤY SẢN PHẨM LIÊN QUAN THEO HÃNG 📱
+            // 6️ LẤY SẢN PHẨM LIÊN QUAN THEO HÃNG
             var sanPhamLienQuan = _context.DienThoais
                 .Where(d =>
-                    d.HangDienThoai == dienThoai.HangDienThoai &&          // 👈 CÙNG HÃNG
-                    d.MaDienThoai != dienThoai.MaDienThoai)  // ❌ loại trừ chính nó
-                .OrderByDescending(d => d.LuotXem)          // ưu tiên xem nhiều
-                .Take(3)                                    // giới hạn số lượng
+                    d.HangDienThoai == dienThoai.HangDienThoai &&  
+                    d.MaDienThoai != dienThoai.MaDienThoai) 
+                .OrderByDescending(d => d.LuotXem)          
+                .Take(3)                                
                 .AsNoTracking()
                 .ToList();
 
@@ -100,7 +100,7 @@ namespace DoAn3Tuan_WebPhone.Controllers
                 TongSoBinhLuan = binhLuans.Count,
                 SoLuongYeuThich = dienThoai.SoLuongYeuThich,
                 LuotXem = dienThoai.LuotXem,
-                SanPhamLienQuan = sanPhamLienQuan // ✅ QUAN TRỌNG
+                SanPhamLienQuan = sanPhamLienQuan //QUAN TRỌNG
             };
 
             return View(viewModel);

@@ -19,7 +19,6 @@ public class ThanhToanController : Controller
         string maKH = HttpContext.Session.GetString("MaKH");
         if (string.IsNullOrEmpty(maKH))
             return RedirectToAction("Login", "Account");
-
         if (ctghIds == null || !ctghIds.Any())
             return RedirectToAction("Index", "GioHang");
 

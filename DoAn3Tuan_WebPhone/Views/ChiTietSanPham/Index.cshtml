@@ -78,8 +78,9 @@
                         <span class="icon-badge">0</span>
                     </a>
 
-                    <a href="#" class="icon-btn">
+                    <a href="/Home/Wishlist" class="icon-btn">
                         <i class="far fa-heart"></i>
+                        <span class="icon-badge wishlist-badge">@(ViewBag.WishlistCount ?? 0)</span>
                     </a>
 
                     <!-- USER DROPDOWN -->
@@ -137,11 +138,12 @@
                     <!-- END USER DROPDOWN -->
                     <!-- CART -->
                     <div class="cart-info">
-                        <a href="#" class="icon-btn">
-                            <i class="fas fa-shopping-cart"></i>
-                            <span class="icon-badge">0</span>
+                        <a asp-controller="GioHang"
+                           asp-action="Index"
+                           class="btn btn-outline-primary">
+                            <i class="fa-solid fa-cart-shopping"></i> Giỏ hàng
                         </a>
-                        <span class="cart-price">0 ₫</span>
+
                     </div>
 
                 </div>
@@ -336,18 +338,12 @@
                         }
 
                         @* Nút Yêu thích *@
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            <button class="wishlist-btn" id="wishlistBtn" onclick="toggleWishlist()">
-                                <i class="far fa-heart"></i>
-                            </button>
-                        }
-                        else
-                        {
-                            <button class="wishlist-btn disabled" disabled>
-                                <i class="far fa-heart"></i>
-                            </button>
-                        }
+                        <button class="wishlist-btn @((ViewBag.IsInWishlist ?? false) ? "active" : "")"
+                                id="wishlistBtn"
+                                onclick="toggleWishlist()">
+                            <i class="@((ViewBag.IsInWishlist ?? false) ? "fas" : "far") fa-heart"></i>
+                        </button>
+
 
                     </div>
 
